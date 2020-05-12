@@ -23,4 +23,4 @@ The project will laverage Protractor for end to end testing - Read more about Pr
 
 ## Have questions or need help? 
 
-Reach out to me on LinkedIn. 
+Reach out to me on LinkedIn and Twitter.
