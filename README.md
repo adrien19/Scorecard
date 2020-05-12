@@ -1,4 +1,4 @@
-# ScoreCard
+# ScoreCard Project
 
 This project is build to track metrics on progress, milestones, budgets, and deadline of on-going projects. The project is currently in develpmennt using Angulat - version 9.1.5.
 
