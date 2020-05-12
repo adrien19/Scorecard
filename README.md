@@ -1,27 +1,26 @@
 # ScoreCard
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.5.
+This project is build to track metrics on progress, milestones, budgets, and deadline of on-going projects. The project is currently in develpmennt using Angulat - version 9.1.5.
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Currently running on local dev server `http://localhost:4200/`. Will be migrated to a hosted server in the future. 
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Project structure
+The project is structured such that there could be multiple projects. As of now, only one 'scorecard' project is created. More will be added if need arises in the future. 
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+During the current 1st phase of development, the project `ng build` to create the `dist/` for local development. Future development will use angular universal with `npm run build:ssr` for builds and `npm run serve:ssr` for serving the project from a Nodejs server as oppose to static server. 
 
 ## Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The project will laverage Karma for testing - If interested, you can read more about Karma here -> [Karma](https://karma-runner.github.io).
 
 ## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+The project will laverage Protractor for end to end testing - Read more about Protractor here [Protractor](http://www.protractortest.org/).
 
-## Further help
+## Have questions or need help? 
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Reach out to me on LinkedIn. 
