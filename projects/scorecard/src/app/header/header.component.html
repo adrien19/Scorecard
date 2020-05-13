@@ -1,1 +1,47 @@
-<p>header works!</p>
+
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>
+            <mat-icon>eco</mat-icon>
+            <span>
+                <a routerLink="/" class="header-logo">ScoreCard</a>
+            </span>
+        </span>
+        <div class="d-none d-ms-none d-md-block">
+            <a mat-button *ngIf="isLoggedIn" class="ml-1" routerLink="/Network">Network</a>
+            <a mat-button *ngIf="isLoggedIn" class="mr-1" routerLink="/Media">Media</a>
+            <a mat-button *ngIf="isLoggedIn" class="mr-1" routerLink="/IT">IT</a>
+            
+        </div>
+        <div class="spacer"></div>
+        <div class="d-none d-ms-none d-md-block">
+            <a mat-button class="mr-1"
+            routerLink="/auth" 
+            (click)="isLoggedIn? onSignOut() : onSignIn()" 
+            style="cursor: pointer;"> {{ isLoggedIn? 'Sign Out' : ' Register / Sign In' }} 
+            </a>
+        </div>
+        <div *ngIf="isLoggedIn" class="d-none d-ms-none d-md-block mr-5">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Icon-button with a menu">
+                <mat-icon>settings</mat-icon>
+                <span class="pl-1">Settings</span>
+            </button>
+        </div>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <mat-icon>language</mat-icon>
+              <span>Switch language</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>notifications_off</mat-icon>
+              <span>Disable notifications</span>
+            </button>
+        </mat-menu>
+
+        <div class="d-block d-sm-block d-md-none">
+            <button class="" mat-icon-button appDropdown  aria-label="Icon button with a menu icon" >
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>  
+    </mat-toolbar-row>
+</mat-toolbar>
