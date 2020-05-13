@@ -1,9 +1,9 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
-const appRoutes: Routes = [{
-        path: '', loadChildren: () => import('./layouts/default/default-modules/default.module').then( module => module.DefaultModule)
-    }
+const appRoutes: Routes = [
+    {path: '', redirectTo: '/home', pathMatch: 'full'},
+    {path: 'home', loadChildren: () => import('./layouts/default/default-modules/default.module').then( module => module.DefaultModule)}
 ]; 
 
 @NgModule({
