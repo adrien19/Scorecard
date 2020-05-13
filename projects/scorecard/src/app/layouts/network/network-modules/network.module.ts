@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared-modules/shared.module';
 import { NetworkComponent } from '../network.component';
 import { NetworkRoutingModule } from '../network-modules/network-routing.module';
+import { ScorecardListComponent } from '../scorecard-list/scorecard-list.component';
 
 
 
 @NgModule({
   declarations: [
-    NetworkComponent
+    NetworkComponent,
+    ScorecardListComponent
   ],
 
   imports: [
@@ -17,7 +19,8 @@ import { NetworkRoutingModule } from '../network-modules/network-routing.module'
   ],
 
   exports: [
-    NetworkComponent
+    NetworkComponent,
+    ScorecardListComponent
   ]
 })
 export class NetworkModule { }
