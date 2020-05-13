@@ -1,0 +1,88 @@
+
+<mat-card class="example-card">
+        <div class="row mx-0">
+            <div class="col-6 text-center col-sm-8 col-md-8 ">
+                <h2>CTI</h2>
+            </div>
+            <div class="col-4 text-right col-sm-2 col-md-4">
+                <button mat-flat-button [matMenuTriggerFor]="menu" aria-label="Icon-button with a menu">
+                    <span class="">Settings</span>
+                    <mat-icon>arrow_drop_down</mat-icon>
+                    
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>
+                        Edit
+                    </button>
+                    <button mat-menu-item>
+                        Change status
+                    </button>
+                    <button mat-menu-item>
+                        Archive card
+                    </button>
+                    <mat-divider></mat-divider>
+                    <button mat-menu-item>
+                        Publish card
+                    </button>
+                    <button mat-menu-item color="warn">
+                        Delete card
+                    </button>
+                </mat-menu>
+            </div>
+        </div>
+        <mat-divider></mat-divider>
+    <div class="row mx-0">
+        <div class="col-12 col-md-8">
+            <h3>IN PROGRESS</h3>
+            <mat-list>
+                <mat-list-item class="h-auto"> last updated: April 2nd, 2020 by Jeff </mat-list-item>
+                <mat-list-item class="h-auto"> Prime: Lisa B. </mat-list-item>
+                <mat-list-item class="h-auto"> Owner: Jeff M. </mat-list-item>
+            </mat-list>
+        </div>
+        <div class="col-12 col-md-4">
+            <h3>what's New:</h3>
+            <mat-list>
+                <mat-list-item class="h-auto"> - Jeff commented...</mat-list-item>
+                <mat-list-item class="h-auto"> - Lisa updated... </mat-list-item>
+                <mat-list-item class="h-auto"> ... </mat-list-item>
+            </mat-list>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+
+    <div class="row mx-0">
+        <div class="col-8 text-left">
+            <a href="">Comments(24)</a>
+        </div>
+        <div class="col-4 text-right">
+            <a href="">2 Charts</a>
+        </div>
+    </div>
+
+  </mat-card>
+
+
+
+  <!-- <button  mat-icon-button [matMenuTriggerFor]="menu" aria-label="Icon-button with a menu">
+    <mat-icon>settings</mat-icon>
+    <span class="pl-1">Settings</span>
+</button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item>
+        Edit
+    </button>
+    <button mat-menu-item>
+        Change status
+    </button>
+    <button mat-menu-item>
+        Archive card
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item>
+        Publish card
+    </button>
+    <button mat-menu-item color="warn">
+        Delete card
+    </button>
+</mat-menu> -->
