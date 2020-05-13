@@ -8,12 +8,13 @@ import { DefaultModule } from './layouts/default/default-modules/default.module'
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
+import { NetworkModule } from './layouts/network/network-modules/network.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -21,6 +22,7 @@ import { FooterComponent } from './layouts/footer/footer.component';
     AppRoutingModule,
     SharedModule,
     DefaultModule,
+    NetworkModule
   ],
   providers: [],
   bootstrap: [AppComponent]
