@@ -1,0 +1,10 @@
+.mat-menu-item {
+    line-height: 24px;
+    height: 24px;
+}
+
+::ng-deep mat-list-item {
+    > .mat-list-item-content {
+        padding: 0 !important;
+    }
+}
