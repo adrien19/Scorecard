@@ -10,7 +10,10 @@ import { SearchBarComponent } from '../search-bar/search-bar.component';
   declarations: [SearchBarComponent],
   imports: [
     CommonModule,
-    MaterialModule
+    FormsModule, 
+    ReactiveFormsModule,
+    MaterialModule,
+    
   ],
 
   exports: [

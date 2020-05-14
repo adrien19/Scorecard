@@ -2,7 +2,7 @@
 <mat-card class="example-card">
         <div class="row mx-0">
             <div class="col-9 text-left col-sm-8 col-md-8 ">
-                <h2>Communicate to Innovate</h2>
+                <h2>{{ scorecard.title }}</h2>
             </div>
             <div class="col-3 text-right p-0 col-sm-2 col-md-4">
                 <button mat-flat-button [matMenuTriggerFor]="menu" class="p-0" aria-label="Icon-button with a menu">
@@ -35,8 +35,8 @@
             <h3 class="mb-0">IN PROGRESS</h3>
             <mat-list>
                 <mat-list-item class="h-auto p-0"> last updated: April 2nd, 2020 by Jeff </mat-list-item>
-                <mat-list-item class="h-auto p-0"> Prime: Lisa B. </mat-list-item>
-                <mat-list-item class="h-auto p-0"> Owner: Jeff M. </mat-list-item>
+                <mat-list-item class="h-auto p-0"> Prime: {{ scorecard.prime }} </mat-list-item>
+                <mat-list-item class="h-auto p-0"> Owner: {{ scorecard.owner }} </mat-list-item>
             </mat-list>
         </div>
         <div class="col-12 col-md-4 pt-2">

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { IScorecardItem } from '../../../shared/models/scorecard-item';
 
 @Component({
   selector: 'app-scorecard-list',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./scorecard-list.component.scss']
 })
 export class ScorecardListComponent implements OnInit {
+
+  @Input() scorecards: IScorecardItem[];
 
   constructor() { }
 

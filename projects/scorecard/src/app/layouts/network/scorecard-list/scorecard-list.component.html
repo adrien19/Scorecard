@@ -1,7 +1,7 @@
-<div class="row card_list_row bg-danger justify-content-center">
+<div class="row card_list_row justify-content-center">
     <div class="col-12 col-md-6 p-1 bg-dark"
-        *ngFor="let number of [1,2]">
+        *ngFor="let scorecard of scorecards">
         
-        <app-scorecard-item></app-scorecard-item>
+        <app-scorecard-item [scorecard]="scorecard"></app-scorecard-item>
     </div>
 </div>
