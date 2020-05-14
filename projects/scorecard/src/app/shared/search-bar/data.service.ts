@@ -26,6 +26,7 @@ export class DataService {
       { id: 4, title: 'Lifecycle in NL', owner: 'Mike D.', prime: 'Mic S.'},
       { id: 5, title: 'Applications Development', owner: 'Tylor K.', prime: 'Sis F.'},
       { id: 6, title: 'Netwok Upgrades', owner: 'John P.', prime: 'Doe G.'},
+      { id: 6, title: 'New Upgrades', owner: 'Chris G.', prime: 'Donny K.'},
     ];
 
     return of(scorecardData);
