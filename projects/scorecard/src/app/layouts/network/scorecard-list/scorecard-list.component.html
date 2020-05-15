@@ -1,7 +1,7 @@
 <div class="row card_list_row ">
     <div class="col-12 col-md-6 p-1 bg-dark"
-        *ngFor="let scorecard of scorecards">
+        *ngFor="let scorecard of scorecards; let id = index">
         
-        <app-scorecard-item [scorecard]="scorecard"></app-scorecard-item>
+        <app-scorecard-item [id]="id" [scorecard]="scorecard"></app-scorecard-item>
     </div>
 </div>

@@ -1,35 +1,36 @@
-
-<mat-card class="example-card">
-        <div class="row mx-0">
-            <div class="col-9 text-left col-sm-8 col-md-8 ">
-                <h2>{{ scorecard.title }}</h2>
-            </div>
-            <div class="col-3 text-right p-0 col-sm-2 col-md-4">
-                <button mat-flat-button [matMenuTriggerFor]="menu" class="p-0" aria-label="Icon-button with a menu">
-                    <span class="">Settings</span>
-                    <mat-icon>arrow_drop_down</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                    <button mat-menu-item>
-                        Edit
-                    </button>
-                    <button mat-menu-item>
-                        Change status
-                    </button>
-                    <button mat-menu-item>
-                        Archive card
-                    </button>
-                    <mat-divider class="mt-2 pt-2"></mat-divider>
-                    <button mat-menu-item>
-                        Publish card
-                    </button>
-                    <button mat-menu-item class="text-danger">
-                        Delete card
-                    </button>
-                </mat-menu>
-            </div>
+<mat-card class="scorecard-item" (mouseenter)="viewCardisDisplay=!viewCardisDisplay" (mouseleave)="viewCardisDisplay=!viewCardisDisplay">
+    <div class="row mx-0">
+        <div class="col-9 text-left col-sm-8 col-md-8 ">
+            <h2 class="text-capitalize">
+                {{ scorecard.title }}
+            </h2>
         </div>
-        <mat-divider></mat-divider>
+        <div class="col-3 text-right p-0 col-sm-2 col-md-4">
+            <button mat-flat-button [matMenuTriggerFor]="menu" class="p-0">
+                <span class="">Settings</span>
+                <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                    Edit
+                </button>
+                <button mat-menu-item>
+                    Change status
+                </button>
+                <button mat-menu-item>
+                    Archive card
+                </button>
+                <mat-divider class="mt-2 pt-2"></mat-divider>
+                <button mat-menu-item>
+                    Publish card
+                </button>
+                <button mat-menu-item class="text-danger">
+                    Delete card
+                </button>
+            </mat-menu>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
     <div class="row mx-0">
         <div class="col-12 col-md-8 border-md-right  pt-2">
             <h3 class="mb-0">IN PROGRESS</h3>
@@ -44,20 +45,28 @@
             <mat-list>
                 <mat-list-item class="h-auto"> - Jeff commented...</mat-list-item>
                 <mat-list-item class="h-auto"> - Lisa updated... </mat-list-item>
-                <mat-list-item class="h-auto"> <mat-icon>more_horiz</mat-icon> </mat-list-item>
+                <mat-list-item class="h-auto">
+                    <mat-icon>more_horiz</mat-icon>
+                </mat-list-item>
             </mat-list>
         </div>
     </div>
-    <mat-divider></mat-divider>
-
+    <mat-divider *ngIf="!viewCardisDisplay"></mat-divider>
+    <div class="row mx-0">
+        <div class="col-12">
+            <button mat-flat-button color="accent" *ngIf="viewCardisDisplay" [routerLink]="[id, 'scorecard-details']" (click)="viewScoreCard()" class="w-100">
+                <mat-icon>remove_red_eye</mat-icon>
+                <span class="">View Details</span>
+            </button>
+        </div>
+    </div>
     <div class="row mx-0">
         <div class="col-8 text-left mt-3">
             <a href="">Comments(24)</a>
         </div>
         <div class="col-4 text-right mt-3">
             <span><a href="">2 Charts</a></span>
-            <!-- <mat-icon>stacked_bar_chart</mat-icon> -->
         </div>
     </div>
 
-  </mat-card>
+</mat-card>

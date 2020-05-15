@@ -3,7 +3,8 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const appRoutes: Routes = [
     {path: '', redirectTo: '/home', pathMatch: 'full'},
-    {path: 'home', loadChildren: () => import('./layouts/default/default-modules/default.module').then( module => module.DefaultModule)}
+    {path: 'home', loadChildren: () => import('./layouts/default/default-modules/default.module').then( module => module.DefaultModule)},
+    {path: 'network', loadChildren: () => import('./layouts/network/network-modules/network.module').then( module => module.NetworkModule)}
 ]; 
 
 @NgModule({

@@ -38,7 +38,7 @@ export class SearchBarComponent implements OnInit {
   }
 
   private autoCompleteExpenseList(input) {
-    let categoryList = this.filterCategoryList(input)
+    let categoryList = this.filterCategoryList(input);
     this.autoCompleteList = categoryList;
   }
 
@@ -59,7 +59,7 @@ export class SearchBarComponent implements OnInit {
     return k;
   }
 
-  filterPostList(event) {
+  filterScorecardsList(event) {
     var scorecards= event.source.value;
         if(!scorecards) {
           this.dataService.searchOption=[]
@@ -72,9 +72,6 @@ export class SearchBarComponent implements OnInit {
         }
         
         this.focusOnPlaceInput();
-
-       
-        
   }
 
 

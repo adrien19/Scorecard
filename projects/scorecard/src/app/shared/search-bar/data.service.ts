@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import { IScorecardItem } from '../models/scorecard-item';
 
