@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ColumnSetting, TableInlineEditService, TableEntryType } from 'projects/ng-ndiku/src/public_api';
 import { Network } from '../../../shared/models/network.model';
 import { TableDataService } from './details-data.service';
+import { CardStatus } from '../../../shared/models/scorecard-item';
 
 
 export interface statusData {
@@ -33,11 +34,16 @@ const MANAGEMEMT_DATA: managementData[] = [
 })
 export class ScorecardDetailsComponent implements OnInit, OnDestroy {
 
-  managementDisplayedColumns: string[] = ['overall', 'quality', 'time', 'cost'];
+  managementDisplayedColumns: string[] = ['overall', 'quality', 'time', 'cost', 'actions'];
   managementDataSource = STATUS_DATA;
 
   statusDisplayedColumns: string[] = ['prime', 'other'];
   statusDataSource = MANAGEMEMT_DATA;
+
+  overallStatusTable: TableEntryType;
+  overallStatusData: CardStatus[];
+  overallStatusColsConfig: ColumnSetting[];
+  overallStatusTableSub: Subscription;
 
   networksTable: TableEntryType;
   networksData: Network[];
@@ -45,12 +51,14 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   networksTableSub: Subscription;
 
   id: number;
+  cardInEditMode = false;
   routeSub: Subscription;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private detailsDataService: TableDataService,
+    private inlineEditTableService: TableInlineEditService,
   ) { }
 
   ngOnDestroy(): void {
@@ -60,6 +68,9 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
     if (this.networksTableSub) {
       this.networksTableSub.unsubscribe();
     }
+    if (this.overallStatusTableSub) {
+      this.overallStatusTableSub.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
@@ -68,6 +79,32 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
       this.id = +params['id'];
       console.log(this.id);
     });
+    this.setupOverallStatusTable();
+    this.setupNetworksTable();
+  }
+
+  setupOverallStatusTable() {
+    this.overallStatusData = this.detailsDataService.getCardOverallStatus();
+    this.overallStatusColsConfig = this.detailsDataService.getOverallStatusColConfigs();
+    this.overallStatusTable = new TableEntryType(
+      'mat-table',
+      'overallCardStatus',
+      this.overallStatusData,
+      true,
+      4
+    );
+  }
+
+  updateOverallStatusTable(){
+    this.overallStatusTableSub = this.inlineEditTableService.dataSource$.subscribe((data) => {
+      if (data) {
+        data.table.clearEditedCells(this.overallStatusTable.tableId); // clear the data edit history after save
+        this.overallStatusTable = data.table;
+      }
+    });
+  }
+
+  setupNetworksTable(){
     this.networksData = this.detailsDataService.getNetworks();
     this.networkColsConfig = this.detailsDataService.getColConfigs();
     this.networksTable = new TableEntryType(
@@ -77,5 +114,26 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
       false,
     );
   }
+
+  onEditCard(){
+    this.cardInEditMode = !this.cardInEditMode;
+    console.log(`this is the value: ${this.cardInEditMode}`);
+
+  }
+
+  onSaveCard(){
+    this.cardInEditMode = !this.cardInEditMode;
+    console.log(`ON SAVE this is the value: ${this.cardInEditMode}`);
+    this.clearEditedTableData();
+  }
+
+  clearEditedTableData() {
+    if (this.overallStatusTable.hasBeenEdited(this.overallStatusTable.tableId)) {
+      this.overallStatusTable.clearEditedCells(this.overallStatusTable.tableId);
+    }
+    this.inlineEditTableService.clearSavedDataInitiated$.next(); // send an event to clear colored edited data
+  }
+
+
 
 }

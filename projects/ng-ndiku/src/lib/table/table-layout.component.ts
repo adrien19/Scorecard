@@ -243,6 +243,8 @@ export class TableLayoutComponent implements OnInit, OnChanges, OnDestroy {
     this._TABLE = tableType;
   }
 
+  @Input() enableEdit = false;
+
   @Output() saveTableButtonClicked: EventEmitter<any> = new EventEmitter();
   @Output() editTableButtonClicked: EventEmitter<any> = new EventEmitter();
 
@@ -282,6 +284,16 @@ export class TableLayoutComponent implements OnInit, OnChanges, OnDestroy {
         });
       }
       this.displayedColumns = this.columnMaps.map((col) => col.header);
+    }
+
+    if (changes.enableEdit) {
+      if (this.enableEdit) {
+        this.onEditTable();
+        console.log(`ENTERING ENABLE MODE`);
+      }else{
+        this.onSaveTable();
+        console.log(`ENTERING SAVING MODE`);
+      }
     }
   }
 
@@ -349,10 +361,12 @@ export class TableLayoutComponent implements OnInit, OnChanges, OnDestroy {
    */
   onSaveTable() {
     if (this.table && this.table.enableEditingMode) {
-      this.editTableButtonClicked.emit(this.table);
-      this.enterKeyPressed();
+      if (this.table.hasBeenEdited) {
+        this.editTableButtonClicked.emit(this.table);
+      }
       this.table.enableEditingMode = false;
       this.editingMode = false;
+      this.enterKeyPressed();
     }
   }
 

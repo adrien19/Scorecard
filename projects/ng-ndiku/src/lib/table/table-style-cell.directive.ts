@@ -96,17 +96,23 @@ export class StyleCellDirective implements OnInit, OnDestroy, OnChanges {
       const tableCells = this.ndikuStyleCell.table.tableCellStates
         .tableCellStates;
 
+
       if (tableCells[rowId][colId]) {
         this.renderer.setStyle(
           this.el.nativeElement,
           'border',
           '1px solid #698ad8'
         );
-        this.renderer.addClass(this.el.nativeElement, 'cursor');
         this.renderer.setStyle(this.el.nativeElement, 'min-height', '22px');
+        this.renderer.addClass(this.el.nativeElement, 'cursor');
       } else {
-        this.renderer.setStyle(this.el.nativeElement, 'border', 'none');
-        this.renderer.removeClass(this.el.nativeElement, 'cursor');
+        // this.renderer.setStyle(this.el.nativeElement, 'border', 'none');
+
+        this.renderer.setStyle(
+          this.el.nativeElement,
+          'border',
+          '1px dotted #698ad8'
+        );
       }
 
       this.renderer.setStyle(
@@ -155,11 +161,13 @@ export class StyleCellDirective implements OnInit, OnDestroy, OnChanges {
               'background',
               '#FFB74D'
             );
+            this.renderer.removeClass(this.el.nativeElement, 'cursor');
           }
         });
       } else {
         this.renderer.setStyle(this.el.nativeElement, 'border', 'none');
         this.renderer.setStyle(this.el.nativeElement, 'background', 'none');
+        this.renderer.removeClass(this.el.nativeElement, 'cursor');
       }
     }
   }

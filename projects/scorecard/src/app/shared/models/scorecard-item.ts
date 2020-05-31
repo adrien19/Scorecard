@@ -5,21 +5,23 @@ import { Network } from './network.model';
 import { Measure } from './measure.model';
 
 export interface IScorecardItem {
-    id: number;
-    title: string;
-    owner: string;
-    prime: string;
+  id: number;
+  title: string;
+  owner: string;
+  prime: string;
 }
 
 export interface CardStatus {
-    status: string;
-    statusValue: number;
+  overall: string;
+  quality: string;
+  time: string;
+  cost: string;
 }
 
 export class Scorecard {
     id: string;
     title: string;
-    status: CardStatus[];
+    status: CardStatus;
     owner: User;
     prime: User;
     team: Role[];
@@ -34,9 +36,9 @@ export class Scorecard {
 
 
     constructor(title: string , cardStatus: CardStatus, prime: User){
-        this.title = title;
-        this.status.push(cardStatus);
-        this.prime = prime;
+      this.title = title;
+      this.status = cardStatus;
+      this.prime = prime;
     }
 
 }

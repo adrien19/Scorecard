@@ -7,8 +7,9 @@
             mat-flat-button
             color="accent"
             class="float-right"
+            (click)="cardInEditMode? onSaveCard() : onEditCard()"
             >
-                Edit
+              {{ cardInEditMode? 'Save': 'Edit' }}
             </button>
         </div>
     </div>
@@ -20,34 +21,14 @@
 
     <div class="row overall-status-row pb-3">
         <div class="col-sm-12 col-md-6">
-            <mat-table [dataSource]="managementDataSource" class="mat-elevation-z0 border">
-                <!-- Overall Column -->
-                <ng-container matColumnDef="overall">
-                  <mat-header-cell *matHeaderCellDef class="border-right justify-content-center p-0"> Overall </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="border-right justify-content-center p-0 bg-danger"> {{element.overall}} </mat-cell>
-                </ng-container>
-
-                <!-- Quality Column -->
-                <ng-container matColumnDef="quality">
-                  <mat-header-cell *matHeaderCellDef class="border-right justify-content-center p-0"> Quality </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="border-right justify-content-center p-0"> {{element.quality}} </mat-cell>
-                </ng-container>
-
-                <!-- Time Column -->
-                <ng-container matColumnDef="time">
-                  <mat-header-cell *matHeaderCellDef class="border-right justify-content-center p-0"> Time </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="border-right justify-content-center p-0"> {{element.time}} </mat-cell>
-                </ng-container>
-
-                <!-- Cost Column -->
-                <ng-container matColumnDef="cost">
-                  <mat-header-cell *matHeaderCellDef class="justify-content-center p-0"> Cost </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="justify-content-center p-0"> {{element.cost}} </mat-cell>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="managementDisplayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: managementDisplayedColumns;"></mat-row>
-            </mat-table>
+            <!-- EDITABLE CUSTOM TABLE -->
+            <ndiku-table-layout
+              class="customOverallStatusTable"
+              [table]="overallStatusTable"
+              [settings]="overallStatusColsConfig"
+              [enableEdit]="cardInEditMode"
+            >
+            </ndiku-table-layout>
         </div>
         <div class="col-sm-12 col-md-6 ">
             <mat-table [dataSource]="statusDataSource" class="mat-elevation-z0 border">
