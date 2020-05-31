@@ -145,6 +145,46 @@
           }
         }
       }
+    },
+    "ng-ndiku": {
+      "projectType": "library",
+      "root": "projects/ng-ndiku",
+      "sourceRoot": "projects/ng-ndiku/src",
+      "prefix": "ndiku",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/ng-ndiku/tsconfig.lib.json",
+            "project": "projects/ng-ndiku/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng-ndiku/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng-ndiku/src/test.ts",
+            "tsConfig": "projects/ng-ndiku/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-ndiku/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ng-ndiku/tsconfig.lib.json",
+              "projects/ng-ndiku/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }},
   "defaultProject": "scorecard"
 }

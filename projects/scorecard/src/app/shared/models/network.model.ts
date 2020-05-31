@@ -1,11 +1,11 @@
-export class Milestone {
+export class Network {
     name: string;
-    completePlanedDate: Date;
-    completeActualDate: Date;
+    completePlanedDate: any;
+    completeActualDate?: any;
     percentDone?: number;
     status: string;
 
-    constructor(name: string, completePlanedDate: Date, completeActualDate: Date, status: string){
+    constructor(name: string, completePlanedDate: any, status: string, completeActualDate?: any){
         this.name = name;
         this.completePlanedDate = completePlanedDate;
         this.completeActualDate = completeActualDate;

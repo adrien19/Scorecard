@@ -1,7 +1,7 @@
 import { User } from './user.model';
 import { Role } from './role.model';
 import { Task } from './task.model';
-import { Milestone } from './milestone.model';
+import { Network } from './network.model';
 import { Measure } from './measure.model';
 
 export interface IScorecardItem {
@@ -29,9 +29,9 @@ export class Scorecard {
     doneTask?: Task[];
     nextTask?: Task[]
     challenges?: string[];
-    milestones?: Milestone[];
+    milestones?: Network[];
     measures?: Measure[];
-    
+
 
     constructor(title: string , cardStatus: CardStatus, prime: User){
         this.title = title;

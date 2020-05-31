@@ -18,14 +18,13 @@ import { NetworkTemplateComponent } from '../network-template/network-template.c
     ScorecardDetailsComponent,
     ScorecardItemComponent,
     NetworkTemplateComponent,
-    
+
   ],
 
   imports: [
     RouterModule,
     SharedModule,
     NetworkRoutingModule
-    
   ],
 
   exports: [

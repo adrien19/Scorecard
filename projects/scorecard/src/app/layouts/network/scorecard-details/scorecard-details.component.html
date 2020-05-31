@@ -141,7 +141,7 @@
     </div>
 
     <div class="row project-details-row pb-3">
-      <div class="col-6 completed-jobs-col pb-3">
+      <div class="col-12 col-md-6 completed-jobs-col pb-3">
         <mat-card>
           <div class="row completed-jobs-card-header">
             <div class="col-12 text-left ">
@@ -175,22 +175,26 @@
         </mat-card>
       </div>
 
-      <div class="col-6 milestone-col pb-3">
+      <div class="col-12 col-md-6 network-milestone-col pb-3">
         <mat-card>
-          <div class="row milestone-header-row">
+          <div class="row network-milestone-header-row">
             <div class="col-12">
               <h2>Milestones</h2>
             </div>
           </div>
-          <div class="row milestone-table-row">
+          <div class="row network-milestone-table-row">
             <div class="col-12">
-              MILESTONE TABLE GOES HERE!!
+              <ndiku-table-layout
+                [table]="networksTable"
+                [settings]="networkColsConfig"
+              >
+              </ndiku-table-layout>
             </div>
           </div>
         </mat-card>
       </div>
 
-      <div class="col-6 next-jobs-col pb-3">
+      <div class="col-12 col-md-6 next-jobs-col pb-3">
         <mat-card>
           <div class="row next-jobs-card-header">
             <div class="col-12 text-left ">
@@ -219,7 +223,7 @@
         </mat-card>
       </div>
 
-      <div class="col-6 challenges-col pb-3">
+      <div class="col-12 col-md-6 challenges-col pb-3">
         <mat-card>
           <div class="row challenges-header-row">
             <div class="col-12">
@@ -241,7 +245,7 @@
         </mat-card>
       </div>
 
-      <div class="col-6 charts-col">
+      <div class="col-12 col-md-6 charts-col">
         <mat-card>
           <div class="row measure-chart-card text-capitalize">
             <div class="col-12">
