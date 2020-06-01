@@ -107,13 +107,18 @@ export class StyleCellDirective implements OnInit, OnDestroy, OnChanges {
         this.renderer.addClass(this.el.nativeElement, 'cursor');
       } else {
         // this.renderer.setStyle(this.el.nativeElement, 'border', 'none');
-
         this.renderer.setStyle(
           this.el.nativeElement,
           'border',
           '1px dotted #698ad8'
         );
       }
+
+      this.renderer.setStyle(
+        this.el.nativeElement,
+        '-webkit-touch-callout',
+        'none'
+      ); /* iOS Safari  */
 
       this.renderer.setStyle(
         this.el.nativeElement,
@@ -130,6 +135,11 @@ export class StyleCellDirective implements OnInit, OnDestroy, OnChanges {
         '-ms-user-select',
         'none'
       ); /* IE 10   */
+      this.renderer.setStyle(
+        this.el.nativeElement,
+        '-khtml-user-select',
+        'none'
+      ); /* Konqueror HTML  */
       this.renderer.setStyle(
         this.el.nativeElement,
         '-o-user-select',

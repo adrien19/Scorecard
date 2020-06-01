@@ -4,10 +4,10 @@ export class User {
     userId: string;
     userLoginId: string;
     userEmail:string;
-    userFirstName?: string;
-    userLastName?: string;
-    canEditCard?: Scorecard[];
-    canViewCard?: Scorecard[];
+    // userFirstName?: string;
+    // userLastName?: string;
+    // canEditCard?: Scorecard[];
+    // canViewCard?: Scorecard[];
 
     constructor(userId: string, userLoginId: string, userEmail: string){
         this.userId = userId;
@@ -15,7 +15,7 @@ export class User {
         this.userEmail = userEmail;
     }
 
-    
+
     // set userFirstName(userFirstName: string) {
     //     this._userFirstName = userFirstName;
     // }
@@ -23,8 +23,8 @@ export class User {
     // set userLastName(userLastName: string) {
     //     this._userLastName = userLastName;
     // }
-    
-    
+
+
     // get userFirstName() : string {
     //     return this._userFirstName;
     // }
@@ -32,7 +32,7 @@ export class User {
     // get userLastName() : string {
     //     return this._userLastName;
     // }
-    
+
 
 
 }

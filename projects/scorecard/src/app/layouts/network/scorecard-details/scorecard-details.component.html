@@ -21,7 +21,7 @@
 
     <div class="row overall-status-row pb-3">
         <div class="col-sm-12 col-md-6">
-            <!-- EDITABLE CUSTOM TABLE -->
+            <!-- EDITABLE CUSTOM OVERALL STATUS TABLE -->
             <ndiku-table-layout
               class="customOverallStatusTable"
               [table]="overallStatusTable"
@@ -31,22 +31,14 @@
             </ndiku-table-layout>
         </div>
         <div class="col-sm-12 col-md-6 ">
-            <mat-table [dataSource]="statusDataSource" class="mat-elevation-z0 border">
-                <!-- Position Column -->
-                <ng-container matColumnDef="prime">
-                  <mat-header-cell *matHeaderCellDef class="border-right justify-content-center p-0"> Prime </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="border-right justify-content-center p-0"> {{element.prime}} </mat-cell>
-                </ng-container>
-
-                <!-- Name Column -->
-                <ng-container matColumnDef="other">
-                  <mat-header-cell *matHeaderCellDef class="border-right justify-content-center p-0"> Other(s) </mat-header-cell>
-                  <mat-cell *matCellDef="let element" class="border-right justify-content-center p-0"> {{element.other}} </mat-cell>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="statusDisplayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: statusDisplayedColumns;"></mat-row>
-            </mat-table>
+            <!-- EDITABLE CUSTOM PRIMES TABLE -->
+            <ndiku-table-layout
+              class="managementPrimesTable"
+              [table]="managementTable"
+              [settings]="managementColsConfig"
+              [enableEdit]="cardInEditMode"
+            >
+            </ndiku-table-layout>
         </div>
     </div>
 
@@ -71,30 +63,16 @@
           <div class="row team-card-content">
             <div class="col-12">
                 <div class="row team-card-roles text-capitalize">
-                  <div class="col-6">
-                    <p>Product Owners:
-                      <span>Jeff T., Jane H.</span>
-                    </p>
-                  </div>
-                  <div class="col-6">
-                    <p>Scrum Master:
-                      <span>Lauren L., Dave B.</span>
-                    </p>
-                  </div>
-                  <div class="col-6">
-                    <p>SME(s):
-                      <span>Jeff T., Jane H.</span>
-                    </p>
-                  </div>
-                  <div class="col-6">
-                    <p>coder(s):
-                      <span> Adrien W.</span>
+                  <div class="col-6" *ngFor="let role of detailedScorecard.team; let iIndex = index">
+                    <p>{{ role.title }}:
+                      <span *ngFor="let user of role.users; let jIndex = index">
+                        {{ user.userLoginId }},
+                      </span>
                     </p>
                   </div>
                 </div>
             </div>
           </div>
-
         </mat-card>
       </div>
     </div>
@@ -110,10 +88,7 @@
           <div class="row">
             <div class="col-12">
               <p>
-                Lorem ipsum dolor sit amet,
-                consectetur adipisicing elit.
-                Lorem ipsum dolor sit amet,
-                consectetur adipisicing elit.
+                {{ detailedScorecard.goal }}
               </p>
             </div>
           </div>
@@ -135,19 +110,11 @@
           <div class="row completed-jobs-card-content">
             <div class="col-12">
                 <div class="row completed-card-jobs text-capitalize">
-                  <div class="col-12">
-                    <p>Goose Bay:
-                      <span> - 2 networs...</span>
-                    </p>
-                  </div>
-                  <div class="col-12">
-                    <p>NS South:
-                      <span> - implemented...</span>
-                    </p>
-                  </div>
-                  <div class="col-12">
-                    <p>NS Noth:
-                      <span> - Removed ....</span>
+                  <div class="col-12" *ngFor="let task of detailedScorecard.doneTask; let iIndex = index">
+                    <p>{{ task.description }} -
+                      <span>
+                        {{ task.taskStatus }}
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -188,14 +155,11 @@
           <div class="row next-jobs-card-content">
             <div class="col-12">
                 <div class="row next-card-jobs text-capitalize">
-                  <div class="col-12">
-                    <p>NS South Shore:
-                      <span> - Replace defected ...</span>
-                    </p>
-                  </div>
-                  <div class="col-12">
-                    <p>NL :
-                      <span> - Add new ....</span>
+                  <div class="col-12" *ngFor="let task of detailedScorecard.nextTask; let iIndex = index">
+                    <p>{{ task.description }} -
+                      <span>
+                        {{ task.taskStatus }}
+                      </span>
                     </p>
                   </div>
                 </div>
@@ -212,21 +176,18 @@
             </div>
           </div>
           <div class="row challenges-card-jobs text-capitalize">
-            <div class="col-12">
-              <p>Network recods:
-                <span> - lack of updates ...</span>
-              </p>
-            </div>
-            <div class="col-12">
-              <p>Goose Bay :
-                <span> - Bad weather....</span>
+            <div class="col-12" *ngFor="let challenge of detailedScorecard.challenges; let iIndex = index">
+              <p>{{ challenge }} -
+                <span>
+                  {{ 'to add details here' }}
+                </span>
               </p>
             </div>
           </div>
         </mat-card>
       </div>
 
-      <div class="col-12 col-md-6 charts-col">
+      <div class="col-12 col-md-6 charts-col" *ngIf="detailedScorecard.measures">
         <mat-card>
           <div class="row measure-chart-card text-capitalize">
             <div class="col-12">

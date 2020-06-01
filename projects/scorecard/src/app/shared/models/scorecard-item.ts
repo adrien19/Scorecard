@@ -40,5 +40,4 @@ export class Scorecard {
       this.status = cardStatus;
       this.prime = prime;
     }
-
 }

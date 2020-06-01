@@ -289,10 +289,8 @@ export class TableLayoutComponent implements OnInit, OnChanges, OnDestroy {
     if (changes.enableEdit) {
       if (this.enableEdit) {
         this.onEditTable();
-        console.log(`ENTERING ENABLE MODE`);
       }else{
         this.onSaveTable();
-        console.log(`ENTERING SAVING MODE`);
       }
     }
   }

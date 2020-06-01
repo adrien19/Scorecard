@@ -1,10 +1,13 @@
 import { User } from './user.model';
 
-export class Role {
-    title: string;
-    users?: User[];
+export interface Role {
+  title: string;
+  users?: User[];
+}
 
-    constructor(title: string){
-        this.title = title;
-    }
+export class PrimeRole implements Role {
+  title: string;
+  users?: User[];
+  primary: User;
+  secondary: User[];
 }

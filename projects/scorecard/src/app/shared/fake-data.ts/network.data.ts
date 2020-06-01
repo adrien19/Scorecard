@@ -6,13 +6,13 @@ export const NETWORKS: Network[] = [
     completePlanedDate: "May 5, 2020",
     completeActualDate: "May 25, 2020",
     percentDone: 1,
-    status: "complete"
+    status: "Complete"
   },
   {
     name: 'M25443',
     completePlanedDate: "August 20, 2020",
     percentDone: 0.2,
-    status: "on-hold"
+    status: "On-hold"
   },
   {
     name: 'M76222',
@@ -24,6 +24,13 @@ export const NETWORKS: Network[] = [
     name: 'M76836',
     completePlanedDate: "August 10, 2020",
     percentDone: 0.1,
-    status: "cancelled"
+    status: "Cancelled"
   }
 ]
+
+// export enum status {
+//   complete = 'Complete',
+//   on_hold = 'On-hold',
+//   in_progress = 'In Progress',
+//   cancelled = 'Cancelled'
+// }
