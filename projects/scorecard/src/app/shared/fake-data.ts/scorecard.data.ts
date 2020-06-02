@@ -54,7 +54,8 @@ export const SCORECARDS: Scorecard[] = [
         description: 'Cyangugu - installed new device',
         taskStatus: 'complete',
         createdTime: new Date(),
-        assigned: false,
+        assigned: true,
+        assignedTo: USERS,
       }
     ],
     nextTask: [

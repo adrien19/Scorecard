@@ -110,13 +110,20 @@
           <div class="row completed-jobs-card-content">
             <div class="col-12">
                 <div class="row completed-card-jobs text-capitalize">
-                  <div class="col-12" *ngFor="let task of detailedScorecard.doneTask; let iIndex = index">
-                    <p>{{ task.description }} -
-                      <span>
-                        {{ task.taskStatus }}
-                      </span>
-                    </p>
-                  </div>
+                  <mat-selection-list #completedCardTasks class="col-12">
+                    <mat-list-option *ngFor="let task of detailedScorecard.doneTask" checkboxPosition="before" >
+                      <!-- {{task}} -->
+                      <h3 matLine> {{task.description}}</h3>
+
+                        <p matLine class="avatars">
+                          <span> {{task.createdTime | date }} </span>
+                          <span class="task-status"> -- {{task.taskStatus}} </span>
+                          <span class="avatar" *ngFor="let user of task.assignedTo">
+                            <img matListAvatar src="https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?ixlib=rb-1.2.1&auto=format&fit=crop&w=975&q=80" alt="...">
+                          </span>
+                        </p>
+                    </mat-list-option>
+                  </mat-selection-list>
                 </div>
             </div>
           </div>
@@ -155,13 +162,19 @@
           <div class="row next-jobs-card-content">
             <div class="col-12">
                 <div class="row next-card-jobs text-capitalize">
-                  <div class="col-12" *ngFor="let task of detailedScorecard.nextTask; let iIndex = index">
-                    <p>{{ task.description }} -
-                      <span>
-                        {{ task.taskStatus }}
-                      </span>
-                    </p>
-                  </div>
+                  <mat-selection-list #nextCardTasks class="col-12">
+                    <mat-list-option *ngFor="let task of detailedScorecard.nextTask" checkboxPosition="before" >
+                      <!-- {{task}} -->
+                      <h3 matLine> {{task.description}}</h3>
+                        <p matLine class="avatars">
+                          <span> {{task.createdTime | date }} </span>
+                          <span class="task-status"> -- {{task.taskStatus}} </span>
+                          <span class="avatar" *ngFor="let user of task.assignedTo">
+                            <img matListAvatar src="https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?ixlib=rb-1.2.1&auto=format&fit=crop&w=975&q=80" alt="...">
+                          </span>
+                        </p>
+                    </mat-list-option>
+                  </mat-selection-list>
                 </div>
             </div>
           </div>
@@ -176,13 +189,11 @@
             </div>
           </div>
           <div class="row challenges-card-jobs text-capitalize">
-            <div class="col-12" *ngFor="let challenge of detailedScorecard.challenges; let iIndex = index">
-              <p>{{ challenge }} -
-                <span>
-                  {{ 'to add details here' }}
-                </span>
-              </p>
-            </div>
+            <mat-selection-list #cardChallengesList class="col-12">
+              <mat-list-option *ngFor="let challenge of detailedScorecard.challenges" checkboxPosition="after" >
+                <h3 matLine> {{challenge}}</h3>
+              </mat-list-option>
+            </mat-selection-list>
           </div>
         </mat-card>
       </div>

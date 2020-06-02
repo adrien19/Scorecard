@@ -66,3 +66,17 @@
     // }
   }
 }
+
+.avatars{
+  .task-status{
+    margin-right: 25px;
+  }
+  .avatar img {
+    width: 20px;
+    height: 20px;
+    // right: 25px;
+    align-items: flex-end;
+    // margin-left: -20px;
+    // z-index: 1;
+  }
+}
