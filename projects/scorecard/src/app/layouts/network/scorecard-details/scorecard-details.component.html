@@ -15,7 +15,7 @@
     </div>
     <div class="row ">
         <div class="col-12">
-            <h2>Communicate to Innovate</h2>
+            <h2>{{ detailedScorecard.title }}</h2>
         </div>
     </div>
 
@@ -65,8 +65,8 @@
                 <div class="row team-card-roles text-capitalize">
                   <div class="col-6" *ngFor="let role of detailedScorecard.team; let iIndex = index">
                     <p>{{ role.title }}:
-                      <span *ngFor="let user of role.users; let jIndex = index">
-                        {{ user.userLoginId }},
+                      <span *ngFor="let user of role.users; let jIndex = index" class="pr-1">
+                        {{ user.userfullName}},
                       </span>
                     </p>
                   </div>

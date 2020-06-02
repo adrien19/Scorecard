@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { IScorecardItem } from 'projects/scorecard/src/app/shared/models/scorecard-item';
 import { Subject } from 'rxjs';
 import { DataService } from 'projects/scorecard/src/app/shared/search-bar/data.service';
+import { User } from 'projects/scorecard/src/app/shared/models/user.model';
 
 
 @Component({
@@ -10,20 +11,26 @@ import { DataService } from 'projects/scorecard/src/app/shared/search-bar/data.s
   templateUrl: './scorecard-item.component.html',
   styleUrls: ['./scorecard-item.component.scss']
 })
-export class ScorecardItemComponent implements OnInit{
+export class ScorecardItemComponent implements OnInit, OnChanges{
 
   @Input() scorecard: IScorecardItem;
   @Input() id: number;
   viewCardisDisplay: boolean = false;
 
-  
+  scorecardPrime: User;
+
   constructor(
-    private router: Router, 
+    private router: Router,
     private route: ActivatedRoute,
   ) { }
 
+  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
+    if (changes.scorecard) {
+      this.scorecardPrime = this.scorecard.primes.principal[0];
+    }
+  }
+
   ngOnInit() {
-    
   }
 
 

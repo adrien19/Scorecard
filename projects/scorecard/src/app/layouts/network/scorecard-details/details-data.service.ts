@@ -2,27 +2,27 @@ import { Injectable } from '@angular/core';
 import { Network } from '../../../shared/models/network.model';
 import { NETWORKS } from '../../../shared/fake-data.ts/network.data';
 import { ColumnSetting } from 'projects/ng-ndiku/src/public_api';
-import { CardStatus, Scorecard } from '../../../shared/models/scorecard-item';
-import { User } from '../../../shared/models/user.model';
-import { Role, PrimeRole } from '../../../shared/models/role.model';
-import { USERS } from '../../../shared/fake-data.ts/users.data';
+import { Scorecard } from '../../../shared/models/scorecard-item';
+import { PrimeRole } from '../../../shared/models/role.model';
 import { SCORECARDS } from '../../../shared/fake-data.ts/scorecard.data';
+import { Observable, of } from 'rxjs';
 // import { PRIMES } from '../../../shared/fake-data.ts/role.data';
 
 @Injectable({ providedIn: 'root' })
 export class TableDataService {
 
-  getScorecardData(): Scorecard{
+  getScorecardData(id: number): Scorecard{
     // actual implementation would use async method
-    return SCORECARDS[0];
+    const requestedScorecard = SCORECARDS[id];
+    return requestedScorecard;
   }
 
-  getNetworks(): Network[] {
-    // actual implementation would use async method
-    return NETWORKS;
-  }
+  // getNetworks(): Network[] {
+  //   // actual implementation would use async method
+  //   return NETWORKS;
+  // }
 
-  getColConfigs(): ColumnSetting[] {
+  getNetworksColConfigs(): ColumnSetting[] {
     const networksTableConfigSettings: ColumnSetting[] = [
       {
         primaryKey: 'name',
@@ -57,18 +57,6 @@ export class TableDataService {
     return networksTableConfigSettings;
   }
 
-  getCardOverallStatus(): CardStatus[] {
-    // actual implementation would use async method
-    return [
-      {
-        overall: "Y",
-        quality: "G",
-        time: "R",
-        cost: "G",
-      }
-    ];
-  }
-
   getOverallStatusColConfigs(): ColumnSetting[]{
     const overallStatusColConfigs: ColumnSetting[] = [
       {
@@ -95,20 +83,14 @@ export class TableDataService {
     return overallStatusColConfigs;
   }
 
-  getManagementPrimesData(): PrimeRole[] {
-    // actual implementation would use async method
-    // const primes = PRIMES.filter(el => {
-    //   return el.title === 'prime'
-    // });
-    // console.log(primes[0].users.length);
-    const primeUser: User = USERS.find(el => {return el.userLoginId === 'user1'});
-    const otherPrimes:User[] = USERS.filter(el => {return el.userLoginId !== 'user1'});
+  getManagementPrimesData(scorecard: Scorecard): PrimeRole[] {
+    console.log(`${scorecard.primes.principal}`);
+
     const PRIMES: PrimeRole[] = [{
       title: 'prime',
-      primary: primeUser,
-      secondary: otherPrimes,
+      primary: scorecard.primes.principal,
+      secondary: scorecard.primes.secondary,
     }]
-
     return PRIMES;
   }
   getManagementPrimesColConfigs(): ColumnSetting[]{

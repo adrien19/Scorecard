@@ -33,11 +33,11 @@
     <mat-divider></mat-divider>
     <div class="row mx-0">
         <div class="col-12 col-md-8 border-md-right  pt-2">
-            <h3 class="mb-0">IN PROGRESS</h3>
+            <h3 class="mb-0">{{ scorecard.projectStatus }} </h3>
             <mat-list>
-                <mat-list-item class="h-auto p-0"> last updated: April 2nd, 2020 by Jeff </mat-list-item>
-                <mat-list-item class="h-auto p-0"> Prime: {{ scorecard.prime }} </mat-list-item>
-                <mat-list-item class="h-auto p-0"> Owner: {{ scorecard.owner }} </mat-list-item>
+                <mat-list-item class="h-auto p-0"> last updated: {{ scorecard.lastUpdated | date }} by {{ scorecard.lastUpdatedBy.userfullName }} </mat-list-item>
+                <mat-list-item class="h-auto p-0"> Owner: {{ scorecard.owner.userfullName }} </mat-list-item>
+                <mat-list-item class="h-auto p-0"> Prime: {{ scorecard.owner.userEmail }} </mat-list-item>
             </mat-list>
         </div>
         <div class="col-12 col-md-4 pt-2">
@@ -65,7 +65,7 @@
             <a href="">Comments(24)</a>
         </div>
         <div class="col-4 text-right mt-3">
-            <span><a href="">2 Charts</a></span>
+            <span><a href=""> 2 Charts</a></span>
         </div>
     </div>
 

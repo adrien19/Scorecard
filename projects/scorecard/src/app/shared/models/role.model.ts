@@ -5,9 +5,9 @@ export interface Role {
   users?: User[];
 }
 
-export class PrimeRole implements Role {
+export interface PrimeRole extends Role {
   title: string;
   users?: User[];
-  primary: User;
+  primary: User[];
   secondary: User[];
 }
