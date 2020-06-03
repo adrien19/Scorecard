@@ -5,10 +5,11 @@
             <button
             mat-flat-button
             color="accent"
+            (click)="onCreateNewScorecard()"
             >
                 Create Scorecard
             </button>
-            <app-search-bar 
+            <app-search-bar
                 class="float-right"
                 (onSelectedOption)="onSelectedOption($event)">
             </app-search-bar>

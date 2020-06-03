@@ -7,6 +7,7 @@ import { ScorecardListComponent } from '../scorecard-list/scorecard-list.compone
 import { ScorecardItemComponent } from '../scorecard-list/scorecard-item/scorecard-item.component';
 import { ScorecardDetailsComponent } from '../scorecard-details/scorecard-details.component';
 import { NetworkTemplateComponent } from '../network-template/network-template.component';
+import { ScorecardCreateNewComponent } from '../scorecard-create-new/scorecard-create-new.component';
 
 
 
@@ -18,7 +19,7 @@ import { NetworkTemplateComponent } from '../network-template/network-template.c
     ScorecardDetailsComponent,
     ScorecardItemComponent,
     NetworkTemplateComponent,
-
+    ScorecardCreateNewComponent,
   ],
 
   imports: [
@@ -33,6 +34,7 @@ import { NetworkTemplateComponent } from '../network-template/network-template.c
     ScorecardDetailsComponent,
     ScorecardItemComponent,
     NetworkTemplateComponent,
+    ScorecardCreateNewComponent,
   ]
 })
 export class NetworkModule { }
