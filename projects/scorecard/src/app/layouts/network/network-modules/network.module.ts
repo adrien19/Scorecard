@@ -8,6 +8,9 @@ import { ScorecardItemComponent } from '../scorecard-list/scorecard-item/scoreca
 import { ScorecardDetailsComponent } from '../scorecard-details/scorecard-details.component';
 import { NetworkTemplateComponent } from '../network-template/network-template.component';
 import { ScorecardCreateNewComponent } from '../scorecard-create-new/scorecard-create-new.component';
+import { CreateStepOneComponent } from '../scorecard-create-new/create-forms/create-step-one/create-step-one.component';
+import { CreateStepTwoComponent } from '../scorecard-create-new/create-forms/create-step-two/create-step-two.component';
+import { CreateStepFinalComponent } from '../scorecard-create-new/create-forms/create-step-final/create-step-final.component';
 
 
 
@@ -20,6 +23,9 @@ import { ScorecardCreateNewComponent } from '../scorecard-create-new/scorecard-c
     ScorecardItemComponent,
     NetworkTemplateComponent,
     ScorecardCreateNewComponent,
+    CreateStepOneComponent,
+    CreateStepTwoComponent,
+    CreateStepFinalComponent,
   ],
 
   imports: [
@@ -35,6 +41,9 @@ import { ScorecardCreateNewComponent } from '../scorecard-create-new/scorecard-c
     ScorecardItemComponent,
     NetworkTemplateComponent,
     ScorecardCreateNewComponent,
+    CreateStepOneComponent,
+    CreateStepTwoComponent,
+    CreateStepFinalComponent,
   ]
 })
 export class NetworkModule { }

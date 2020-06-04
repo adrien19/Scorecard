@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angu
 import { Subscription } from 'rxjs';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MyErrorStateMatcher } from './ng-component-ndiku.errormatcher.service';
-import { NgComponentsNdikuService } from './ng-components-ndiku.service';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Component({
@@ -142,13 +141,16 @@ export class NgComponentsNdikuComponent implements OnInit, OnDestroy {
     this._ON_COMPONENT_READY = value;
   }
 
+  @Output() onInputValueChanged = new EventEmitter<string>();
+  @Output() isComponentValid = new EventEmitter<string>();
+
   inputSub: Subscription;
+  isComponentValidSub: Subscription;
 
   componentFormGroup: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private ngComponentsNdikuService: NgComponentsNdikuService
   ) {}
 
   ngOnInit(): void {
@@ -168,18 +170,22 @@ export class NgComponentsNdikuComponent implements OnInit, OnDestroy {
     });
     this.inputSub = this.componentFormGroup.controls.input.valueChanges.subscribe(
       (value) => {
-        this.ngComponentsNdikuService.inputValueChanged$.next(value);
+        this.onInputValueChanged.emit(value);
       }
     );
+    this.isComponentValidSub = this.componentFormGroup.controls.input.statusChanges.subscribe((status) => {
+      console.log(status);
+      this.isComponentValid.emit(status);
+    });
     this.onComponentReady.emit(this.componentFormGroup);
   }
 
   ngOnDestroy(): void {
-    if (this.ngComponentsNdikuService.inputValueChanged$) {
-      this.ngComponentsNdikuService.inputValueChanged$.unsubscribe();
-    }
     if (this.inputSub) {
       this.inputSub.unsubscribe();
+    }
+    if (this.isComponentValidSub) {
+      this.isComponentValidSub.unsubscribe();
     }
   }
 }

@@ -16,11 +16,11 @@ export interface IScorecardItem {
   id: string;
   title: string;
   owner: User;
-  primes: {principal?: User[], secondary?: User[]};
   team: Role[];
   goal: string;
   projectStatus: ProjectStatus;
   status: CardRating;
+  primes?: {principal?: User[], secondary?: User[]};
   published?: boolean;
   archived?: boolean;
   doneTask?: Task[];
@@ -55,7 +55,7 @@ export class Scorecard implements IScorecardItem {
     milestones?: Network[];
     measures?: Measure[];
 
-    private _PRIMES?: {principal?: User[], secondary?: User[]};
+    private _PRIMES?: {principal?: User[], secondary?: User[]} = {};
     private _TIME_OF_LAST_UPDATED?: Date;
     private _LAST_UPDATED_BY?: User;
 
@@ -75,11 +75,20 @@ export class Scorecard implements IScorecardItem {
     }
     public set primes(primes:{principal?: User[], secondary?: User[]}) {
       if (primes.principal) {
-        const principals = this._PRIMES.principal;
-        this._PRIMES.principal = [...principals, ...primes.principal];
-      } else if(primes.secondary){
-        const secondaries = this._PRIMES.secondary;
-        this._PRIMES.secondary = [...secondaries, ...primes.secondary];
+        if (this._PRIMES.principal) {
+          const principals = this._PRIMES.principal;
+          this._PRIMES.principal = [...principals, ...primes.principal];
+        } else {
+          this._PRIMES.principal = primes.principal;
+        }
+      }
+      if(primes.secondary){
+        if (this._PRIMES.secondary) {
+          const secondaries = this._PRIMES.secondary;
+          this._PRIMES.secondary = [...secondaries, ...primes.secondary];
+        } else {
+          this._PRIMES.secondary = primes.secondary;
+        }
       }
     }
 

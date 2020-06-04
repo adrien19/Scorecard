@@ -1,1 +1,19 @@
-<p>NEW WORKS!</p>
+<div id="createNewScorecard" class="container col-md-12">
+
+  <form [formGroup]="createNewScorecardForm" id="createNewScorecardForm">
+    <mat-horizontal-stepper #stepper>
+      <mat-step formGroupName="projectOverviewFormGroup">
+        <ng-template matStepLabel >Enter Project Overview Details</ng-template>
+        <app-create-step-one [createNewScorecardForm]="projectOverviewFormGroup"></app-create-step-one>
+      </mat-step>
+      <mat-step formGroupName="projectTeamFormGroup">
+        <ng-template matStepLabel >Enter Project's Team Details</ng-template>
+        <app-create-step-two [createNewScorecardForm]="projectTeamFormGroup"></app-create-step-two>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel >Confirm Details</ng-template>
+        <app-create-step-final [createNewScorecardForm]="createNewScorecardForm"></app-create-step-final>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </form>
+</div>

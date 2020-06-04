@@ -1,0 +1,28 @@
+
+
+
+<form [formGroup]="createNewScorecardForm" id="projectOverviewForm">
+
+  <ndiku-ng-input
+    required
+    notEmpty
+    parentForm="createNewScorecardForm"
+    type="text"
+    id="projectTitle"
+    label="Title"
+    placeholder=""
+    (onInputValueChanged)="getInputValue($event)"
+    (isComponentValid)="checkInputValidity($event)"
+    onComponentReady="addChild('projectTitleGroup', $event)"
+  ></ndiku-ng-input>
+
+
+  <button
+    type="button"
+    mat-flat-button
+    matStepperNext
+    color="accent"
+    [disabled]="!enableNextButton">
+    Next
+  </button>
+</form>

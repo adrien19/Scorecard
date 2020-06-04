@@ -83,29 +83,55 @@ export class TableDataService {
     return overallStatusColConfigs;
   }
 
-  getManagementPrimesData(scorecard: Scorecard): PrimeRole[] {
+  getManagementPrimesData(scorecard: Scorecard): ImanagementTableData[] {
     console.log(`${scorecard.primes.principal}`);
+    let primesNames: string[];
+    let otherPrimesNames: string[];
+    if (scorecard.primes.principal) {
+      primesNames = scorecard.primes.principal.map((user) => { return user.userfullName});
+    }else{
+      primesNames = [];
+    }
+    if (scorecard.primes.secondary) {
+      otherPrimesNames = scorecard.primes.secondary.map((user) => { return user.userfullName})
+    } else {
+      otherPrimesNames = [];
+    }
 
-    const PRIMES: PrimeRole[] = [{
-      title: 'prime',
-      primary: scorecard.primes.principal,
-      secondary: scorecard.primes.secondary,
-    }]
-    return PRIMES;
+    const MANAGEMEMT_TABLE_DATA: ImanagementTableData[] = [
+      {
+        prime: primesNames,
+        others: otherPrimesNames,
+      },
+    ];
+
+    // const PRIMES: PrimeRole[] = [{
+    //   title: 'prime',
+    //   primary: scorecard.primes.principal.map((user) =>{ return user}),
+    //   secondary: scorecard.primes.secondary.map((user) =>{ return user})
+    // }]
+    return MANAGEMEMT_TABLE_DATA;
+    // return PRIMES
   }
   getManagementPrimesColConfigs(): ColumnSetting[]{
     const managementPrimesColConfigs: ColumnSetting[] = [
       {
-        primaryKey: 'primary',
+        primaryKey: 'prime',
         header: 'Prime',
         editable: true,
       },
       {
-        primaryKey: 'secondary',
+        primaryKey: 'others',
         header: 'Other(s)',
         editable: true,
       }
     ];
     return managementPrimesColConfigs;
   }
+}
+
+
+export interface ImanagementTableData {
+  prime: string[];
+  others: string[];
 }

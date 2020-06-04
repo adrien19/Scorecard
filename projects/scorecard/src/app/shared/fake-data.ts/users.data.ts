@@ -1,7 +1,7 @@
 import { User } from '../models/user.model';
 
 
-export const USERS: User[] = [
+export let USERS: User[] = [
   {
     userId: 'jaisdasruo',
     userLoginId: 'adrien.K',

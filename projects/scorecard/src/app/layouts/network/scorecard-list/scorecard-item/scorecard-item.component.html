@@ -37,7 +37,7 @@
             <mat-list>
                 <mat-list-item class="h-auto p-0"> last updated: {{ scorecard.lastUpdated | date }} by {{ scorecard.lastUpdatedBy.userfullName }} </mat-list-item>
                 <mat-list-item class="h-auto p-0"> Owner: {{ scorecard.owner.userfullName }} </mat-list-item>
-                <mat-list-item class="h-auto p-0"> Prime: {{ scorecard.owner.userEmail }} </mat-list-item>
+                <mat-list-item class="h-auto p-0"> Prime: {{ scorecard.primes.principal[0].userfullName }} </mat-list-item>
             </mat-list>
         </div>
         <div class="col-12 col-md-4 pt-2">

@@ -1,0 +1,29 @@
+<div *ngIf="formSubmitted">
+  <h4>Project created successfully</h4>
+</div>
+
+<div *ngIf="!formSubmitted">
+  <h4>Please review details below and confirm to create scorecard!</h4>
+
+
+
+
+  <button
+    type="button"
+    mat-flat-button
+    matStepperPrevious
+    color="accent"
+  >
+    Back
+  </button>
+  &nbsp;
+  <button
+    type="button"
+    mat-flat-button
+    color="accent"
+    (click)="createScorecard()"
+    >
+    Save Scorecard
+  </button>
+
+</div>

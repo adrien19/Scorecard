@@ -3,30 +3,9 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ColumnSetting, TableInlineEditService, TableEntryType } from 'projects/ng-ndiku/src/public_api';
 import { Network } from '../../../shared/models/network.model';
-import { TableDataService } from './details-data.service';
+import { TableDataService, ImanagementTableData } from './details-data.service';
 import { CardRating, Scorecard } from '../../../shared/models/scorecard-item';
-import { Role, PrimeRole } from '../../../shared/models/role.model';
 
-
-export interface statusData {
-  overall: string;
-  quality: string;
-  time: string;
-  cost: string;
-}
-
-export interface managementData {
-  prime: string;
-  other: string[];
-}
-
-const STATUS_DATA: statusData[] = [
-  {overall: 'Y', quality: 'G', time: 'G', cost: 'G'},
-];
-
-const MANAGEMEMT_DATA: managementData[] = [
-  {prime: 'Y', other: ['Mike K.', 'John D.']},
-];
 
 @Component({
   selector: 'app-scorecard-details',
@@ -35,14 +14,9 @@ const MANAGEMEMT_DATA: managementData[] = [
 })
 export class ScorecardDetailsComponent implements OnInit, OnDestroy {
 
-  // managementDisplayedColumns: string[] = ['overall', 'quality', 'time', 'cost', 'actions'];
-  // managementDataSource = STATUS_DATA;
-
-  // statusDisplayedColumns: string[] = ['prime', 'other'];
-  // statusDataSource = MANAGEMEMT_DATA;
 
   managementTable: TableEntryType;
-  managementData: PrimeRole[];
+  managementData: ImanagementTableData[];
   managementColsConfig: ColumnSetting[];
   managementTableSub: Subscription;
 
@@ -55,6 +29,7 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   networksData: Network[];
   networkColsConfig: ColumnSetting[];
   networksTableSub: Subscription;
+  showMilestoneTable = false;
 
   id: number;
   detailedScorecard: Scorecard;
@@ -89,9 +64,17 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
       this.id = +params['id'];
       console.log(this.id);
       this.detailedScorecard = this.detailsDataService.getScorecardData(this.id); // to be removed
+      console.log(this.detailedScorecard.primes.principal);
+
     });
     this.setupOverallStatusTable(this.detailedScorecard);
     this.setupManagementPrimesTable(this.detailedScorecard);
+    if (this.detailedScorecard.milestones) {
+      this.showMilestoneTable = true;
+    } else {
+      this.showMilestoneTable = false;
+      this.detailedScorecard.milestones = [];
+    }
     this.setupNetworksTable(this.detailedScorecard);
   }
 
@@ -123,6 +106,7 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   setupManagementPrimesTable(scorecard: Scorecard){
     this.managementData = this.detailsDataService.getManagementPrimesData(scorecard);
     // console.log(`${Object.entries(this.managementData[0].primary[0].userLoginId)}`);
+    console.log(scorecard.primes.principal);
 
     this.managementColsConfig = this.detailsDataService.getManagementPrimesColConfigs();
     this.managementTable = new TableEntryType(

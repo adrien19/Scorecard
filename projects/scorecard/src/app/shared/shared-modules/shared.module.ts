@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import {
   NgComponentsNdikuModule,
-  NgComponentsNdikuSelectModule,
+  // NgComponentsNdikuSelectModule,
   TableLayoutModule,
 } from 'projects/ng-ndiku/src/public_api';
 
@@ -18,7 +18,7 @@ import {
     ReactiveFormsModule,
     MaterialModule,
     NgComponentsNdikuModule,
-    NgComponentsNdikuSelectModule,
+    // NgComponentsNdikuSelectModule,
     TableLayoutModule,
   ],
 
@@ -28,7 +28,7 @@ import {
     ReactiveFormsModule,
     MaterialModule,
     SearchBarComponent,
-    // NgComponentsNdikuModule,
+    NgComponentsNdikuModule,
     // NgComponentsNdikuSelectModule,
     TableLayoutModule,
   ]

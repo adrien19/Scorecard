@@ -86,8 +86,9 @@ const importedModules = [
     MatTreeModule,
     PortalModule,
     ScrollingModule,
+    MatStepperModule
 
-    
+
 ];
 
 @NgModule({

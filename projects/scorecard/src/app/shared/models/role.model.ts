@@ -8,6 +8,6 @@ export interface Role {
 export interface PrimeRole extends Role {
   title: string;
   users?: User[];
-  primary: User[];
-  secondary: User[];
+  primary?: User[];
+  secondary?: User[];
 }
