@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { DataService } from '../../shared/search-bar/data.service';
 import { IScorecardItem } from '../../shared/models/scorecard-item';
 import { Subscription } from 'rxjs';
@@ -24,27 +24,28 @@ export class NetworkComponent implements OnInit, OnDestroy {
     if (this.dataSub) {
       this.dataSub.unsubscribe();
     }
+    this.dataService.unSubscribeToAllSearchEvent$.next();
+    this.dataService.searchOption = [];
   }
 
   ngOnInit() {
-    this.dataSub = this.dataService.getPosts().subscribe(scorecards => {
+    this.dataSub = this.dataService.getScorecards().subscribe(scorecards => {
       this.scorecards = scorecards
       this.dataService.scorecardsData = scorecards
     });
   }
 
   onSelectedOption(e) {
-    this.getFilteredExpenseList();
+    this.getFilteredScorecardList();
   }
 
-  getFilteredExpenseList() {
+  getFilteredScorecardList() {
     if (this.dataService.searchOption.length > 0)
       this.scorecards = this.dataService.filteredListOptions();
     else {
       this.scorecards = this.dataService.scorecardsData;
     }
 
-    console.log(this.scorecards)
   }
 
   onCreateNewScorecard(){

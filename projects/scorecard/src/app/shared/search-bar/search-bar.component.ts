@@ -1,17 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { DataService } from './data.service';
 import { IScorecardItem } from '../models/scorecard-item';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.scss']
 })
-export class SearchBarComponent implements OnInit {
+export class SearchBarComponent implements OnInit, OnDestroy {
 
-  
+
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
   allScoreCards: IScorecardItem[];
@@ -21,29 +22,56 @@ export class SearchBarComponent implements OnInit {
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
   @Output() onSelectedOption = new EventEmitter();
 
+  inputChangedSub: Subscription;
+  chipSelectedOptionSub: Subscription;
+  getScorecardsSub: Subscription;
+
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
   ) { }
 
-  ngOnInit() {
-    this.dataService.getPosts().subscribe(scorecards => {
-      this.searchOption = this.dataService.searchOption;
-      this.allScoreCards = scorecards
-
-    });
-
-    this.myControl.valueChanges.subscribe(userInput => {
-      this.autoCompleteExpenseList(userInput);
-    })
+  ngOnDestroy(): void {
+    if (this.inputChangedSub) {
+      this.inputChangedSub.unsubscribe();
+    }
+    if (this.chipSelectedOptionSub) {
+      this.chipSelectedOptionSub.unsubscribe();
+    }
+    if (this.getScorecardsSub) {
+      this.getScorecardsSub.unsubscribe();
+    }
   }
 
-  private autoCompleteExpenseList(input) {
+  ngOnInit() {
+
+    this.dataService.getScorecards().pipe(
+      takeUntil(this.dataService.unSubscribeToAllSearchEvent$)
+    ).subscribe(scorecards => {
+      this.searchOption = this.dataService.searchOption;
+      this.allScoreCards = scorecards;
+    });
+
+    this.myControl.valueChanges.pipe(
+      takeUntil(this.dataService.unSubscribeToAllSearchEvent$)
+    ).subscribe(userInput => {
+      if (userInput) {
+        this.autoCompleteExpenseList(userInput);
+      }
+    })
+
+    this.dataService.matchipSelectedOption$.pipe(
+      takeUntil(this.dataService.unSubscribeToAllSearchEvent$)
+    ).subscribe((option) => {
+      this.removeOption(option);
+    });
+  }
+
+  private autoCompleteExpenseList(input: any) {
     let categoryList = this.filterCategoryList(input);
     this.autoCompleteList = categoryList;
   }
 
-  filterCategoryList(val) {
-    var categoryList = []
+  filterCategoryList(val: any) {
     if (typeof val != "string") {
       return [];
     }
@@ -59,7 +87,7 @@ export class SearchBarComponent implements OnInit {
     return k;
   }
 
-  filterScorecardsList(event) {
+  filterScorecardsList(event: any) {
     var scorecards= event.source.value;
         if(!scorecards) {
           this.dataService.searchOption=[]
@@ -70,23 +98,25 @@ export class SearchBarComponent implements OnInit {
             this.dataService.searchOption.push(scorecards);
             this.onSelectedOption.emit(this.dataService.searchOption)
         }
-        
+
         this.focusOnPlaceInput();
   }
 
 
-  removeOption(option) {
-        
+  removeOption(option: any) {
+
     let index = this.dataService.searchOption.indexOf(option);
-    if (index >= 0)
-        this.dataService.searchOption.splice(index, 1);
+    if (index >= 0){
+      this.dataService.searchOption.splice(index, 1);
+      if (this.dataService.searchOption.length === 0) {
         this.focusOnPlaceInput();
+      }
+      this.onSelectedOption.emit(this.dataService.searchOption);
+    }
+  }
 
-        this.onSelectedOption.emit(this.dataService.searchOption)
-}
-
-focusOnPlaceInput() {
-  this.autocompleteInput.nativeElement.focus();
-  this.autocompleteInput.nativeElement.value = '';
-}
+  focusOnPlaceInput() {
+    this.autocompleteInput.nativeElement.focus();
+    this.autocompleteInput.nativeElement.value = '';
+  }
 }

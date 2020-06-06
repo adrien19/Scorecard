@@ -3,6 +3,7 @@ import { Observable, of, Subject } from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import { IScorecardItem } from '../models/scorecard-item';
 import { SCORECARDS } from '../fake-data.ts/scorecard.data';
+import { MatChipList } from '@angular/material/chips';
 
 
 @Injectable({
@@ -13,12 +14,15 @@ export class DataService {
   searchOption=[]
   scorecardsData: IScorecardItem[];
 
+  matchipSelectedOption$ = new Subject<any>();
+  unSubscribeToAllSearchEvent$ = new Subject<any>();
+
   constructor(
     private http: HttpClient
   ) { }
 
 
-  getPosts(): Observable<IScorecardItem[]>{
+  getScorecards(): Observable<IScorecardItem[]>{
     let scorecardData: IScorecardItem[] = SCORECARDS;
 
     // [

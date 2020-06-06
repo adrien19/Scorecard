@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { NgComponentsNdikuService } from 'projects/ng-ndiku/src/public_api';
 import { Scorecard } from '../../../shared/models/scorecard-item';
 
 
@@ -24,7 +23,6 @@ export class ScorecardCreateNewComponent implements OnInit, OnDestroy, AfterView
 
   constructor(
     fb: FormBuilder,
-    private ngComponentsNdikuService: NgComponentsNdikuService
   ) {
     this.createNewScorecardForm = fb.group({
     });

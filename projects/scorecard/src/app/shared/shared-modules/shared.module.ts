@@ -8,10 +8,13 @@ import {
   // NgComponentsNdikuSelectModule,
   TableLayoutModule,
 } from 'projects/ng-ndiku/src/public_api';
+import { SearchBarSelectedComponent } from '../search-bar/search-bar-selected/search-bar-selected.component';
+import { UserSearchBarComponent } from '../../layouts/auth/user-searchbar/user-searchbar.component';
+import { SearchBarSelectedUserComponent } from '../../layouts/auth/user-searchbar/search-bar-selected/search-bar-selected.component';
 
 
 @NgModule({
-  declarations: [SearchBarComponent],
+  declarations: [SearchBarComponent, SearchBarSelectedComponent, UserSearchBarComponent, SearchBarSelectedUserComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -28,6 +31,8 @@ import {
     ReactiveFormsModule,
     MaterialModule,
     SearchBarComponent,
+    SearchBarSelectedComponent,
+    UserSearchBarComponent,
     NgComponentsNdikuModule,
     // NgComponentsNdikuSelectModule,
     TableLayoutModule,
