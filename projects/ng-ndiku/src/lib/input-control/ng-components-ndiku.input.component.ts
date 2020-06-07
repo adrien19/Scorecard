@@ -174,7 +174,6 @@ export class NgComponentsNdikuComponent implements OnInit, OnDestroy {
       }
     );
     this.isComponentValidSub = this.componentFormGroup.controls.input.statusChanges.subscribe((status) => {
-      console.log(status);
       this.isComponentValid.emit(status);
     });
     this.onComponentReady.emit(this.componentFormGroup);

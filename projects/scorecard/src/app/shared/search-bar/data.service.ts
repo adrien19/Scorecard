@@ -4,6 +4,8 @@ import {HttpClient} from '@angular/common/http';
 import { IScorecardItem } from '../models/scorecard-item';
 import { SCORECARDS } from '../fake-data.ts/scorecard.data';
 import { MatChipList } from '@angular/material/chips';
+import { environment } from 'projects/scorecard/src/environments/environment';
+import { tap } from 'rxjs/operators';
 
 
 @Injectable({
@@ -23,7 +25,13 @@ export class DataService {
 
 
   getScorecards(): Observable<IScorecardItem[]>{
-    let scorecardData: IScorecardItem[] = SCORECARDS;
+    // let scorecardData: IScorecardItem[] = SCORECARDS;
+
+
+    return this.http.get<IScorecardItem[]>(`${environment.apiUrl}/all/scorecards`).pipe(
+      tap(cards => console.log(cards)
+      )
+    );
 
     // [
     //   { id: 1, title: 'Communicate to Innovate', owner: 'Jeff M.', prime: 'M.'},
@@ -35,7 +43,7 @@ export class DataService {
     //   { id: 6, title: 'New Upgrades', owner: 'Chris G.', prime: 'Donny K.'},
     // ];
 
-    return of(scorecardData);
+    // return of(scorecardData);
   }
 
   filteredListOptions() {

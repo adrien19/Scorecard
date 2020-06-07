@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../auth/auth-services/authentication.service';
+import { User } from '../auth/auth-models/user';
+import { Role } from '../auth/auth-models/role';
 
 @Component({
   selector: 'app-header',
@@ -6,21 +9,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  isLoggedIn: boolean = true; 
+  isLoggedIn: boolean = false;
+  logedInUser: User;
 
-
-  constructor() { }
+  constructor(private authenticationService: AuthenticationService) {
+    // this.logedInUser = this.authenticationService.user;
+  }
 
   ngOnInit(): void {
-
+    this.authenticationService.user.subscribe(user => {
+      if (user) {
+      this.logedInUser = user;
+      this.isLoggedIn = true;
+      }else{
+        this.logedInUser = null;
+        this.isLoggedIn = false;
+      }
+    });
   }
 
   onSignOut() {
+    this.authenticationService.logout();
+  }
+
+  onSignIn() {
 
   }
-  
-  onSignIn() {
-    
+
+  get isAdmin(){
+    return this.logedInUser && this.logedInUser.role === Role.Admin;
   }
 
 }

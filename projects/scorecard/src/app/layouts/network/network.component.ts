@@ -3,6 +3,7 @@ import { DataService } from '../../shared/search-bar/data.service';
 import { IScorecardItem } from '../../shared/models/scorecard-item';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-network',
@@ -32,6 +33,10 @@ export class NetworkComponent implements OnInit, OnDestroy {
     this.dataSub = this.dataService.getScorecards().subscribe(scorecards => {
       this.scorecards = scorecards
       this.dataService.scorecardsData = scorecards
+      if (!scorecards) {
+        console.log("No scorecards returned: ");
+      }
+      console.log("returned In Network scorecards: ", scorecards);
     });
   }
 

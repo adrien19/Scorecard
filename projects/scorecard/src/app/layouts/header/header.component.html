@@ -11,14 +11,14 @@
             <a mat-button *ngIf="isLoggedIn" class="ml-1" routerLink="/network">Network</a>
             <a mat-button *ngIf="isLoggedIn" class="mr-1" routerLink="/media">Media</a>
             <a mat-button *ngIf="isLoggedIn" class="mr-1" routerLink="/IT">IT</a>
-            
+
         </div>
         <div class="spacer"></div>
         <div class="d-none d-ms-none d-md-block">
             <a mat-button class="mr-1"
-            routerLink="/auth" 
-            (click)="isLoggedIn? onSignOut() : onSignIn()" 
-            style="cursor: pointer;"> {{ isLoggedIn? 'Sign Out' : ' Register / Sign In' }} 
+            routerLink="/auth"
+            (click)="isLoggedIn? onSignOut() : onSignIn()"
+            style="cursor: pointer;"> {{ isLoggedIn? 'Sign Out' : ' Register / Sign In' }}
             </a>
         </div>
         <div *ngIf="isLoggedIn" class="d-none d-ms-none d-md-block mr-5">
@@ -36,12 +36,16 @@
               <mat-icon>notifications_off</mat-icon>
               <span>Disable notifications</span>
             </button>
+            <button mat-menu-item *ngIf="isAdmin">
+              <mat-icon>admin_panel_settings</mat-icon>
+              <span class="align-center">Admin</span>
+            </button>
         </mat-menu>
 
         <div class="d-block d-sm-block d-md-none">
             <button class="" mat-icon-button appDropdown  aria-label="Icon button with a menu icon" >
                 <mat-icon>menu</mat-icon>
             </button>
-        </div>  
+        </div>
     </mat-toolbar-row>
 </mat-toolbar>

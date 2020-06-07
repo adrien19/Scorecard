@@ -7,6 +7,7 @@ export const environment = {
   production: false,
   databaseUrl: APP_ENVIRONMENTS.databaseUrl,
   databaseApiKey: APP_ENVIRONMENTS.databaseApiKey,
+  apiUrl: APP_ENVIRONMENTS.apiUrl,
 };
 
 /*

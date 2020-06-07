@@ -6,7 +6,10 @@ import { SharedModule } from './shared/shared-modules/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './layouts/auth/auth-helpers/jwt.interceptor';
+import { ErrorInterceptor } from './layouts/auth/auth-helpers/error.interceptor';
+import { fakeBackendProvider } from './layouts/auth/auth-helpers/fake-backend';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,13 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+    // provider used to create fake backend
+    fakeBackendProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
