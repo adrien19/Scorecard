@@ -1,10 +1,12 @@
+import { Role } from '../../layouts/auth/auth-models/role';
 
 export class User {
 
   userId: string;
-  userLoginId: string;
+  username: string;
   userEmail:string;
-  // password: string;
+  password: string;
+  role: Role;
 
   private _USER_FIRST_NAME? = '';
   private _USER_LAST_NAME? = '';
@@ -13,13 +15,16 @@ export class User {
   // canEditCard?: Scorecard[];
   // canViewCard?: Scorecard[];
 
-  constructor(userId: string, userLoginId: string, userEmail: string, userFirstName?: string, userLastName?: string, fullName?: string){
+  constructor(userId: string, username: string, password: string, role: Role, userEmail: string, userFirstName?: string, userLastName?: string, fullName?: string){
       this.userId = userId;
-      this.userLoginId = userLoginId;
+      this.username = username;
+      this.password = password;
+      this.role = role;
       this.userEmail = userEmail;
       this.userFirstName = userFirstName;
       this.userLastName = userLastName;
       this.userfullName = fullName;
+
   }
 
 

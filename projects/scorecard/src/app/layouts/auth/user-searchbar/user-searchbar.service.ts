@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, Subject } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { User } from 'projects/scorecard/src/app/shared/models/user.model';
 import { USERS } from 'projects/scorecard/src/app/shared/fake-data.ts/users.data';
+import { environment } from 'projects/scorecard/src/environments/environment';
 
 
 @Injectable({
@@ -19,12 +20,14 @@ export class UserSearchBarService {
 
   constructor(private http: HttpClient) { }
 
-  fetchUsers(id: string): Observable<User[]> {
-    const searchedUsers = USERS.filter((user) => {
-      return user.userLoginId === id
-    });
+  fetchUserByUsername(username: string): Observable<User[]> {
 
-    return of(searchedUsers);
+    let params = new HttpParams().set("username", username);
+
+    return this.http.get<User[]>(`${environment.apiUrl}/users/byUsername`, {params: params}).pipe(
+      tap(cards => console.log(cards)
+      )
+    );
   }
 
 

@@ -1,11 +1,11 @@
 import { User } from './user.model';
 
-export interface Role {
+export interface ProjectRole {
   title: string;
   users?: User[];
 }
 
-export interface PrimeRole extends Role {
+export interface PrimeRole extends ProjectRole {
   title: string;
   users?: User[];
   primary?: User[];

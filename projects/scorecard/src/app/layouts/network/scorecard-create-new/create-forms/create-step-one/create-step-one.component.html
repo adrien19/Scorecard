@@ -3,6 +3,7 @@
   <div class="col-12 col-sm-6">
     <form [formGroup]="createNewScorecardForm" id="projectOverviewForm">
 
+      <mat-label>Project's Title:</mat-label>
       <ndiku-ng-input
         required
         notEmpty
@@ -12,11 +13,24 @@
         label="Title"
         placeholder=""
         (onInputValueChanged)="getInputValue($event)"
-        (isComponentValid)="checkInputValidity($event)"
-        onComponentReady="addChild('projectTitleGroup', $event)"
+        (onComponentReady)="addChild('projectTitleGroup', $event)"
       ></ndiku-ng-input>
 
-      <app-user-search class="pb-3"></app-user-search>
+      <mat-label>Project's Goal:</mat-label>
+      <mat-form-field class="w-100">
+        <textarea
+        matInput
+        placeholder="Enter project's goal description"
+        class="border">
+      </textarea>
+      </mat-form-field>
+
+
+      <mat-label>Primes*:</mat-label>
+      <app-user-search></app-user-search>
+      <div class="mb-3">
+        <small class="form-text text-muted w-100">* Please identify primes for this project.</small>
+      </div>
 
 
       <button
@@ -24,7 +38,8 @@
         mat-flat-button
         matStepperNext
         color="accent"
-        [disabled]="!enableNextButton">
+        (click)="addPrimeUsers()"
+        [disabled]="createNewScorecardForm.invalid">
         Next
       </button>
     </form>

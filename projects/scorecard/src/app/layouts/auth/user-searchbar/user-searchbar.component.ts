@@ -16,7 +16,7 @@ export class UserSearchBarComponent implements OnInit {
   private userIdSubject = new Subject<string>();
 
   readonly searchedUsers$ = this.userIdSubject.pipe(
-    liveSearch(userId => this.userSearchBarService.fetchUsers(userId))
+    liveSearch(username => this.userSearchBarService.fetchUserByUsername(username))
   );
 
   myUserInputControl = new FormControl();
@@ -39,8 +39,8 @@ export class UserSearchBarComponent implements OnInit {
     });
   }
 
-  searchUsers(userId: string) {
-    this.userIdSubject.next(userId);
+  searchUsers(username: string) {
+    this.userIdSubject.next(username);
   }
 
   displayFn(user: User) {
@@ -56,7 +56,7 @@ export class UserSearchBarComponent implements OnInit {
     else {
       console.log("not")
       const userAlreadySelected = this.userSearchBarService.searchUserOption.find((user) => {
-        return user.userLoginId.toLowerCase() === selectedUser.userLoginId.toLowerCase();
+        return user.userId.toLowerCase() === selectedUser.userId.toLowerCase();
       });
       if (!userAlreadySelected) {
         this.userSearchBarService.searchUserOption.push(selectedUser);

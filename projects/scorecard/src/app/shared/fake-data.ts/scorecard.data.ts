@@ -1,6 +1,7 @@
 import { Scorecard, ProjectStatus } from '../models/scorecard-item';
 import { USERS } from './users.data';
 import { NETWORKS } from './network.data';
+import { Role } from '../../layouts/auth/auth-models/role';
 
 export let SCORECARDS: Scorecard[] = [
   {
@@ -13,44 +14,44 @@ export let SCORECARDS: Scorecard[] = [
       time: "R",
       cost: "G",
     },
-    owner: {
-      userId: 'jeffsorndf',
-      userLoginId: 'Jeff.M',
-      userEmail: 'user1@test.com',
-      userFirstName: 'Jeff',
-      userLastName: 'M.',
-      userfullName: 'Jeff M.'
-    },
+    owner: USERS.find( user => {
+      if (user.userId === 'jeffsorndf') {
+      return {
+        userId: user.userId,
+        userfullName: user.userfullName,
+        userEmail: user.userEmail
+      }
+      }
+    }),
+
     primes: {
-      principal: [{
+      principal: [
+        {
+          userId: 'johnshdbasd',
+          userfullName: 'John D.',
+          userEmail: 'user6@test.com',
+        }
+      ],
+      secondary: [
+        {
         userId: 'jeffsorndf',
-        userLoginId: 'Jeff.M',
         userEmail: 'user1@test.com',
-        userFirstName: 'Jeff',
-        userLastName: 'M.',
         userfullName: 'Jeff M.'
-      }],
-      secondary: [{
-        userId: 'johnshdbasd',
-        userLoginId: 'John.D',
-        userEmail: 'user6@test.com',
-        userFirstName: 'John',
-        userLastName: 'D.',
-        userfullName: 'John D.'
-      }]
+       }
+      ]
     },
     team: [
       {
         title: 'product owners',
-        users: USERS,
+        users: USERS.slice(0,2),
       },
       {
         title: 'scrum master',
-        users: USERS,
+        users: USERS.slice(2,4),
       },
       {
         title: 'SME',
-        users: USERS,
+        users: USERS.slice(4,5),
       },
     ],
     goal: 'The goal of the project is to establish requirements fot the installment. ',
@@ -96,13 +97,10 @@ export let SCORECARDS: Scorecard[] = [
     milestones: NETWORKS,
     lastUpdated: new Date(),
     lastUpdatedBy: {
-      userId: 'jeffsorndf',
-      userLoginId: 'Jeff.M',
-      userEmail: 'user1@test.com',
-      userFirstName: 'Jeff',
-      userLastName: 'M.',
-      userfullName: 'Jeff M.'
-    }
+      userId: 'asdafggd',
+      userEmail: 'user3@test.com',
+      userfullName: 'Joe J.'
+     }
   },
 
   {
@@ -115,45 +113,50 @@ export let SCORECARDS: Scorecard[] = [
       time: "Y",
       cost: "G",
     },
-    owner: {
-      userId: 'jeffsorndf',
-      userLoginId: 'Jeff.M',
-      userEmail: 'user1@test.com',
-      userFirstName: 'Jeff',
-      userLastName: 'M.',
-      userfullName: 'Jeff M.'
-    },
+    owner: USERS.find( user => {
+      if (user.userId === 'hyusnelfas') {
+      return {
+        userId: user.userId,
+        userfullName: user.userfullName,
+        userEmail: user.userEmail
+      }
+      }
+    }),
+
     primes: {
-      principal: [{
-        userId: 'johnshdbasd',
-        userLoginId: 'John.D',
-        userEmail: 'user6@test.com',
-        userFirstName: 'John',
-        userLastName: 'D.',
-        userfullName: 'John D.'
-      }],
-      secondary: [{
+      principal: [
+        {
+          userId: 'johnshdbasd',
+          userfullName: 'John D.',
+          userEmail: 'user6@test.com',
+        }
+      ],
+      secondary: [
+        {
         userId: 'jeffsorndf',
-        userLoginId: 'Jeff.M',
         userEmail: 'user1@test.com',
-        userFirstName: 'Jeff',
-        userLastName: 'M.',
         userfullName: 'Jeff M.'
-      }],
+       }
+      ]
     },
     team: [
       {
         title: 'product owners',
-        users: USERS.splice(0,2),
+        users: USERS.slice(1,2),
       },
       {
         title: 'scrum master',
-        users: USERS,
+        users: USERS.slice(2,3),
       },
       {
         title: 'SME',
-        users: USERS,
+        users: USERS.slice(0,1),
       },
+      {
+        title: 'CODERS',
+        users: USERS.slice(4,6),
+      },
+
     ],
     goal: 'The goal of the project is to establish requirements fot the installment. ',
     doneTask: [
@@ -197,13 +200,11 @@ export let SCORECARDS: Scorecard[] = [
     ],
     milestones: NETWORKS,
     lastUpdated: new Date(),
-    lastUpdatedBy: {
-      userId: 'jeffsorndf',
-      userLoginId: 'Jeff.M',
-      userEmail: 'user1@test.com',
-      userFirstName: 'Jeff',
-      userLastName: 'M.',
-      userfullName: 'Jeff M.'
-    }
+    lastUpdatedBy:
+      {
+        userId: 'jeffsorndf',
+        userEmail: 'user1@test.com',
+        userfullName: 'Jeff M.'
+       }
   }
 ]

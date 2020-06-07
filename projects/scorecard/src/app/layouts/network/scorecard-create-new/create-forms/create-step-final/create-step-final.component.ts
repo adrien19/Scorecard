@@ -1,13 +1,14 @@
 import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
-import { Scorecard, CardRating, ProjectStatus } from 'projects/scorecard/src/app/shared/models/scorecard-item';
+import { Scorecard, CardRating, ProjectStatus, IUserHolder } from 'projects/scorecard/src/app/shared/models/scorecard-item';
 import { User } from 'projects/scorecard/src/app/shared/models/user.model';
 import { SCORECARDS } from 'projects/scorecard/src/app/shared/fake-data.ts/scorecard.data';
 import { Router, ActivatedRoute } from '@angular/router';
 import { scorecardCreateService } from '../scorecard-create.service';
 import { PrimeRole } from 'projects/scorecard/src/app/shared/models/role.model';
 import { USERS } from 'projects/scorecard/src/app/shared/fake-data.ts/users.data';
+import { Role } from '../../../../auth/auth-models/role';
 
 @Component({
   selector: 'app-create-step-final',
@@ -25,6 +26,9 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
   projectGoal: string;
   projectGoalSub: Subscription;
 
+  primeUsers: IUserHolder[];
+  primeUsersSub: Subscription;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -38,6 +42,9 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
     if (this.projectGoalSub) {
       this.projectGoalSub.unsubscribe();
     }
+    if (this.primeUsersSub) {
+      this.primeUsersSub.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
@@ -48,6 +55,11 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
     this.projectGoalSub = this.scorecardCreateService.enteredTeamDetails$.subscribe((goal) => {
       this.projectGoal = goal;
     });
+
+    this.primeUsersSub = this.scorecardCreateService.selectedPrimeUsers$.subscribe((primeUsers) => {
+      this.primeUsers = primeUsers;
+    });
+
   }
 
   createScorecard(){
@@ -63,6 +75,8 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
     const ownerUser = new User (
       'jashlasjhsd',
       'Mike.D',
+      'user123',
+      Role.User,
       'user2@test.com',
       'Mike',
       'D.',
@@ -72,6 +86,8 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
     const primeUser = new User(
       'jsudasflsd',
       'Tylor.P',
+      'user123',
+      Role.User,
       'user8@test.com',
       'Tylor',
       'P.',
@@ -82,7 +98,7 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
     newCreatedScorecard.goal = this.projectGoal;
     newCreatedScorecard.owner = ownerUser;
     newCreatedScorecard.lastUpdatedBy = ownerUser;
-    newCreatedScorecard.primes.principal = [primeUser];
+    newCreatedScorecard.primes.principal = this.primeUsers;
     // newCreatedScorecard.primes.secondary = [otherPrimeUser];
 
     SCORECARDS.push(newCreatedScorecard);

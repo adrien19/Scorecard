@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, OnDestroy, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { IScorecardItem } from 'projects/scorecard/src/app/shared/models/scorecard-item';
+import { IScorecardItem, IUserHolder } from 'projects/scorecard/src/app/shared/models/scorecard-item';
 import { Subject } from 'rxjs';
 import { DataService } from 'projects/scorecard/src/app/shared/search-bar/data.service';
 import { User } from 'projects/scorecard/src/app/shared/models/user.model';
@@ -17,7 +17,7 @@ export class ScorecardItemComponent implements OnInit, OnChanges{
   @Input() id: number;
   viewCardisDisplay: boolean = false;
 
-  scorecardPrime: User;
+  scorecardPrime: IUserHolder;
 
   constructor(
     private router: Router,

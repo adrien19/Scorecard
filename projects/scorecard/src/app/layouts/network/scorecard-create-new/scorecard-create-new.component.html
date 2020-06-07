@@ -1,12 +1,12 @@
 <div id="createNewScorecard" class="container col-md-12">
 
   <form [formGroup]="createNewScorecardForm" id="createNewScorecardForm">
-    <mat-horizontal-stepper #stepper>
-      <mat-step formGroupName="projectOverviewFormGroup">
+    <mat-horizontal-stepper #stepper [linear]="true">
+      <mat-step formGroupName="projectOverviewFormGroup" [stepControl]="projectOverviewFormGroup">
         <ng-template matStepLabel >Enter Project Overview Details</ng-template>
         <app-create-step-one [createNewScorecardForm]="projectOverviewFormGroup"></app-create-step-one>
       </mat-step>
-      <mat-step formGroupName="projectTeamFormGroup">
+      <mat-step formGroupName="projectTeamFormGroup" [stepControl]="projectTeamFormGroup">
         <ng-template matStepLabel >Enter Project's Team Details</ng-template>
         <app-create-step-two [createNewScorecardForm]="projectTeamFormGroup"></app-create-step-two>
       </mat-step>

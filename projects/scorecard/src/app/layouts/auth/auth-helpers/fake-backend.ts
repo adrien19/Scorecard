@@ -4,21 +4,18 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
 import { Role } from '../auth-models/role';
-import { User } from '../auth-models/user';
-import { Scorecard } from '../../../shared/models/scorecard-item';
 import { SCORECARDS } from '../../../shared/fake-data.ts/scorecard.data';
+import { User } from '../../../shared/models/user.model';
+import { USERS } from '../../../shared/fake-data.ts/users.data';
 
-const users: User[] = [
-    { id: 1, username: 'admin', password: 'adminadmin', firstName: 'Admin', lastName: 'User', role: Role.Admin },
-    { id: 2, username: 'user', password: 'useruser', firstName: 'Normal', lastName: 'User', role: Role.User }
-];
+const users: User[] = USERS;
 
 const scorecards: any[] = SCORECARDS //.slice();
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const { url, method, headers, body } = request;
+        const { url, method, headers, body, params } = request;
 
         // wrap in delayed observable to simulate server api call
         return of(null)
@@ -35,6 +32,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getUsers();
                 case url.match(/\/users\/\d+$/) && method === 'GET':
                     return getUserById();
+                case url.match('/users/byUsername') && method === 'GET':
+                    return getUserByUsername();
                 case url.endsWith('/published/scorecards') && method === 'GET':
                     return getPublishedScorecards();
                 case url.endsWith('/all/scorecards') && method === 'GET':
@@ -52,19 +51,18 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             // const { username.input, password.input } = body;
             const username = body.username.input;
             const password =body.password.input;
-            console.log(username,  password);
 
             const user = users.find(x => {
                 return x.username === username && x.password === password;
             });
             if (!user) return error('Username or password is incorrect');
             return ok({
-                id: user.id,
+                id: user.userId,
                 username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
+                firstName: user.userFirstName,
+                lastName: user.userLastName,
                 role: user.role,
-                token: `fake-jwt-token.${user.id}`
+                token: `fake-jwt-token.${user.userId}`
             });
         }
 
@@ -73,15 +71,37 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok(users);
         }
 
-        function getUserById() {
+        function getUserByUsername() {
             if (!isLoggedIn()) return unauthorized();
 
             // only admins can access other user records
-            if (!isAdmin() && currentUser().id !== idFromUrl()) return unauthorized();
+            if (!isAdmin()) return unauthorized();
 
-            const user = users.find(x => x.id === idFromUrl());
-            return ok(user);
+            const username = params.get('username');
+            const selectedUser = users.filter(x => x.username.indexOf(username) !== -1).map(user => {
+              return {
+                userId: user.userId,
+                userfullName: user.userfullName,
+                userEmail: user.userEmail
+              }
+            });
+            return ok(selectedUser);
         }
+
+        function getUserById() {
+          if (!isLoggedIn()) return unauthorized();
+
+          // only admins can access other user records
+          if (!isAdmin()) return unauthorized();
+
+          const user = users.find(x => x.username === idFromUrl());
+          const userData = {
+            userId: user.userId,
+            userfullName: user.userfullName,
+            userEmail: user.userEmail
+          }
+          return ok(userData);
+      }
 
         // helper functions
 
@@ -108,13 +128,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function currentUser() {
             if (!isLoggedIn()) return;
-            const id = parseInt(headers.get('Authorization').split('.')[1]);
-            return users.find(x => x.id === id);
+            const id = headers.get('Authorization').split('.')[1];
+
+            return users.find(x => x.userId === id);
         }
 
         function idFromUrl() {
             const urlParts = url.split('/');
-            return parseInt(urlParts[urlParts.length - 1]);
+            return urlParts[urlParts.length - 1];
         }
 
         // ENDPOINTS FOR SCORECARDS //
@@ -127,7 +148,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           if (!isLoggedIn()) return unauthorized();
 
           // only admins can access all scorecards records
-          if (!isAdmin() && currentUser().id !== idFromUrl()) return unauthorized();
+          if (!isAdmin() && currentUser().userId !== idFromUrl()) return unauthorized();
           return ok(scorecards);
         }
     }

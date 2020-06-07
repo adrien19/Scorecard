@@ -11,9 +11,8 @@
     id="projectTeam"
     label="Team"
     placeholder=""
-    onComponentReady="addChild('projectTeamGroup', $event)"
+    (onComponentReady)="addChild('projectTeamGroup', $event)"
     (onInputValueChanged)="getInputValue($event)"
-    (isComponentValid)="checkInputValidity($event)"
   ></ndiku-ng-input>
 
 
@@ -31,7 +30,7 @@
     mat-flat-button
     matStepperNext
     color="accent"
-    [disabled]="!enableNextButton">
+    [disabled]="createNewScorecardForm.invalid">
     Next
   </button>
 </form>

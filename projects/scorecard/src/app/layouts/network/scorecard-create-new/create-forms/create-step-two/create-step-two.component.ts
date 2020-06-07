@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { scorecardCreateService } from '../scorecard-create.service';
@@ -15,8 +15,6 @@ export class CreateStepTwoComponent implements OnInit, OnDestroy {
   enteredProjectTeam: string;
 
   componentValidSub: Subscription;
-  enableNextButton:boolean;
-
 
   constructor(
     private scorecardCreateService: scorecardCreateService,
@@ -31,20 +29,16 @@ export class CreateStepTwoComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
 
+  get formControls (){
+    return this.createNewScorecardForm.controls;
+  }
+
   addChild(childName: string, childGroup: FormGroup) {
     this.createNewScorecardForm.addControl(childName, childGroup);
   }
 
   getInputValue(value: any){
     this.scorecardCreateService.enteredTeamDetails$.next(value);
-  }
-
-  checkInputValidity(validity: any){
-    if (validity === "VALID") {
-      this.enableNextButton = !this.enableNextButton;
-    } else {
-      this.enableNextButton = !this.enableNextButton;
-    }
   }
 
 }

@@ -1,5 +1,5 @@
 import { User } from './user.model';
-import { Role } from './role.model';
+import { ProjectRole } from './role.model';
 import { Task } from './task.model';
 import { Network } from './network.model';
 import { Measure } from './measure.model';
@@ -12,24 +12,10 @@ export enum ProjectStatus {
   POSTPONED = "POSTPONED",
 }
 
-export interface IScorecardItem {
-  id: string;
-  title: string;
-  owner: User;
-  team: Role[];
-  goal: string;
-  projectStatus: ProjectStatus;
-  status: CardRating;
-  primes?: {principal?: User[], secondary?: User[]};
-  published?: boolean;
-  archived?: boolean;
-  doneTask?: Task[];
-  nextTask?: Task[]
-  challenges?: string[];
-  milestones?: Network[];
-  measures?: Measure[];
-  lastUpdated?: Date;
-  lastUpdatedBy?: User;
+export interface IUserHolder {
+  userId: string;
+  userfullName: string;
+  userEmail: string;
 }
 
 export interface CardRating {
@@ -39,12 +25,33 @@ export interface CardRating {
   cost: string;
 }
 
+export interface IScorecardItem {
+  id: string;
+  title: string;
+  owner: IUserHolder;
+  team: ProjectRole[];
+  goal: string;
+  projectStatus: ProjectStatus;
+  status: CardRating;
+  primes?: {principal?: IUserHolder[], secondary?: IUserHolder[]};
+  published?: boolean;
+  archived?: boolean;
+  doneTask?: Task[];
+  nextTask?: Task[]
+  challenges?: string[];
+  milestones?: Network[];
+  measures?: Measure[];
+  lastUpdated?: Date;
+  lastUpdatedBy?: IUserHolder;
+}
+
+
 export class Scorecard implements IScorecardItem {
     id: string;
     title: string;
     status: CardRating;
-    owner: User;
-    team: Role[];
+    owner: IUserHolder;
+    team: ProjectRole[];
     goal: string;
     projectStatus: ProjectStatus;
     published?: boolean = false;
@@ -55,9 +62,9 @@ export class Scorecard implements IScorecardItem {
     milestones?: Network[];
     measures?: Measure[];
 
-    private _PRIMES?: {principal?: User[], secondary?: User[]} = {};
+    private _PRIMES?: {principal?: IUserHolder[], secondary?: IUserHolder[]} = {};
     private _TIME_OF_LAST_UPDATED?: Date;
-    private _LAST_UPDATED_BY?: User;
+    private _LAST_UPDATED_BY?: IUserHolder;
 
 
     constructor(title: string , cardStatus: CardRating, projectStatus: ProjectStatus ){
@@ -68,12 +75,12 @@ export class Scorecard implements IScorecardItem {
 
 
     public get primes() : {
-      principal?: User[],
-      secondary?: User[]
+      principal?: IUserHolder[],
+      secondary?: IUserHolder[]
     } {
       return this._PRIMES;
     }
-    public set primes(primes:{principal?: User[], secondary?: User[]}) {
+    public set primes(primes:{principal?: IUserHolder[], secondary?: IUserHolder[]}) {
       if (primes.principal) {
         if (this._PRIMES.principal) {
           const principals = this._PRIMES.principal;
@@ -100,10 +107,10 @@ export class Scorecard implements IScorecardItem {
       this._TIME_OF_LAST_UPDATED = timeOfLastUpdate;
     }
 
-    public get lastUpdatedBy() : User {
+    public get lastUpdatedBy() : IUserHolder {
       return this._LAST_UPDATED_BY;
     }
-    public set lastUpdatedBy(lastUpdatedBy : User) {
+    public set lastUpdatedBy(lastUpdatedBy : IUserHolder) {
       this._LAST_UPDATED_BY = lastUpdatedBy;
     }
 }

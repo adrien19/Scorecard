@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, Input, AfterViewInit, Output, OnChanges }
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
 import { scorecardCreateService } from '../scorecard-create.service';
+import { UserSearchBarService } from '../../../../auth/user-searchbar/user-searchbar.service';
+import { IUserHolder } from 'projects/scorecard/src/app/shared/models/scorecard-item';
 
 @Component({
   selector: 'app-create-step-one',
@@ -12,24 +14,24 @@ export class CreateStepOneComponent implements OnInit, OnDestroy {
 
   @Input() createNewScorecardForm: FormGroup;
   projectTitleValueSubscription: Subscription;
-  enableNextButton: boolean;
-  componentValidSub: Subscription;
 
   constructor(
     // private ngComponentsNdikuService: NgComponentsNdikuService,
     private scorecardCreateService: scorecardCreateService,
+    private userSearchBarService: UserSearchBarService,
   ) { }
 
   ngOnDestroy(): void {
     if (this.projectTitleValueSubscription) {
       this.projectTitleValueSubscription.unsubscribe();
     }
-    if (this.componentValidSub) {
-      this.componentValidSub.unsubscribe();
-    }
   }
 
   ngOnInit(): void {
+  }
+
+  get formControls (){
+    return this.createNewScorecardForm.controls;
   }
 
 
@@ -41,30 +43,15 @@ export class CreateStepOneComponent implements OnInit, OnDestroy {
     this.scorecardCreateService.enteredProjectTitle$.next(value);
   }
 
-  checkInputValidity(validity: string){
-    console.log(`this is validity: ${validity}`);
-    if (validity === "VALID") {
-      this.enableNextButton = !this.enableNextButton;
-    } else {
-      this.enableNextButton = !this.enableNextButton;
-    }
+  addPrimeUsers(){
+    const selectedPrimeUsers = this.userSearchBarService.searchUserOption.map((user) => {
+      return {
+        userId: user.userId,
+        userfullName: user.userfullName,
+        userEmail: user.userEmail
+      }
+    });
+    this.scorecardCreateService.selectedPrimeUsers$.next(selectedPrimeUsers);
   }
-
-
-  // subscribeToProjectTitleValue() {
-  //   this.projectTitleValueSubscription = this.ngComponentsNdikuService.inputValueChanged$.subscribe(
-  //     (value) => {
-  //       console.log(value); // to be deleteed
-  //       this.scorecardCreateService.enteredProjectTitle$.next(value);
-  //     }
-  //   );
-  //   this.componentValidSub = this.ngComponentsNdikuService.isComponentValid$.subscribe((status) => {
-  //     if (status === "VALID") {
-  //       this.enableNextButton = !this.enableNextButton;
-  //     } else {
-  //       this.enableNextButton = !this.enableNextButton;
-  //     }
-  //   });
-  // }
 
 }

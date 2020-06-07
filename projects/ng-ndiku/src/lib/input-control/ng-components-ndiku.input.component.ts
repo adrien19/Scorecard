@@ -142,10 +142,8 @@ export class NgComponentsNdikuComponent implements OnInit, OnDestroy {
   }
 
   @Output() onInputValueChanged = new EventEmitter<string>();
-  @Output() isComponentValid = new EventEmitter<string>();
 
   inputSub: Subscription;
-  isComponentValidSub: Subscription;
 
   componentFormGroup: FormGroup;
 
@@ -173,18 +171,12 @@ export class NgComponentsNdikuComponent implements OnInit, OnDestroy {
         this.onInputValueChanged.emit(value);
       }
     );
-    this.isComponentValidSub = this.componentFormGroup.controls.input.statusChanges.subscribe((status) => {
-      this.isComponentValid.emit(status);
-    });
     this.onComponentReady.emit(this.componentFormGroup);
   }
 
   ngOnDestroy(): void {
     if (this.inputSub) {
       this.inputSub.unsubscribe();
-    }
-    if (this.isComponentValidSub) {
-      this.isComponentValidSub.unsubscribe();
     }
   }
 }
