@@ -1,14 +1,11 @@
-import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Scorecard, CardRating, ProjectStatus, IUserHolder } from 'projects/scorecard/src/app/shared/models/scorecard-item';
-import { User } from 'projects/scorecard/src/app/shared/models/user.model';
 import { SCORECARDS } from 'projects/scorecard/src/app/shared/fake-data.ts/scorecard.data';
 import { Router, ActivatedRoute } from '@angular/router';
 import { scorecardCreateService } from '../scorecard-create.service';
-import { PrimeRole } from 'projects/scorecard/src/app/shared/models/role.model';
-import { USERS } from 'projects/scorecard/src/app/shared/fake-data.ts/users.data';
-import { Role } from '../../../../auth/auth-models/role';
+import { AuthenticationService } from '../../../../auth/auth-services/authentication.service';
 
 @Component({
   selector: 'app-create-step-final',
@@ -29,10 +26,16 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
   primeUsers: IUserHolder[];
   primeUsersSub: Subscription;
 
+  otherPrimeUsers: IUserHolder[];
+  otherPrimeUsersSub: Subscription;
+
+  ownerUsers: IUserHolder[];
+  ownerUsersSub: Subscription;
+
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private scorecardCreateService: scorecardCreateService,
+    private authenticationService: AuthenticationService,
     ) { }
 
   ngOnDestroy(): void {
@@ -45,6 +48,12 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
     if (this.primeUsersSub) {
       this.primeUsersSub.unsubscribe();
     }
+    if (this.ownerUsersSub) {
+      this.ownerUsersSub.unsubscribe();
+    }
+    if (this.otherPrimeUsersSub) {
+      this.otherPrimeUsersSub.unsubscribe();
+    }
   }
 
   ngOnInit(): void {
@@ -52,18 +61,27 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
       this.scorecardTitle = title;
     });
 
-    this.projectGoalSub = this.scorecardCreateService.enteredTeamDetails$.subscribe((goal) => {
+    this.projectGoalSub = this.scorecardCreateService.enteredPrjectGoal$.subscribe((goal) => {
       this.projectGoal = goal;
+    });
+
+    this.ownerUsersSub = this.scorecardCreateService.selectedOwnersUsers$.subscribe((ownerUsers) => {
+      this.ownerUsers = ownerUsers;
     });
 
     this.primeUsersSub = this.scorecardCreateService.selectedPrimeUsers$.subscribe((primeUsers) => {
       this.primeUsers = primeUsers;
     });
 
+    this.otherPrimeUsersSub = this.scorecardCreateService.selectedOtherPrimeUsers$.subscribe((otherPrimeUsers) => {
+      this.otherPrimeUsers = otherPrimeUsers;
+    });
+
+
+
   }
 
   createScorecard(){
-    console.log(this.createNewScorecardForm.controls);
 
     const cardRating: CardRating = {
       overall: "G",
@@ -71,35 +89,21 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
       time: "G",
       cost: "G",
     };
-    const projectStatus: ProjectStatus = ProjectStatus.IN_PLANNING;
-    const ownerUser = new User (
-      'jashlasjhsd',
-      'Mike.D',
-      'user123',
-      Role.User,
-      'user2@test.com',
-      'Mike',
-      'D.',
-      'Mike D.'
-    );
 
-    const primeUser = new User(
-      'jsudasflsd',
-      'Tylor.P',
-      'user123',
-      Role.User,
-      'user8@test.com',
-      'Tylor',
-      'P.',
-      'Tylor P.'
-    );
+    const projectStatus: ProjectStatus = ProjectStatus.IN_PLANNING;
+    const currentUser = this.authenticationService.userValue;
+    const createdBy: IUserHolder = {
+      userId: currentUser.userId,
+      userEmail: currentUser.userEmail,
+      userfullName: currentUser.userfullName
+    }
 
     let newCreatedScorecard = new Scorecard(this.scorecardTitle, cardRating, projectStatus);
     newCreatedScorecard.goal = this.projectGoal;
-    newCreatedScorecard.owner = ownerUser;
-    newCreatedScorecard.lastUpdatedBy = ownerUser;
+    newCreatedScorecard.owner = this.ownerUsers[0];
+    newCreatedScorecard.lastUpdatedBy = createdBy;
     newCreatedScorecard.primes.principal = this.primeUsers;
-    // newCreatedScorecard.primes.secondary = [otherPrimeUser];
+    newCreatedScorecard.primes.secondary = this.otherPrimeUsers;
 
     SCORECARDS.push(newCreatedScorecard);
     this.navigateToHomePage();

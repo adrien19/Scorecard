@@ -23,20 +23,18 @@ export class UserSearchBarComponent implements OnInit {
   filteredUserOptions: Observable<string[]>;
   allUsers: User[];
   autoCompleteUserList: any[]
-  searchUserOption: any[];
+  searchUserOption: any[] = [];
 
   @ViewChild('autocompleteUserInput') autocompleteUserInput: ElementRef;
-  @Output() onSelectedUserOption = new EventEmitter();
+  @Output() onSelectedUserOption: EventEmitter<any> = new EventEmitter();
 
-  constructor(private userSearchBarService: UserSearchBarService) { }
+  constructor(
+    private userSearchBarService: UserSearchBarService,
+    ) { }
 
 
   ngOnInit(): void {
-    this.userSearchBarService.matchipSelectedUserOption$.pipe(
-      takeUntil(this.userSearchBarService.unSubscribeToAllUserSearchEvent$)
-    ).subscribe((option) => {
-      this.removeOption(option);
-    });
+
   }
 
   searchUsers(username: string) {
@@ -51,16 +49,16 @@ export class UserSearchBarComponent implements OnInit {
   filterUsersList(event: any) {
     var selectedUser = event.source.value;
     if(!selectedUser) {
-      this.userSearchBarService.searchUserOption=[]
+      this.searchUserOption=[];
     }
     else {
       console.log("not")
-      const userAlreadySelected = this.userSearchBarService.searchUserOption.find((user) => {
+      const userAlreadySelected = this.searchUserOption.find((user) => {
         return user.userId.toLowerCase() === selectedUser.userId.toLowerCase();
       });
       if (!userAlreadySelected) {
-        this.userSearchBarService.searchUserOption.push(selectedUser);
-        this.onSelectedUserOption.emit(this.userSearchBarService.searchUserOption)
+        this.searchUserOption.push(selectedUser);
+        this.onSelectedUserOption.emit(this.searchUserOption)
       }else{
         console.log(`USER ${ selectedUser } HAS ALREADY BEEN SELECTED`);
       }
@@ -72,13 +70,13 @@ export class UserSearchBarComponent implements OnInit {
 
   removeOption(option: any) {
 
-    let index = this.userSearchBarService.searchUserOption.indexOf(option);
+    let index = this.searchUserOption.indexOf(option);
     if (index >= 0){
-      this.userSearchBarService.searchUserOption.splice(index, 1);
-      if (this.userSearchBarService.searchUserOption.length === 0) {
+      this.searchUserOption.splice(index, 1);
+      if (this.searchUserOption.length === 0) {
         this.focusOnPlaceInput();
       }
-      this.onSelectedUserOption.emit(this.userSearchBarService.searchUserOption);
+      this.onSelectedUserOption.emit(this.searchUserOption);
     }
   }
 
@@ -86,4 +84,5 @@ export class UserSearchBarComponent implements OnInit {
     this.autocompleteUserInput.nativeElement.focus();
     this.autocompleteUserInput.nativeElement.value = '';
   }
+
 }

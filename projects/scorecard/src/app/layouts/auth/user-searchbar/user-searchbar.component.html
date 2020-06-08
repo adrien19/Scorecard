@@ -13,7 +13,7 @@
         (input)="searchUsers($event.target.value)"
       />
       <span>
-        <app-usersearch-selected></app-usersearch-selected>
+        <app-usersearch-selected  [setSelectedOptions]="onSelectedUserOption" (removeSelectedOption$)="removeOption($event)"></app-usersearch-selected>
       </span>
 
 

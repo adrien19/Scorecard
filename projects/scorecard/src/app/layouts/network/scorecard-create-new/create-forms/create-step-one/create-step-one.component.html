@@ -19,18 +19,30 @@
       <mat-label>Project's Goal:</mat-label>
       <mat-form-field class="w-100">
         <textarea
-        matInput
-        placeholder="Enter project's goal description"
-        class="border">
-      </textarea>
+          matInput
+          placeholder="Enter project's goal description"
+          formControlName="projectGoal"
+          class="border">
+        </textarea>
       </mat-form-field>
 
+      <mat-label>Project's owner*:</mat-label>
+      <app-user-search (onSelectedUserOption)="addOwnerUsers($event)"></app-user-search>
 
-      <mat-label>Primes*:</mat-label>
-      <app-user-search></app-user-search>
-      <div class="mb-3">
-        <small class="form-text text-muted w-100">* Please identify primes for this project.</small>
+      <mat-label>Primes**:</mat-label>
+      <app-user-search (onSelectedUserOption)="addPrimeUsers($event)"></app-user-search>
+
+      <mat-label>Other Primes:</mat-label>
+      <app-user-search (onSelectedUserOption)="addOtherPrimeUsers($event)"></app-user-search>
+
+      <div>
+        <small class="form-text text-muted w-100">* Please identify a signle owner for this project.</small>
       </div>
+      <div class="mb-3">
+        <small class="form-text text-muted w-100">** This should be the primary prime(s) for this project.</small>
+      </div>
+
+
 
 
       <button
@@ -38,7 +50,6 @@
         mat-flat-button
         matStepperNext
         color="accent"
-        (click)="addPrimeUsers()"
         [disabled]="createNewScorecardForm.invalid">
         Next
       </button>

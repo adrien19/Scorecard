@@ -1,6 +1,7 @@
-import { Component, OnInit } from "@angular/core";
-import { UserSearchBarService } from '../user-searchbar.service';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from "@angular/core";
 import { User } from 'projects/scorecard/src/app/shared/models/user.model';
+import { Subscription } from 'rxjs';
+import { IUserHolder } from 'projects/scorecard/src/app/shared/models/scorecard-item';
 
 @Component({
   selector: "app-usersearch-selected",
@@ -20,21 +21,32 @@ import { User } from 'projects/scorecard/src/app/shared/models/user.model';
   styles: []
 })
 
-export class SearchBarSelectedUserComponent implements OnInit {
+export class SearchBarSelectedUserComponent implements OnInit, OnDestroy {
 
-  searchOption: User[]
+  searchOption: IUserHolder[];
+  @Input() setSelectedOptions: EventEmitter<any>;
+  @Output() removeSelectedOption$ = new EventEmitter<any>();
+  setSelectedOptionsSub: Subscription;
 
   constructor(
-    private userSearchBarService: UserSearchBarService
   ){}
 
+  ngOnDestroy(): void {
+    if (this.setSelectedOptionsSub) {
+      this.setSelectedOptionsSub.unsubscribe();
+    }
+  }
+
   ngOnInit(): void {
-    this.searchOption = this.userSearchBarService.searchUserOption;
+    this.setSelectedOptionsSub = this.setSelectedOptions.subscribe((options) => {
+      this.searchOption = options;
+    })
   }
 
 
   removeOption(option: any) {
-    this.userSearchBarService.matchipSelectedUserOption$.next(option);
+    this.removeSelectedOption$.emit(option);
   }
+
 
 }

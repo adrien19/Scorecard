@@ -37,5 +37,6 @@ import { SearchBarSelectedUserComponent } from '../../layouts/auth/user-searchba
     // NgComponentsNdikuSelectModule,
     TableLayoutModule,
   ]
+
 })
 export class SharedModule { }

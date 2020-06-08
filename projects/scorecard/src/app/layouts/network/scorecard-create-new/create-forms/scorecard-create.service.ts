@@ -7,8 +7,11 @@ import { IUserHolder } from 'projects/scorecard/src/app/shared/models/scorecard-
 export class scorecardCreateService {
 
   enteredProjectTitle$ = new Subject<string>();
+  enteredPrjectGoal$ = new Subject<string>();
   enteredTeamDetails$ = new Subject<string>();
+  selectedOwnersUsers$ = new Subject<IUserHolder[]>();
   selectedPrimeUsers$ = new Subject<IUserHolder[]>();
+  selectedOtherPrimeUsers$ = new Subject<IUserHolder[]>();
 
   constructor(){}
 

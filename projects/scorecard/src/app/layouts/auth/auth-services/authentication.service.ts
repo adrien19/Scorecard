@@ -4,7 +4,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '../../../../environments/environment';
-import { User } from '../auth-models/user';
+import { User } from '../../../shared/models/user.model';
+// import { User } from '../auth-models/user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {

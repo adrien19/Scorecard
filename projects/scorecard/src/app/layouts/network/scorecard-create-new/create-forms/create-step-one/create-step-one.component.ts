@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, AfterViewInit, Output, OnChanges } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Subscription, Subject } from 'rxjs';
 import { scorecardCreateService } from '../scorecard-create.service';
 import { UserSearchBarService } from '../../../../auth/user-searchbar/user-searchbar.service';
@@ -28,6 +28,7 @@ export class CreateStepOneComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.createNewScorecardForm.addControl('projectGoal',  new FormControl(null, [Validators.required]));
   }
 
   get formControls (){
@@ -43,15 +44,42 @@ export class CreateStepOneComponent implements OnInit, OnDestroy {
     this.scorecardCreateService.enteredProjectTitle$.next(value);
   }
 
-  addPrimeUsers(){
-    const selectedPrimeUsers = this.userSearchBarService.searchUserOption.map((user) => {
+  addOwnerUsers(owners: any[]){
+    const selectedOwnersUsers = owners.map((user) => {
       return {
         userId: user.userId,
         userfullName: user.userfullName,
         userEmail: user.userEmail
       }
     });
+    this.scorecardCreateService.selectedOwnersUsers$.next(selectedOwnersUsers);
+  }
+
+  addPrimeUsers(primes: any[]){
+    const selectedPrimeUsers = primes.map((user) => {
+      return {
+        userId: user.userId,
+        userfullName: user.userfullName,
+        userEmail: user.userEmail
+      }
+    });
+    const projectGoal = this.createNewScorecardForm.controls.projectGoal.value;
+    this.scorecardCreateService.enteredPrjectGoal$.next(projectGoal);
+
     this.scorecardCreateService.selectedPrimeUsers$.next(selectedPrimeUsers);
+  }
+
+
+
+  addOtherPrimeUsers(otherPrimes: any[]){
+    const selectedOtherPrimeUsers = otherPrimes.map((user) => {
+      return {
+        userId: user.userId,
+        userfullName: user.userfullName,
+        userEmail: user.userEmail
+      }
+    });
+    this.scorecardCreateService.selectedOtherPrimeUsers$.next(selectedOtherPrimeUsers);
   }
 
 }

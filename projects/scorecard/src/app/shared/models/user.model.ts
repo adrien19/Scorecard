@@ -11,7 +11,7 @@ export class User {
   private _USER_FIRST_NAME? = '';
   private _USER_LAST_NAME? = '';
   private _USER_FULL_NAME? = '';
-  // token?: string;
+  token?: string;
   // canEditCard?: Scorecard[];
   // canViewCard?: Scorecard[];
 
