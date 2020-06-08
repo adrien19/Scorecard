@@ -1,36 +1,65 @@
 
+<div class="row">
+  <div class="col-12 col-sm-6">
+    <div class="row">
+      <div class="col-12 align-right">
+        <button class="mt-3"
+          type="button"
+          mat-flat-button
+          matStepperPrevious
+          color="accent"
+          (click)="openDialog()"
+        >
+          Add Role
+        </button>
+      </div>
+    </div>
 
-<form [formGroup]="createNewScorecardForm" id="projectTeamForm">
+    <div class="row">
+      <div class="col-12">
+        <mat-label>Roles in this project:</mat-label>
+        <!-- <form [formGroup]="createNewScorecardForm" id="projectTeamForm"> -->
 
-  <h2>Project Team Details</h2>
-  <ndiku-ng-input
-    required
-    notEmpty
-    parentForm="createNewScorecardForm"
-    type="text"
-    id="projectTeam"
-    label="Team"
-    placeholder=""
-    (onComponentReady)="addChild('projectTeamGroup', $event)"
-    (onInputValueChanged)="getInputValue($event)"
-  ></ndiku-ng-input>
+          <!-- <h2>Project Team Details</h2>
+          <ndiku-ng-input
+            required
+            notEmpty
+            parentForm="createNewScorecardForm"
+            type="text"
+            id="projectTeam"
+            label="Team"
+            placeholder=""
+            (onComponentReady)="addChild('projectTeamGroup', $event)"
+            (onInputValueChanged)="getInputValue($event)"
+          ></ndiku-ng-input> -->
 
+        <!-- </form> -->
 
-  <button
-    type="button"
-    mat-flat-button
-    matStepperPrevious
-    color="accent"
-  >
-    Back
-  </button>
-  &nbsp;
-  <button
-    type="button"
-    mat-flat-button
-    matStepperNext
-    color="accent"
-    [disabled]="createNewScorecardForm.invalid">
-    Next
-  </button>
-</form>
+        <div class="mt-3">
+          <template #createRoleItemContainer ></template>
+        </div>
+
+        <div class="mt-3">
+          <button
+            type="button"
+            mat-flat-button
+            matStepperPrevious
+            color="accent"
+          >
+            Back
+          </button>
+          &nbsp;
+          <button
+            type="button"
+            mat-flat-button
+            matStepperNext
+            color="accent"
+            [disabled]="createNewScorecardForm.invalid">
+            Next
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

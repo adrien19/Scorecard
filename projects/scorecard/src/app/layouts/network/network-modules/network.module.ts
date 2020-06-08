@@ -11,6 +11,8 @@ import { ScorecardCreateNewComponent } from '../scorecard-create-new/scorecard-c
 import { CreateStepOneComponent } from '../scorecard-create-new/create-forms/create-step-one/create-step-one.component';
 import { CreateStepTwoComponent } from '../scorecard-create-new/create-forms/create-step-two/create-step-two.component';
 import { CreateStepFinalComponent } from '../scorecard-create-new/create-forms/create-step-final/create-step-final.component';
+import { CreateRoleItemComponent } from '../scorecard-create-new/create-forms/create-step-two/create-role-item/create-role-item.component';
+import { CreateRoleDialogComponent } from '../scorecard-create-new/create-forms/create-step-two/create-role-item/create-role-dialog.component';
 
 
 
@@ -26,6 +28,9 @@ import { CreateStepFinalComponent } from '../scorecard-create-new/create-forms/c
     CreateStepOneComponent,
     CreateStepTwoComponent,
     CreateStepFinalComponent,
+    CreateRoleItemComponent, // MAYBE DELETED IF IT DOESN'T PASS TEST!!
+    CreateRoleDialogComponent
+
   ],
 
   imports: [
@@ -44,6 +49,10 @@ import { CreateStepFinalComponent } from '../scorecard-create-new/create-forms/c
     CreateStepOneComponent,
     CreateStepTwoComponent,
     CreateStepFinalComponent,
-  ]
+    // CreateRoleItemComponent, // MAYBE DELETED IF IT DOESN'T PASS TEST!!
+    // CreateRoleDialogComponent
+  ],
+
+  entryComponents: [CreateRoleItemComponent]
 })
 export class NetworkModule { }

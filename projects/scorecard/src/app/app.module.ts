@@ -31,6 +31,7 @@ import { fakeBackendProvider } from './layouts/auth/auth-helpers/fake-backend';
     // provider used to create fake backend
     fakeBackendProvider
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
