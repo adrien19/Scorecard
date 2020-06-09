@@ -23,6 +23,15 @@ export let SCORECARDS: Scorecard[] = [
       }
       }
     }),
+    createdBy: USERS.find( user => {
+      if (user.userId === 'jaisdasruo') {
+      return {
+        userId: user.userId,
+        userfullName: user.userfullName,
+        userEmail: user.userEmail
+      }
+      }
+    }),
 
     primes: {
       principal: [
@@ -114,6 +123,15 @@ export let SCORECARDS: Scorecard[] = [
       cost: "G",
     },
     owner: USERS.find( user => {
+      if (user.userId === 'hyusnelfas') {
+      return {
+        userId: user.userId,
+        userfullName: user.userfullName,
+        userEmail: user.userEmail
+      }
+      }
+    }),
+    createdBy: USERS.find( user => {
       if (user.userId === 'hyusnelfas') {
       return {
         userId: user.userId,

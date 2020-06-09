@@ -29,6 +29,7 @@ export interface IScorecardItem {
   id: string;
   title: string;
   owner: IUserHolder;
+  createdBy: IUserHolder;
   team: ProjectRole[];
   goal: string;
   projectStatus: ProjectStatus;
@@ -51,6 +52,7 @@ export class Scorecard implements IScorecardItem {
     title: string;
     status: CardRating;
     owner: IUserHolder;
+    createdBy: IUserHolder;
     team: ProjectRole[];
     goal: string;
     projectStatus: ProjectStatus;
@@ -66,11 +68,11 @@ export class Scorecard implements IScorecardItem {
     private _TIME_OF_LAST_UPDATED?: Date;
     private _LAST_UPDATED_BY?: IUserHolder;
 
-
-    constructor(title: string , cardStatus: CardRating, projectStatus: ProjectStatus ){
+    constructor(title: string , cardStatus: CardRating, projectStatus: ProjectStatus, createdBy: IUserHolder ){
       this.title = title;
       this.status = cardStatus;
       this.projectStatus = projectStatus;
+      this.createdBy = createdBy;
     }
 
 

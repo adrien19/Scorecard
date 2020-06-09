@@ -108,7 +108,7 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
       userfullName: currentUser.userfullName
     }
 
-    let newCreatedScorecard = new Scorecard(this.scorecardTitle, cardRating, projectStatus);
+    let newCreatedScorecard = new Scorecard(this.scorecardTitle, cardRating, projectStatus, createdBy);
     newCreatedScorecard.goal = this.projectGoal;
     newCreatedScorecard.owner = this.ownerUsers[0];
     newCreatedScorecard.lastUpdatedBy = createdBy;

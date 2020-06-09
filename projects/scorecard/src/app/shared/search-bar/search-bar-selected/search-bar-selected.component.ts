@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { DataService } from '../data.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { DataService } from '../data.service';
   <mat-chip-list #chipList>
       <mat-chip
         style="margin-top: 0.4em;"
-        *ngFor="let option of searchOption"
+        *ngFor="let option of searchOptions"
         (removed)="removeOption(option)"
       >
         <span>{{ option.title }}</span>
@@ -21,19 +21,20 @@ import { DataService } from '../data.service';
 
 export class SearchBarSelectedComponent implements OnInit {
 
-  searchOption: any[]
+  @Input() searchOptions: any[];
+  @Output() matchipRemovedOption = new EventEmitter<any>();
 
   constructor(
     private dataService: DataService
   ){}
 
   ngOnInit(): void {
-    this.searchOption = this.dataService.searchOption;
+    // this.searchOption = this.dataService.searchOption;
   }
 
 
   removeOption(option: any) {
-    this.dataService.matchipSelectedOption$.next(option);
+    this.matchipRemovedOption.emit(option);
   }
 
 }

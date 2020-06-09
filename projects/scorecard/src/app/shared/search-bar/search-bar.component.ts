@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, OnDestroy, AfterViewInit, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { DataService } from './data.service';
@@ -15,16 +15,15 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
-  allScoreCards: IScorecardItem[];
+  @Input() allScoreCards: IScorecardItem[];
   autoCompleteList: any[]
-  searchOption: any[];
+  searchOption: any[] = [];
 
   @ViewChild('autocompleteInput') autocompleteInput: ElementRef;
   @Output() onSelectedOption = new EventEmitter();
 
   inputChangedSub: Subscription;
-  chipSelectedOptionSub: Subscription;
-  getScorecardsSub: Subscription;
+
 
   constructor(
     private dataService: DataService,
@@ -34,36 +33,14 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     if (this.inputChangedSub) {
       this.inputChangedSub.unsubscribe();
     }
-    if (this.chipSelectedOptionSub) {
-      this.chipSelectedOptionSub.unsubscribe();
-    }
-    if (this.getScorecardsSub) {
-      this.getScorecardsSub.unsubscribe();
-    }
   }
 
   ngOnInit() {
-
-    this.dataService.getScorecards().pipe(
-      takeUntil(this.dataService.unSubscribeToAllSearchEvent$)
-    ).subscribe(scorecards => {
-      this.searchOption = this.dataService.searchOption;
-      this.allScoreCards = scorecards;
-    });
-
-    this.myControl.valueChanges.pipe(
-      takeUntil(this.dataService.unSubscribeToAllSearchEvent$)
-    ).subscribe(userInput => {
+    this.inputChangedSub = this.myControl.valueChanges.subscribe(userInput => {
       if (userInput) {
         this.autoCompleteExpenseList(userInput);
       }
     })
-
-    this.dataService.matchipSelectedOption$.pipe(
-      takeUntil(this.dataService.unSubscribeToAllSearchEvent$)
-    ).subscribe((option) => {
-      this.removeOption(option);
-    });
   }
 
   private autoCompleteExpenseList(input: any) {
@@ -88,15 +65,21 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   }
 
   filterScorecardsList(event: any) {
-    var scorecards= event.source.value;
-        if(!scorecards) {
-          this.dataService.searchOption=[]
+    var selectedScorecard = event.source.value;
+        if(!selectedScorecard) {
+          this.searchOption = [];
         }
         else {
           console.log("not")
-
-            this.dataService.searchOption.push(scorecards);
-            this.onSelectedOption.emit(this.dataService.searchOption)
+          const cardAlreadySelected = this.searchOption.find((scorecard) => {
+            return scorecard.id.toLowerCase() === selectedScorecard.id.toLowerCase();
+          });
+          if (!cardAlreadySelected) {
+            this.searchOption.push(selectedScorecard);
+            this.onSelectedOption.emit(this.searchOption);
+          }else{
+            console.log("Scorecard was already selected: ", selectedScorecard);
+          }
         }
 
         this.focusOnPlaceInput();
@@ -105,13 +88,13 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
   removeOption(option: any) {
 
-    let index = this.dataService.searchOption.indexOf(option);
+    let index = this.searchOption.indexOf(option);
     if (index >= 0){
-      this.dataService.searchOption.splice(index, 1);
-      if (this.dataService.searchOption.length === 0) {
+      this.searchOption.splice(index, 1);
+      if (this.searchOption.length === 0) {
         this.focusOnPlaceInput();
       }
-      this.onSelectedOption.emit(this.dataService.searchOption);
+      this.onSelectedOption.emit(this.searchOption);
     }
   }
 

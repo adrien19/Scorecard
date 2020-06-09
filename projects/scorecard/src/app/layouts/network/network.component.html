@@ -10,15 +10,21 @@
                 Create Scorecard
             </button>
             <app-search-bar
-                class="float-right"
-                (onSelectedOption)="onSelectedOption($event)">
+              class="float-right"
+              [allScoreCards]="unFilteredscorecardsData"
+              (onSelectedOption)="onSelectedOption($event)"
+              >
             </app-search-bar>
         </div>
     </div>
     <div class="row search-chip-row">
         <div class="col-12 pb-3" >
             <!-- <router-outlet></router-outlet> -->
-            <app-search-selected></app-search-selected>
+            <app-search-selected
+              [searchOptions]="searchOptions"
+              (matchipRemovedOption)="removeDeletedSearchOption($event)"
+              >
+            </app-search-selected>
         </div>
     </div>
     <app-scorecard-list [scorecards]="scorecards"></app-scorecard-list>
