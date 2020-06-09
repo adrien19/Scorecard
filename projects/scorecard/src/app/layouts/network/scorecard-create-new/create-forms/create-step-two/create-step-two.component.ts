@@ -12,18 +12,18 @@ import { ProjectRole } from 'projects/scorecard/src/app/shared/models/role.model
   templateUrl: './create-step-two.component.html',
   styleUrls: ['./create-step-two.component.scss']
 })
-export class CreateStepTwoComponent implements OnInit, OnDestroy, OnChanges {
+export class CreateStepTwoComponent implements OnDestroy {
 
   @ViewChild("createRoleItemContainer", { read: ViewContainerRef }) container: ViewContainerRef;
   componentRef: ComponentRef<any>;
 
   @Input() createNewScorecardForm: FormGroup;
   projectTeamValueSubscription: Subscription;
-  enteredProjectTeam: string;
 
   projectRoles: string[];
   projectRoleName: string;
   projectTeam: ProjectRole[] = [];
+  showRemoveRoleButton = false;
 
   componentValidSub: Subscription;
 
@@ -32,12 +32,6 @@ export class CreateStepTwoComponent implements OnInit, OnDestroy, OnChanges {
     private componentResolver: ComponentFactoryResolver,
     public dialog: MatDialog
   ) {}
-
-  ngOnChanges(changes: import("@angular/core").SimpleChanges): void {
-    if (changes.projectTeam) {
-      console.log(this.projectTeam);
-    }
-  }
 
   ngOnDestroy(): void {
     if (this.projectTeamValueSubscription) {
@@ -48,28 +42,22 @@ export class CreateStepTwoComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  ngOnInit(): void {
-  }
-
-  get formControls (){
-    return this.createNewScorecardForm.controls;
-  }
-
-  addChild(childName: string, childGroup: FormGroup) {
-    this.createNewScorecardForm.addControl(childName, childGroup);
-  }
-
-  getInputValue(value: any){
-    this.scorecardCreateService.enteredTeamDetails$.next(value);
-  }
-
   createProjectRoleComponent(roleData: any){
     // this.container.clear();
     const factory: ComponentFactory<any> = this.componentResolver.resolveComponentFactory(CreateRoleItemComponent);
     this.componentRef = this.container.createComponent(factory);
     this.componentRef.instance.roleName = roleData;
-    this.componentRef.instance.addSelectedUsers.subscribe((event) => {
+    this.projectTeamValueSubscription = this.componentRef.instance.addSelectedUsers.subscribe((event) => {
       this.addSelectedRoleUsers(event);
+    });
+    this.componentRef.instance.deleteProjectRole.subscribe((event) => {
+      console.log(event);
+      if (this.projectTeam.length !== 0) {
+        this.projectTeam = this.projectTeam.filter(role => role.title !== event);
+      }
+      this.componentRef.destroy();
+      console.log(this.projectTeam);
+
     });
 
   }
@@ -77,12 +65,16 @@ export class CreateStepTwoComponent implements OnInit, OnDestroy, OnChanges {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(CreateRoleDialogComponent, {
-      width: '250px',
+      width: '350px',
       data: {name: this.projectRoleName}
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
       this.createProjectRoleComponent(result);
+
     });
   }
 
@@ -99,7 +91,7 @@ export class CreateStepTwoComponent implements OnInit, OnDestroy, OnChanges {
       this.projectTeam.push(createdRole);
     }
     console.log(this.projectTeam);
-
+    this.scorecardCreateService.enteredTeamDetails$.next(this.projectTeam);
   }
 
   roleAlreadyExists(title: string){
@@ -111,6 +103,5 @@ export class CreateStepTwoComponent implements OnInit, OnDestroy, OnChanges {
     });
     return roleIndex;
   }
-
 
 }

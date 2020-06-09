@@ -2,12 +2,11 @@
 <div class="row">
   <div class="col-12 col-sm-6">
     <div class="row">
-      <div class="col-12 align-right">
+      <div class="col-12">
         <button class="mt-3"
           type="button"
           mat-flat-button
-          matStepperPrevious
-          color="accent"
+          color="primary"
           (click)="openDialog()"
         >
           Add Role
@@ -16,25 +15,11 @@
     </div>
 
     <div class="row">
-      <div class="col-12">
-        <mat-label>Roles in this project:</mat-label>
-        <!-- <form [formGroup]="createNewScorecardForm" id="projectTeamForm"> -->
-
-          <!-- <h2>Project Team Details</h2>
-          <ndiku-ng-input
-            required
-            notEmpty
-            parentForm="createNewScorecardForm"
-            type="text"
-            id="projectTeam"
-            label="Team"
-            placeholder=""
-            (onComponentReady)="addChild('projectTeamGroup', $event)"
-            (onInputValueChanged)="getInputValue($event)"
-          ></ndiku-ng-input> -->
-
-        <!-- </form> -->
-
+      <div class="col-12 mt-3">
+        <div *ngIf="!componentRef"  class="text-center w-100 h-100">
+          <h4>Click above to to create team roles to this project</h4>
+        </div>
+        <mat-label *ngIf="componentRef && projectTeam.length === 0" >Please add roles for the project's team:</mat-label>
         <div class="mt-3">
           <template #createRoleItemContainer ></template>
         </div>
@@ -54,7 +39,7 @@
             mat-flat-button
             matStepperNext
             color="accent"
-            [disabled]="createNewScorecardForm.invalid">
+            [disabled]="projectTeam.length === 0">
             Next
           </button>
         </div>

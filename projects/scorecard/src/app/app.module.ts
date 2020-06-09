@@ -10,6 +10,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './layouts/auth/auth-helpers/jwt.interceptor';
 import { ErrorInterceptor } from './layouts/auth/auth-helpers/error.interceptor';
 import { fakeBackendProvider } from './layouts/auth/auth-helpers/fake-backend';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { Appearance } from './shared/tokens/token';
 
 @NgModule({
   declarations: [
@@ -25,11 +27,14 @@ import { fakeBackendProvider } from './layouts/auth/auth-helpers/fake-backend';
     AppRoutingModule
   ],
   providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: Appearance},
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
     // provider used to create fake backend
-    fakeBackendProvider
+    fakeBackendProvider,
+
+
   ],
 
   bootstrap: [AppComponent]

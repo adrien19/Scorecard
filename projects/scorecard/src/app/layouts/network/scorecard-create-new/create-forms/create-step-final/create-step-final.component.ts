@@ -6,6 +6,7 @@ import { SCORECARDS } from 'projects/scorecard/src/app/shared/fake-data.ts/score
 import { Router, ActivatedRoute } from '@angular/router';
 import { scorecardCreateService } from '../scorecard-create.service';
 import { AuthenticationService } from '../../../../auth/auth-services/authentication.service';
+import { ProjectRole } from 'projects/scorecard/src/app/shared/models/role.model';
 
 @Component({
   selector: 'app-create-step-final',
@@ -32,6 +33,9 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
   ownerUsers: IUserHolder[];
   ownerUsersSub: Subscription;
 
+  teamDetails: ProjectRole[];
+  teamDetailsSub: Subscription;
+
   constructor(
     private router: Router,
     private scorecardCreateService: scorecardCreateService,
@@ -53,6 +57,9 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
     }
     if (this.otherPrimeUsersSub) {
       this.otherPrimeUsersSub.unsubscribe();
+    }
+    if(this.teamDetailsSub){
+      this.teamDetailsSub.unsubscribe();
     }
   }
 
@@ -77,6 +84,9 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
       this.otherPrimeUsers = otherPrimeUsers;
     });
 
+    this.teamDetailsSub = this.scorecardCreateService.enteredTeamDetails$.subscribe((teamDetails) => {
+      this.teamDetails = teamDetails;
+    });
 
 
   }
@@ -104,6 +114,7 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
     newCreatedScorecard.lastUpdatedBy = createdBy;
     newCreatedScorecard.primes.principal = this.primeUsers;
     newCreatedScorecard.primes.secondary = this.otherPrimeUsers;
+    newCreatedScorecard.team = this.teamDetails;
 
     SCORECARDS.push(newCreatedScorecard);
     this.navigateToHomePage();
