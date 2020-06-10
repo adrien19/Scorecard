@@ -1,8 +1,10 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { DataService } from '../../shared/search-bar/data.service';
+import { DataService } from './data.service';
 import { IScorecardItem, Scorecard } from '../../shared/models/scorecard-item';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../auth/auth-services/authentication.service';
+import { ScorecardItemService } from '../../shared/components/scorecard-collection/scorecard-list/scorecard-item/scorecard-item.service';
 
 @Component({
   selector: 'app-network',
@@ -13,12 +15,10 @@ export class NetworkComponent implements OnInit, OnDestroy {
 
   scorecards: IScorecardItem[];
   unFilteredscorecardsData: IScorecardItem[];
-  searchOptions: IScorecardItem[] = [];
   dataSub: Subscription;
 
-  @Output() removeSearchOption = new EventEmitter<any[]>();
-
   constructor(
+    private authenticationService: AuthenticationService,
     private dataService: DataService,
     private router: Router,
     private route: ActivatedRoute
@@ -31,7 +31,11 @@ export class NetworkComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.dataSub = this.dataService.getScorecards().subscribe(scorecards => {
+    const currentUserId = this.authenticationService.userValue.userId;
+    console.log(currentUserId);
+
+
+    this.dataSub = this.dataService.getScorecardsCreatedByCurrentUser(currentUserId).subscribe(scorecards => {
       this.scorecards = scorecards;
       this.unFilteredscorecardsData = scorecards;
       if (!scorecards) {
@@ -39,33 +43,6 @@ export class NetworkComponent implements OnInit, OnDestroy {
       }
       console.log("returned In Network scorecards: ");
     });
-  }
-
-  onSelectedOption(event: any) {
-    this.getFilteredScorecardList(event);
-  }
-
-  getFilteredScorecardList(selectedScorecards: Scorecard[]) {
-      this.searchOptions = selectedScorecards;
-      this.scorecards = selectedScorecards;
-  }
-
-  removeDeletedSearchOption(option: any){
-    let index = this.searchOptions.indexOf(option);
-    if (index >= 0){
-      this.searchOptions.splice(index, 1);
-      // if (this.searchOptions.length === 0) {
-      //   this.focusOnPlaceInput();
-      // }
-      if (this.searchOptions.length === 0) {
-        this.scorecards = this.unFilteredscorecardsData;
-
-      }
-    }
-  }
-
-  onCreateNewScorecard(){
-    this.router.navigate(['new'], {relativeTo: this.route});
   }
 
 

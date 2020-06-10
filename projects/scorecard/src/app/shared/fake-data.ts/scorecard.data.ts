@@ -122,6 +122,7 @@ export let SCORECARDS: Scorecard[] = [
       time: "Y",
       cost: "G",
     },
+    published: true,
     owner: USERS.find( user => {
       if (user.userId === 'hyusnelfas') {
       return {

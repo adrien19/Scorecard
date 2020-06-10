@@ -15,7 +15,7 @@ export class UserSearchBarService {
 
   fetchUserByUsername(username: string): Observable<User[]> {
 
-    let params = new HttpParams().set("username", username);
+    const params = new HttpParams().set("username", username);
 
     return this.http.get<User[]>(`${environment.apiUrl}/users/byUsername`, {params: params}).pipe(
       shareReplay(),

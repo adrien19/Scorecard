@@ -21,8 +21,8 @@
                     Archive card
                 </button>
                 <mat-divider class="mt-2 pt-2"></mat-divider>
-                <button mat-menu-item>
-                    Publish card
+                <button mat-menu-item (click)="onPublishSelectedCard()">
+                    {{ scorecard.published? 'UnPublish card' : 'Publish card' }}
                 </button>
                 <button mat-menu-item class="text-danger">
                     Delete card

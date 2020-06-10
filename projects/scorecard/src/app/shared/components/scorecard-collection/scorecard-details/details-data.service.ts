@@ -1,12 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Network } from '../../../shared/models/network.model';
-import { NETWORKS } from '../../../shared/fake-data.ts/network.data';
 import { ColumnSetting } from 'projects/ng-ndiku/src/public_api';
-import { Scorecard } from '../../../shared/models/scorecard-item';
-import { PrimeRole } from '../../../shared/models/role.model';
-import { SCORECARDS } from '../../../shared/fake-data.ts/scorecard.data';
-import { Observable, of } from 'rxjs';
-// import { PRIMES } from '../../../shared/fake-data.ts/role.data';
+import { Scorecard } from '../../../models/scorecard-item';
+import { SCORECARDS } from '../../../fake-data.ts/scorecard.data';
+
 
 @Injectable({ providedIn: 'root' })
 export class TableDataService {

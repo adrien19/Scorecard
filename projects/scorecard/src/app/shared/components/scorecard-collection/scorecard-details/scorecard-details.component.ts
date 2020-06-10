@@ -2,9 +2,9 @@ import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ColumnSetting, TableInlineEditService, TableEntryType } from 'projects/ng-ndiku/src/public_api';
-import { Network } from '../../../shared/models/network.model';
 import { TableDataService, ImanagementTableData } from './details-data.service';
-import { CardRating, Scorecard } from '../../../shared/models/scorecard-item';
+import { CardRating, Scorecard } from '../../../models/scorecard-item';
+import { Network } from '../../../models/network.model';
 
 
 @Component({

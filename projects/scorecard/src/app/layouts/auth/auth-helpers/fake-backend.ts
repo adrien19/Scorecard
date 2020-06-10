@@ -10,7 +10,7 @@ import { USERS } from '../../../shared/fake-data.ts/users.data';
 
 const users: User[] = USERS;
 
-const scorecards: any[] = SCORECARDS //.slice();
+let scorecards: any[] = SCORECARDS //.slice();
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -34,10 +34,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getUserById();
                 case url.match('/users/byUsername') && method === 'GET':
                     return getUserByUsername();
-                case url.endsWith('/published/scorecards') && method === 'GET':
+                case url.endsWith('/scorecards/published') && method === 'GET':
                     return getPublishedScorecards();
                 case url.endsWith('/all/scorecards') && method === 'GET':
                   return getAllScorecards();
+                case url.endsWith('/users/myScorecards') && method === 'GET':
+                  return getScorecardsCreateByUser();
+                case url.endsWith('/scorecards/setPublishState') && method === 'POST':
+                  return setPublishScorecardState();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -48,24 +52,24 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // route functions
 
         function authenticate() {
-            // const { username.input, password.input } = body;
-            const username = body.username.input;
-            const password =body.password.input;
+          // const { username.input, password.input } = body;
+          const username = body.username.input;
+          const password =body.password.input;
 
-            const user = users.find(x => {
-                return x.username === username && x.password === password;
-            });
-            if (!user) return error('Username or password is incorrect');
-            return ok({
-                id: user.userId,
-                username: user.username,
-                firstName: user.userFirstName,
-                lastName: user.userLastName,
-                userEmail: user.userEmail,
-                userfullName: user.userfullName,
-                role: user.role,
-                token: `fake-jwt-token.${user.userId}`
-            });
+          const user = users.find(x => {
+              return x.username === username && x.password === password;
+          });
+          if (!user) return error('Username or password is incorrect');
+          return ok({
+            userId: user.userId,
+            username: user.username,
+            firstName: user.userFirstName,
+            lastName: user.userLastName,
+            userEmail: user.userEmail,
+            userfullName: user.userfullName,
+            role: user.role,
+            token: `fake-jwt-token.${user.userId}`
+          });
         }
 
         function getUsers() {
@@ -143,7 +147,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         // ENDPOINTS FOR SCORECARDS //
         function getPublishedScorecards() {
           if (!isLoggedIn()) return unauthorized();
-          return scorecards.filter(scorecard => scorecard.published && scorecard.published === true);
+
+          const publishedCards = scorecards.filter(scorecard => scorecard.published && scorecard.published === true);
+          return ok(publishedCards);
         }
 
         function getAllScorecards() {
@@ -152,6 +158,44 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           // only admins can access all scorecards records
           if (!isAdmin() && currentUser().userId !== idFromUrl()) return unauthorized();
           return ok(scorecards);
+        }
+
+        function getScorecardsCreateByUser() {
+          if (!isLoggedIn()) return unauthorized();
+
+          const userId = params.get('userId');
+          const scorecardsCreatedByUser = scorecards.filter(x => x.createdBy.userId.toLowerCase() === userId.toLowerCase());
+
+          return ok(scorecardsCreatedByUser);
+        }
+
+        // Publish or revoke publication for a card
+        function setPublishScorecardState() {
+          if (!isLoggedIn()) return unauthorized();
+
+          const scorecardId = body.scorecardId;
+          const publishedState = body.publishState;
+          const newPublishState = publishedState === "publish"? true : false;
+
+          const tempScorecards = [...scorecards];
+          let scorecardFound = false;
+
+          tempScorecards.find((card, index) => {
+            if (card.id === scorecardId) {
+                scorecardFound = true;
+                const newScorecard = {...card, published: newPublishState }
+                return  tempScorecards[index] = newScorecard;
+            }
+          });
+
+          if (!scorecardFound) return error('No such scorecard to publish');
+
+          scorecards = tempScorecards; // return changed scorecards!
+
+          return ok({
+            taskCompleted: true,
+            changedTo: publishedState
+          });
         }
     }
 }

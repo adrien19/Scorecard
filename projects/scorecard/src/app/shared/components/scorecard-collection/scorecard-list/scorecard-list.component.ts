@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IScorecardItem } from '../../../shared/models/scorecard-item';
+import { IScorecardItem } from '../../../models/scorecard-item';
 
 @Component({
   selector: 'app-scorecard-list',

@@ -1,0 +1,31 @@
+
+<div class="container pt-3 pb-5">
+  <div class="row tools_row">
+      <div class="col-12">
+          <button
+          mat-flat-button
+          color="accent"
+          (click)="onCreateNewScorecard()"
+          >
+              Create Scorecard
+          </button>
+          <app-search-bar
+            class="float-right"
+            [allScoreCards]="unFilteredscorecardsData"
+            (onSelectedOption)="onSelectedOption($event)"
+            >
+          </app-search-bar>
+      </div>
+  </div>
+  <div class="row search-chip-row">
+      <div class="col-12 pb-3" >
+          <!-- <router-outlet></router-outlet> -->
+          <app-search-selected
+            [searchOptions]="searchOptions"
+            (matchipRemovedOption)="removeDeletedSearchOption($event)"
+            >
+          </app-search-selected>
+      </div>
+  </div>
+  <app-scorecard-list [scorecards]="scorecards"></app-scorecard-list>
+</div>

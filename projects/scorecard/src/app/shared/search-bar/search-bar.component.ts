@@ -1,9 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, OnDestroy, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
-import { DataService } from './data.service';
 import { IScorecardItem } from '../models/scorecard-item';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-bar',
@@ -25,9 +23,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   inputChangedSub: Subscription;
 
 
-  constructor(
-    private dataService: DataService,
-  ) { }
+  constructor() { }
 
   ngOnDestroy(): void {
     if (this.inputChangedSub) {
@@ -81,22 +77,9 @@ export class SearchBarComponent implements OnInit, OnDestroy {
             console.log("Scorecard was already selected: ", selectedScorecard);
           }
         }
-
         this.focusOnPlaceInput();
   }
 
-
-  removeOption(option: any) {
-
-    let index = this.searchOption.indexOf(option);
-    if (index >= 0){
-      this.searchOption.splice(index, 1);
-      if (this.searchOption.length === 0) {
-        this.focusOnPlaceInput();
-      }
-      this.onSelectedOption.emit(this.searchOption);
-    }
-  }
 
   focusOnPlaceInput() {
     this.autocompleteInput.nativeElement.focus();
