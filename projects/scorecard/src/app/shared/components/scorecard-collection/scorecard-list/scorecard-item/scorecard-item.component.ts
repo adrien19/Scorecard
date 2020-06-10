@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { IScorecardItem, IUserHolder } from 'projects/scorecard/src/app/shared/models/scorecard-item';
 import { ScorecardItemService } from './scorecard-item.service';
 import { Subscription } from 'rxjs';
+import { ConfirmationDialogService } from '../../../confirmation-dialog/confirmation-dialog.service';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class ScorecardItemComponent implements OnInit, OnDestroy ,OnChanges{
 
   constructor(
     private scorecardItemService: ScorecardItemService,
+    private confirmationDialogService: ConfirmationDialogService,
     private router: Router,
     private route: ActivatedRoute,
   ) { }
@@ -48,14 +50,24 @@ export class ScorecardItemComponent implements OnInit, OnDestroy ,OnChanges{
 
   onPublishSelectedCard(){
     if (!this.scorecard.published) {
-      this.setScorecardPublishStateSub = this.scorecardItemService.setScorecardPublishState(this.scorecard.id, "publish").subscribe((returnedData) => {
-        console.log(returnedData);
-        this.showPublishedConfirmation = returnedData;
+      this.confirmationDialogService.openConfirmationDialog("Are you sure you want to publish this Scorecard?").subscribe((result) => {
+        if (result) {
+          this.setScorecardPublishStateSub = this.scorecardItemService.setScorecardPublishState(this.scorecard.id, "publish").subscribe((returnedData) => {
+            console.log(returnedData);
+            // this.showPublishedConfirmation = returnedData;
+            this.confirmationDialogService.endUserConfirmedSub$.next();
+          });
+        }
       });
     } else {
-      this.setScorecardPublishStateSub = this.scorecardItemService.setScorecardPublishState(this.scorecard.id, "revokePublication").subscribe((returnedData) => {
-        console.log(returnedData);
-        this.showPublishedConfirmation = returnedData;
+      this.confirmationDialogService.openConfirmationDialog("This Scorecard will be Unpublished. Still want to go ahead?").subscribe((result) => {
+        if (result) {
+          this.setScorecardPublishStateSub = this.scorecardItemService.setScorecardPublishState(this.scorecard.id, "revokePublication").subscribe((returnedData) => {
+            console.log(returnedData);
+            // this.showPublishedConfirmation = returnedData;
+            this.confirmationDialogService.endUserConfirmedSub$.next();
+          });
+        }
       });
     }
   }

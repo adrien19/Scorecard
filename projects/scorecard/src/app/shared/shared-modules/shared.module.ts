@@ -13,6 +13,7 @@ import { ScorecardCollectionModule } from '../components/scorecard-collection/sc
 import { SearchBarSelectedComponent } from '../search-bar/search-bar-selected/search-bar-selected.component';
 import { UserSearchBarComponent } from '../../layouts/auth/user-searchbar/user-searchbar.component';
 import { SearchBarSelectedUserComponent } from '../../layouts/auth/user-searchbar/search-bar-selected/search-bar-selected.component';
+import { ConfirmationDialogComponent } from '../components/confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SearchBarSelectedUserComponent } from '../../layouts/auth/user-searchba
     SearchBarSelectedComponent,
     UserSearchBarComponent,
     SearchBarSelectedUserComponent,
+    ConfirmationDialogComponent
   ],
 
   imports: [
@@ -40,14 +42,16 @@ import { SearchBarSelectedUserComponent } from '../../layouts/auth/user-searchba
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    ...ScorecardCollectionModule,
     SearchBarComponent,
     SearchBarSelectedComponent,
     UserSearchBarComponent,
     NgComponentsNdikuModule,
     // NgComponentsNdikuSelectModule,
     TableLayoutModule,
-    ...ScorecardCollectionModule
-  ]
+    ConfirmationDialogComponent
+  ],
+  entryComponents: [ConfirmationDialogComponent]
 
 })
 export class SharedModule { }
