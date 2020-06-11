@@ -14,6 +14,7 @@ import { SearchBarSelectedComponent } from '../search-bar/search-bar-selected/se
 import { UserSearchBarComponent } from '../../layouts/auth/user-searchbar/user-searchbar.component';
 import { SearchBarSelectedUserComponent } from '../../layouts/auth/user-searchbar/search-bar-selected/search-bar-selected.component';
 import { ConfirmationDialogComponent } from '../components/confirmation-dialog/confirmation-dialog.component';
+import { SnackbarNotifComponent } from '../components/snackbar-notification/snackbar-notif.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ConfirmationDialogComponent } from '../components/confirmation-dialog/c
     SearchBarSelectedComponent,
     UserSearchBarComponent,
     SearchBarSelectedUserComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    SnackbarNotifComponent
   ],
 
   imports: [
@@ -49,7 +51,8 @@ import { ConfirmationDialogComponent } from '../components/confirmation-dialog/c
     NgComponentsNdikuModule,
     // NgComponentsNdikuSelectModule,
     TableLayoutModule,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    SnackbarNotifComponent
   ],
   entryComponents: [ConfirmationDialogComponent]
 

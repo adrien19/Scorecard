@@ -1,12 +1,12 @@
-<mat-card class="scorecard-item" (mouseenter)="viewCardisDisplay=!viewCardisDisplay" (mouseleave)="viewCardisDisplay=!viewCardisDisplay">
-    <div class="row mx-0">
+<mat-card class="scorecard-item p-0" (mouseenter)="viewCardisDisplay=!viewCardisDisplay" (mouseleave)="viewCardisDisplay=!viewCardisDisplay">
+    <div class="row mx-0 scorecard-row-item" [class]="scorecard.published? 'scorecard-published-title-row' : 'scorecard-unpublished-title-row'">
         <div class="col-9 text-left col-sm-8 col-md-8 ">
-            <h2 class="text-capitalize">
+            <h2 class="mb-0 text-capitalize scorecard-title">
                 {{ scorecard.title }}
             </h2>
         </div>
         <div class="col-3 text-right p-0 col-sm-2 col-md-4">
-            <button mat-flat-button [matMenuTriggerFor]="menu" class="p-0">
+            <button mat-flat-button [matMenuTriggerFor]="menu" class="p-0 scorecard-settings-button">
                 <span class="">Settings</span>
                 <mat-icon>arrow_drop_down</mat-icon>
             </button>
@@ -21,7 +21,7 @@
                     Archive card
                 </button>
                 <mat-divider class="mt-2 pt-2"></mat-divider>
-                <button mat-menu-item (click)="onPublishSelectedCard()">
+                <button mat-menu-item (click)="onChangePublicationState()">
                     {{ scorecard.published? 'UnPublish card' : 'Publish card' }}
                 </button>
                 <button mat-menu-item class="text-danger">
@@ -31,7 +31,7 @@
         </div>
     </div>
     <mat-divider></mat-divider>
-    <div class="row mx-0">
+    <div class="row mx-0 scorecard-row-item">
         <div class="col-12 col-md-8 border-md-right  pt-2">
             <h3 class="mb-0">{{ scorecard.projectStatus }} </h3>
             <mat-list>
@@ -51,8 +51,8 @@
             </mat-list>
         </div>
     </div>
-    <mat-divider *ngIf="!viewCardisDisplay"></mat-divider>
-    <div class="row mx-0">
+    <mat-divider *ngIf="!viewCardisDisplay" class="mt-2"></mat-divider>
+    <div class="row mx-0 mt-2 scorecard-row-item">
         <div class="col-12">
             <button mat-flat-button color="accent" *ngIf="viewCardisDisplay" [routerLink]="[id, 'scorecard-details']" (click)="viewScoreCard()" class="w-100">
                 <mat-icon>remove_red_eye</mat-icon>
@@ -60,7 +60,7 @@
             </button>
         </div>
     </div>
-    <div class="row mx-0">
+    <div class="row mx-0 scorecard-row-item">
         <div class="col-8 text-left mt-3">
             <a href="">Comments(24)</a>
         </div>

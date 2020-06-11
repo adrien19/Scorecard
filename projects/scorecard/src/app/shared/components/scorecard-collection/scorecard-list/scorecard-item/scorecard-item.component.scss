@@ -1,3 +1,32 @@
+
+.scorecard-item .scorecard-row-item {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+.scorecard-item {
+  >:last-child {
+    padding-bottom: 16px;
+  }
+}
+
+.scorecard-item .scorecard-published-title-row {
+  background: #22bb33;
+  align-items: center;
+}
+
+.scorecard-item .scorecard-unpublished-title-row {
+  background: #f0ad4e;
+  align-items: center;
+}
+
+.scorecard-item .scorecard-title {
+  margin: 8px 0 !important;
+}
+.scorecard-item .scorecard-settings-button {
+  background: inherit !important;
+}
+
+
 .scorecard-item .mat-menu-item {
     line-height: 24px;
     height: 24px;
@@ -8,3 +37,4 @@
         padding: 0 !important;
     }
 }
+

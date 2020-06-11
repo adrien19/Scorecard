@@ -4,6 +4,7 @@ import { IScorecardItem, IUserHolder } from 'projects/scorecard/src/app/shared/m
 import { ScorecardItemService } from './scorecard-item.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogService } from '../../../confirmation-dialog/confirmation-dialog.service';
+import { SnackbarNotifService } from '../../../snackbar-notification/snackbar-notif.service';
 
 
 @Component({
@@ -24,6 +25,7 @@ export class ScorecardItemComponent implements OnInit, OnDestroy ,OnChanges{
   constructor(
     private scorecardItemService: ScorecardItemService,
     private confirmationDialogService: ConfirmationDialogService,
+    private snackbarNotifService: SnackbarNotifService,
     private router: Router,
     private route: ActivatedRoute,
   ) { }
@@ -48,28 +50,38 @@ export class ScorecardItemComponent implements OnInit, OnDestroy ,OnChanges{
     this.router.navigate([this.id, 'scorecard-details'], {relativeTo: this.route});
   }
 
-  onPublishSelectedCard(){
+  onChangePublicationState(){
     if (!this.scorecard.published) {
-      this.confirmationDialogService.openConfirmationDialog("Are you sure you want to publish this Scorecard?").subscribe((result) => {
-        if (result) {
-          this.setScorecardPublishStateSub = this.scorecardItemService.setScorecardPublishState(this.scorecard.id, "publish").subscribe((returnedData) => {
-            console.log(returnedData);
-            // this.showPublishedConfirmation = returnedData;
-            this.confirmationDialogService.endUserConfirmedSub$.next();
-          });
-        }
-      });
+      this.publishSelectedScorecard();
     } else {
-      this.confirmationDialogService.openConfirmationDialog("This Scorecard will be Unpublished. Still want to go ahead?").subscribe((result) => {
-        if (result) {
-          this.setScorecardPublishStateSub = this.scorecardItemService.setScorecardPublishState(this.scorecard.id, "revokePublication").subscribe((returnedData) => {
-            console.log(returnedData);
-            // this.showPublishedConfirmation = returnedData;
-            this.confirmationDialogService.endUserConfirmedSub$.next();
-          });
-        }
-      });
+      this.revokePublicationOfSelectedScorecard();
     }
+  }
+
+  publishSelectedScorecard(){
+    this.confirmationDialogService.openConfirmationDialog("Are you sure you want to publish this Scorecard?").subscribe((result) => {
+      if (result) {
+        this.setScorecardPublishStateSub = this.scorecardItemService.setScorecardPublishState(this.scorecard.id, "publish").subscribe((returnedData) => {
+          this.confirmationDialogService.endUserConfirmedSub$.next();
+          if (returnedData.taskCompleted) {
+            this.snackbarNotifService.openSnackBar({message: "Scorecard successfully published.", className: ["bg-success", "text-white"]});
+          }
+        });
+      }
+    });
+  }
+
+  revokePublicationOfSelectedScorecard(){
+    this.confirmationDialogService.openConfirmationDialog("This Scorecard will be Unpublished. Still want to go ahead?").subscribe((result) => {
+      if (result) {
+        this.setScorecardPublishStateSub = this.scorecardItemService.setScorecardPublishState(this.scorecard.id, "revokePublication").subscribe((returnedData) => {
+          this.confirmationDialogService.endUserConfirmedSub$.next();
+          if (returnedData.taskCompleted) {
+            this.snackbarNotifService.openSnackBar({message: "Scorecard successfully unpublished.", className: ["bg-success", "text-white"]});
+          }
+        });
+      }
+    });
   }
 
 }
