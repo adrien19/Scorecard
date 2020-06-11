@@ -51,7 +51,7 @@ export class ScorecardCollectionComponent implements OnInit, OnDestroy {
   }
 
   onCreateNewScorecard(){
-    this.router.navigate(['new'], {relativeTo: this.route});
+    this.router.navigate(['network','new']);
   }
 
 

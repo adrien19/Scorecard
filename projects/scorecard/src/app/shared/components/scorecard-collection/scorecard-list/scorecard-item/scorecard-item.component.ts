@@ -47,7 +47,7 @@ export class ScorecardItemComponent implements OnInit, OnDestroy ,OnChanges{
 
 
   viewScoreCard(){
-    this.router.navigate([this.id, 'scorecard-details'], {relativeTo: this.route});
+    this.router.navigate(['network', this.id, 'scorecard-details']);
   }
 
   onChangePublicationState(){
