@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { IScorecardItem, IUserHolder } from 'projects/scorecard/src/app/shared/models/scorecard-item';
 import { ScorecardItemService } from './scorecard-item.service';
 import { Subscription } from 'rxjs';
@@ -27,7 +27,6 @@ export class ScorecardItemComponent implements OnInit, OnDestroy ,OnChanges{
     private confirmationDialogService: ConfirmationDialogService,
     private snackbarNotifService: SnackbarNotifService,
     private router: Router,
-    private route: ActivatedRoute,
   ) { }
 
   ngOnDestroy(): void {
@@ -47,7 +46,7 @@ export class ScorecardItemComponent implements OnInit, OnDestroy ,OnChanges{
 
 
   viewScoreCard(){
-    this.router.navigate(['network', this.id, 'scorecard-details']);
+    this.router.navigate(['network', this.scorecard.id, 'scorecard-details']);
   }
 
   onChangePublicationState(){

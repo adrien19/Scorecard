@@ -1,14 +1,11 @@
-import { Component, OnInit, OnDestroy, OnChanges, ViewChild, ViewContainerRef, ComponentRef } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentRef, AfterViewInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ColumnSetting, TableInlineEditService, TableEntryType } from 'projects/ng-ndiku/src/public_api';
 import { TableDataService, ImanagementTableData } from './details-data.service';
 import { CardRating, Scorecard } from '../../../models/scorecard-item';
 import { Network } from '../../../models/network.model';
-import { MatDialog } from '@angular/material/dialog';
-import { CreateRoleDialogComponent } from 'projects/scorecard/src/app/layouts/network/scorecard-create-new/create-forms/create-step-two/create-role-item/create-role-dialog.component';
 import { CreateRoleService } from 'projects/scorecard/src/app/layouts/network/scorecard-create-new/create-forms/create-step-two/create-role-item/create-role.service';
-import { take, tap } from 'rxjs/operators';
 import { DataService } from 'projects/scorecard/src/app/layouts/network/data.service';
 
 
@@ -38,8 +35,9 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   networksTableSub: Subscription;
   showMilestoneTable = false;
 
-  id: number;
+  id: string;
   detailedScorecard: Scorecard;
+  dataServiceSubscription: Subscription;
   cardInEditMode = false;
   routeSub: Subscription;
 
@@ -51,10 +49,9 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   editProjectGoalEnabled = false;
 
   constructor(
-    private dialog: MatDialog, // creating new role
+    // private dialog: MatDialog, // creating new role
     private createRoleService: CreateRoleService, // creating new role
     private dataService: DataService, // For sending edited data to backend
-    private router: Router,
     private route: ActivatedRoute,
     private detailsDataService: TableDataService,
     private inlineEditTableService: TableInlineEditService,
@@ -63,6 +60,9 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.routeSub) {
       this.routeSub.unsubscribe();
+    }
+    if (this.dataServiceSubscription) {
+      this.dataServiceSubscription.unsubscribe();
     }
     if (this.networksTableSub) {
       this.networksTableSub.unsubscribe();
@@ -78,24 +78,29 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+
   ngOnInit(): void {
 
     this.routeSub = this.route.params.subscribe( (params: Params) => {
-      this.id = +params['id'];
+      this.id = params['id'];
       console.log(this.id);
-      this.detailedScorecard = this.detailsDataService.getScorecardData(this.id); // to be removed
-      console.log(this.detailedScorecard.primes.principal);
-
     });
-    this.setupOverallStatusTable(this.detailedScorecard);
-    this.setupManagementPrimesTable(this.detailedScorecard);
-    if (this.detailedScorecard.milestones) {
-      this.showMilestoneTable = true;
-    } else {
-      this.showMilestoneTable = false;
-      this.detailedScorecard.milestones = [];
-    }
-    this.setupNetworksTable(this.detailedScorecard);
+
+    this.dataServiceSubscription = this.dataService.getScorecardById(this.id).subscribe(data => {
+      this.detailedScorecard = data;
+      console.log(data);
+
+      this.setupOverallStatusTable(this.detailedScorecard);
+      this.setupManagementPrimesTable(this.detailedScorecard);
+      if (this.detailedScorecard.milestones) {
+        this.showMilestoneTable = true;
+      } else {
+        this.showMilestoneTable = false;
+        this.detailedScorecard.milestones = [];
+      }
+      this.setupNetworksTable(this.detailedScorecard);
+    });
+
   }
 
   setupOverallStatusTable(scorecard: Scorecard) {
@@ -149,26 +154,16 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
     );
   }
 
-  onEditCard(){
+  onDisableEditingScorecard(){
     this.cardInEditMode = !this.cardInEditMode;
     console.log(`this is the value: ${this.cardInEditMode}`);
 
   }
 
-  onSaveCard(){
+  onEnableEditingScorecard(){
     this.cardInEditMode = !this.cardInEditMode;
     console.log(`ON SAVE this is the value: ${this.cardInEditMode}`);
     this.clearEditedTableData();
-    if(this.container){this.container.clear()} // remove the added compenents for editing
-    this.projectTeamUploadSubscription = this.dataService.uploadEditedProjectRoles(this.detailedScorecard.id, this.detailedScorecard.team).subscribe(data => {
-      this.createRoleService.projectTeam = []; // reset to default
-      console.log(data.taskCompletion);
-    }); // Upload edited project roles
-    this.editProjectTeamEnabled = false; // disable project team editing mode
-
-
-    this.dataService.uploadModifiedProjectGoal(this.detailedScorecard.id, this.detailedScorecard.goal); // uploading modified goal
-    this.editProjectGoalEnabled = false; // disable project goal editing mode
   }
 
   clearEditedTableData() {
@@ -179,8 +174,8 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   }
 
 
-
   // BELOW METHODS ARE FOR CREATING/MODIFYING AND DELETING PROJECT ROLES
+
   onDeleteProjectRoleInDetails(roleTitle: string){
     const newTeam = this.detailedScorecard.team.filter(role => { return role.title !== roleTitle});
     this.detailedScorecard.team = newTeam;
@@ -196,9 +191,23 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
     this.createRoleService.createRolesDialog({ componentRef: this.componentRef, container: this.container});
   }
 
+  onSaveProjectRoles(){
+    if(this.container){this.container.clear()} // remove the added compenents for editing
+    this.projectTeamUploadSubscription = this.dataService.uploadEditedProjectRoles(this.detailedScorecard.id, this.detailedScorecard.team).subscribe(data => {
+      this.createRoleService.projectTeam = []; // reset to default
+      console.log(data.taskCompletion);
+    }); // Upload edited project roles
+    this.editProjectTeamEnabled = false; // disable project team editing mode
+  }
+
   // BELOW METHODS ARE FOR EDITING PROJECT GOAL
   onEditProjectGoal(){
     this.editProjectGoalEnabled = true;
+  }
+
+  onSaveEditedProjectGoal(){
+    this.dataService.uploadModifiedProjectGoal(this.detailedScorecard.id, this.detailedScorecard.goal); // uploading modified goal
+    this.editProjectGoalEnabled = false; // disable project goal editing mode
   }
 
 

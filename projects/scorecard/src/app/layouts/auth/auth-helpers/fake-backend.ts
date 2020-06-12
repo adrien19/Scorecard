@@ -21,7 +21,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return of(null)
             .pipe(mergeMap(handleRoute))
             .pipe(materialize()) // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
-            .pipe(delay(200))
+            .pipe(delay(100))
             .pipe(dematerialize());
 
         function handleRoute() {
@@ -38,6 +38,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getPublishedScorecards();
                 case url.endsWith('/all/scorecards') && method === 'GET':
                   return getAllScorecards();
+                case url.endsWith('/scorecards/byId') && method === 'GET':
+                  return getScorecardById();
                 case url.endsWith('/users/myScorecards') && method === 'GET':
                   return getScorecardsCreateByUser();
                 case url.endsWith('/scorecards/setPublishState') && method === 'POST':
@@ -162,6 +164,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           // only admins can access all scorecards records
           if (!isAdmin() && currentUser().userId !== idFromUrl()) return unauthorized();
           return ok(scorecards);
+        }
+
+        function getScorecardById() {
+          if (!isLoggedIn()) return unauthorized();
+
+          const scorecardId = params.get('scorecardId');
+          console.log( "GOING TO GET SCORECARD 22", scorecardId);
+
+          const wantedScorecard = scorecards.find((card) => { return card.id === scorecardId });
+
+          console.log( "GOING TO GET SCORECARD 33", wantedScorecard , scorecards);
+          if (!wantedScorecard) return error('No such scorecard with id provided');
+
+          return ok(wantedScorecard);
         }
 
         function getScorecardsCreateByUser() {

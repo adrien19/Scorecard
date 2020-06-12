@@ -1,22 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ColumnSetting } from 'projects/ng-ndiku/src/public_api';
 import { Scorecard } from '../../../models/scorecard-item';
-import { SCORECARDS } from '../../../fake-data.ts/scorecard.data';
-
 
 @Injectable({ providedIn: 'root' })
 export class TableDataService {
-
-  getScorecardData(id: number): Scorecard{
-    // actual implementation would use async method
-    const requestedScorecard = SCORECARDS[id];
-    return requestedScorecard;
-  }
-
-  // getNetworks(): Network[] {
-  //   // actual implementation would use async method
-  //   return NETWORKS;
-  // }
 
   getNetworksColConfigs(): ColumnSetting[] {
     const networksTableConfigSettings: ColumnSetting[] = [
