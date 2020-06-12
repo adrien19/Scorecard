@@ -44,5 +44,12 @@ export class DataService {
     );
   }
 
+  uploadModifiedProjectGoal(scorecardId: string, projectGoal: string): Observable<{taskCompletion: boolean}>{
+
+    return this.http.post<{taskCompletion: boolean}>(`${environment.apiUrl}/scorecards/edit/scorecard/goal`, { scorecardId, projectGoal}).pipe(
+      // shareReplay()
+    );
+  }
+
 
 }

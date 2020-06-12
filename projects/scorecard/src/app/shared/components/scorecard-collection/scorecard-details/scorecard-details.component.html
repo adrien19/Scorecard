@@ -65,7 +65,7 @@
                 <div class="row team-card-roles text-capitalize">
                   <div class="col-6" *ngFor="let role of detailedScorecard.team; let iIndex = index">
                     <p>
-                      <span class="text-left"  *ngIf="cardInEditMode"> <!-- allow to delete project roles -->
+                      <span class="text-left"  *ngIf="editProjectTeamEnabled"> <!-- allow to delete project roles -->
                         <button mat-icon-button color="warn" (click)="onDeleteProjectRoleInDetails(role.title)">
                           <mat-icon>delete</mat-icon>
                         </button>
@@ -77,7 +77,7 @@
                     </p>
                   </div>
                 </div>
-                <div class="row team-card-create-roles" *ngIf="cardInEditMode">
+                <div class="row team-card-create-roles" *ngIf="editProjectTeamEnabled">
                   <!-- below for creating project roles -->
                   <div class="col-12 col-md-6 mt-2">
                     <template #createRoleItemContainerInDetails ></template>
@@ -93,15 +93,27 @@
       <div class="col-12">
         <mat-card>
           <div class="row">
-            <div class="col-12">
+            <div class="col-8 text-left col-sm-8 col-md-8 ">
               <h2>Goal</h2>
+            </div>
+            <div class="col-3 text-right p-0 col-sm-2 text-right p-0 col-md-4 text-right p-0">
+              <button mat-flat-button class="" color="accent" *ngIf="cardInEditMode" (click)="onEditProjectGoal()">
+                <mat-icon>edit</mat-icon>
+                <span>Edit Project Goal</span>
+              </button>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
-              <p>
+              <p *ngIf="!editProjectGoalEnabled">
                 {{ detailedScorecard.goal }}
               </p>
+              <form class="project-goal-form w-100" *ngIf="editProjectGoalEnabled">
+                <mat-form-field class="w-100">
+                  <mat-label>Edit the goal of this project</mat-label>
+                  <textarea matInput cdkTextareaAutosize [(ngModel)]="detailedScorecard.goal" [ngModelOptions]="{standalone: true}"></textarea>
+                </mat-form-field>
+              </form>
             </div>
           </div>
         </mat-card>

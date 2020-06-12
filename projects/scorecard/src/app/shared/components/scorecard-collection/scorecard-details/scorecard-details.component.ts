@@ -44,7 +44,11 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   routeSub: Subscription;
 
   // For creating new project roles
+  editProjectTeamEnabled = false;
   projectTeamUploadSubscription: Subscription;
+
+  // For editing project goal
+  editProjectGoalEnabled = false;
 
   constructor(
     private dialog: MatDialog, // creating new role
@@ -155,11 +159,16 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
     this.cardInEditMode = !this.cardInEditMode;
     console.log(`ON SAVE this is the value: ${this.cardInEditMode}`);
     this.clearEditedTableData();
-    this.container.clear() // remove the added compenents for editing
+    if(this.container){this.container.clear()} // remove the added compenents for editing
     this.projectTeamUploadSubscription = this.dataService.uploadEditedProjectRoles(this.detailedScorecard.id, this.detailedScorecard.team).subscribe(data => {
       this.createRoleService.projectTeam = []; // reset to default
       console.log(data.taskCompletion);
     }); // Upload edited project roles
+    this.editProjectTeamEnabled = false; // disable project team editing mode
+
+
+    this.dataService.uploadModifiedProjectGoal(this.detailedScorecard.id, this.detailedScorecard.goal); // uploading modified goal
+    this.editProjectGoalEnabled = false; // disable project goal editing mode
   }
 
   clearEditedTableData() {
@@ -178,12 +187,18 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   }
   onAddProjectRoles(){
     console.log("Going to add roles!");
+    this.editProjectTeamEnabled = true;
     this.openDialog();
   }
 
   openDialog(): void {
     this.createRoleService.projectTeam = this.detailedScorecard.team;
     this.createRoleService.createRolesDialog({ componentRef: this.componentRef, container: this.container});
+  }
+
+  // BELOW METHODS ARE FOR EDITING PROJECT GOAL
+  onEditProjectGoal(){
+    this.editProjectGoalEnabled = true;
   }
 
 
