@@ -6,13 +6,14 @@ import { CreateRoleItemComponent } from './create-role-item/create-role-item.com
 import { MatDialog } from '@angular/material/dialog';
 import { CreateRoleDialogComponent } from './create-role-item/create-role-dialog.component';
 import { ProjectRole } from 'projects/scorecard/src/app/shared/models/role.model';
+import { CreateRoleService } from './create-role-item/create-role.service';
 
 @Component({
   selector: 'app-create-step-two',
   templateUrl: './create-step-two.component.html',
   styleUrls: ['./create-step-two.component.scss']
 })
-export class CreateStepTwoComponent implements OnDestroy {
+export class CreateStepTwoComponent implements OnInit, OnDestroy {
 
   @ViewChild("createRoleItemContainer", { read: ViewContainerRef }) container: ViewContainerRef;
   componentRef: ComponentRef<any>;
@@ -20,18 +21,27 @@ export class CreateStepTwoComponent implements OnDestroy {
   @Input() createNewScorecardForm: FormGroup;
   projectTeamValueSubscription: Subscription;
 
-  projectRoles: string[];
-  projectRoleName: string;
+  // projectRoles: string[];
+  // projectRoleName: string;
+  showCreateBanner = false;
   projectTeam: ProjectRole[] = [];
   showRemoveRoleButton = false;
 
   componentValidSub: Subscription;
 
   constructor(
+    private createRoleService: CreateRoleService,
     private scorecardCreateService: scorecardCreateService,
-    private componentResolver: ComponentFactoryResolver,
     public dialog: MatDialog
   ) {}
+
+
+  ngOnInit(): void {
+    this.projectTeamValueSubscription = this.createRoleService.projectTeam$.subscribe(projectRoles => {
+      this.projectTeam = projectRoles;
+      this.scorecardCreateService.enteredTeamDetails$.next(projectRoles);
+    });
+  }
 
   ngOnDestroy(): void {
     if (this.projectTeamValueSubscription) {
@@ -42,66 +52,8 @@ export class CreateStepTwoComponent implements OnDestroy {
     }
   }
 
-  createProjectRoleComponent(roleData: any){
-    // this.container.clear();
-    const factory: ComponentFactory<any> = this.componentResolver.resolveComponentFactory(CreateRoleItemComponent);
-    this.componentRef = this.container.createComponent(factory);
-    this.componentRef.instance.roleName = roleData;
-    this.projectTeamValueSubscription = this.componentRef.instance.addSelectedUsers.subscribe((event) => {
-      this.addSelectedRoleUsers(event);
-    });
-    this.componentRef.instance.deleteProjectRole.subscribe((event) => {
-      console.log(event);
-      if (this.projectTeam.length !== 0) {
-        this.projectTeam = this.projectTeam.filter(role => role.title !== event);
-      }
-      this.componentRef.destroy();
-      console.log(this.projectTeam);
-
-    });
-
+  openDialog(){
+    this.showCreateBanner = true;
+    this.createRoleService.createRolesDialog({ componentRef: this.componentRef, container: this.container});
   }
-
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(CreateRoleDialogComponent, {
-      width: '350px',
-      data: {name: this.projectRoleName}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) {
-        return;
-      }
-      this.createProjectRoleComponent(result);
-
-    });
-  }
-
-  addSelectedRoleUsers(projectRole: any){
-
-    const createdRole: ProjectRole = {
-      title: projectRole.roleName,
-      users: projectRole.roleUsers
-    }
-    const indexOfRole = this.projectTeam.length !== 0 ? this.roleAlreadyExists(createdRole.title) : -1;
-    if(indexOfRole !== -1){
-      this.projectTeam[indexOfRole] = createdRole;
-    }else{
-      this.projectTeam.push(createdRole);
-    }
-    console.log(this.projectTeam);
-    this.scorecardCreateService.enteredTeamDetails$.next(this.projectTeam);
-  }
-
-  roleAlreadyExists(title: string){
-    let roleIndex = -1;
-    this.projectTeam.find((role, index) => {
-      if (role.title && role.title === title){
-        roleIndex = index;
-      }
-    });
-    return roleIndex;
-  }
-
 }

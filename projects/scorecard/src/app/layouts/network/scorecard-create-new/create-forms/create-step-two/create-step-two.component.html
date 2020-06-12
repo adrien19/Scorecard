@@ -14,12 +14,12 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-12 mt-3">
-        <div *ngIf="!componentRef"  class="text-center w-100 h-100">
+    <div class="row h-100">
+      <div class="col-12 mt-3 w-100 ">
+        <div *ngIf="!showCreateBanner"  class="text-center">
           <h4>Click above to to create team roles to this project</h4>
         </div>
-        <mat-label *ngIf="componentRef && projectTeam.length === 0" >Please add roles for the project's team:</mat-label>
+        <mat-label *ngIf="showCreateBanner && projectTeam.length === 0" >Please add roles for the project's team:</mat-label>
         <div class="mt-3">
           <template #createRoleItemContainer ></template>
         </div>

@@ -53,9 +53,9 @@
             </div>
 
             <div class="col-3 text-right p-0 col-sm-2 text-right p-0 col-md-4 text-right p-0">
-              <button mat-flat-button class="p-0 mr-3">
+              <button mat-flat-button class="" color="accent" *ngIf="cardInEditMode" (click)="onAddProjectRoles()">
                 <mat-icon>add</mat-icon>
-                <span class="">Add Role</span>
+                <span>Add/Modify Role</span>
               </button>
             </div>
           </div>
@@ -64,11 +64,23 @@
             <div class="col-12">
                 <div class="row team-card-roles text-capitalize">
                   <div class="col-6" *ngFor="let role of detailedScorecard.team; let iIndex = index">
-                    <p>{{ role.title }}:
+                    <p>
+                      <span class="text-left"  *ngIf="cardInEditMode"> <!-- allow to delete project roles -->
+                        <button mat-icon-button color="warn" (click)="onDeleteProjectRoleInDetails(role.title)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </span>
+                      {{ role.title }}:
                       <span *ngFor="let user of role.users; let jIndex = index" class="pr-1">
-                        {{ user.userfullName}},
+                        {{ user.userfullName }},
                       </span>
                     </p>
+                  </div>
+                </div>
+                <div class="row team-card-create-roles" *ngIf="cardInEditMode">
+                  <!-- below for creating project roles -->
+                  <div class="col-12 col-md-6 mt-2">
+                    <template #createRoleItemContainerInDetails ></template>
                   </div>
                 </div>
             </div>

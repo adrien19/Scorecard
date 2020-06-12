@@ -42,6 +42,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                   return getScorecardsCreateByUser();
                 case url.endsWith('/scorecards/setPublishState') && method === 'POST':
                   return setPublishScorecardState();
+                case url.endsWith('/scorecards/edit/scorecard/team') && method === 'POST':
+                  return editScorecardProjectTeam();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
@@ -195,6 +197,31 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           return ok({
             taskCompleted: true,
             changedTo: publishedState
+          });
+        }
+
+        function editScorecardProjectTeam(){
+          if (!isLoggedIn()) return unauthorized();
+          const scorecardId = body.scorecardId;
+          const projectRoles = body.projectRoles;
+
+          const tempScorecards = [...scorecards];
+          let scorecardFound = false;
+
+          tempScorecards.find((card, index) => {
+            if (card.id === scorecardId) {
+              scorecardFound = true;
+              const newScorecard = {...card, team: projectRoles }
+              return  tempScorecards[index] = newScorecard;
+            }
+          });
+
+          if (!scorecardFound) return error('No such scorecard to modify team');
+
+          scorecards = tempScorecards; // return changed scorecards!
+
+          return ok({
+            taskCompleted: true,
           });
         }
     }

@@ -29,7 +29,7 @@ import { CreateRoleDialogComponent } from '../scorecard-create-new/create-forms/
     CreateStepTwoComponent,
     CreateStepFinalComponent,
     CreateRoleItemComponent, // MAYBE DELETED IF IT DOESN'T PASS TEST!!
-    CreateRoleDialogComponent
+    // CreateRoleDialogComponent
 
   ],
 

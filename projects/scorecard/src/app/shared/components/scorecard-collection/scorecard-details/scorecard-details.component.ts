@@ -1,10 +1,15 @@
-import { Component, OnInit, OnDestroy, OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy, OnChanges, ViewChild, ViewContainerRef, ComponentRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ColumnSetting, TableInlineEditService, TableEntryType } from 'projects/ng-ndiku/src/public_api';
 import { TableDataService, ImanagementTableData } from './details-data.service';
 import { CardRating, Scorecard } from '../../../models/scorecard-item';
 import { Network } from '../../../models/network.model';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateRoleDialogComponent } from 'projects/scorecard/src/app/layouts/network/scorecard-create-new/create-forms/create-step-two/create-role-item/create-role-dialog.component';
+import { CreateRoleService } from 'projects/scorecard/src/app/layouts/network/scorecard-create-new/create-forms/create-step-two/create-role-item/create-role.service';
+import { take, tap } from 'rxjs/operators';
+import { DataService } from 'projects/scorecard/src/app/layouts/network/data.service';
 
 
 @Component({
@@ -14,6 +19,8 @@ import { Network } from '../../../models/network.model';
 })
 export class ScorecardDetailsComponent implements OnInit, OnDestroy {
 
+  @ViewChild("createRoleItemContainerInDetails", { read: ViewContainerRef }) container: ViewContainerRef;
+  componentRef: ComponentRef<any>;
 
   managementTable: TableEntryType;
   managementData: ImanagementTableData[];
@@ -36,7 +43,13 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   cardInEditMode = false;
   routeSub: Subscription;
 
+  // For creating new project roles
+  projectTeamUploadSubscription: Subscription;
+
   constructor(
+    private dialog: MatDialog, // creating new role
+    private createRoleService: CreateRoleService, // creating new role
+    private dataService: DataService, // For sending edited data to backend
     private router: Router,
     private route: ActivatedRoute,
     private detailsDataService: TableDataService,
@@ -55,6 +68,9 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
     }
     if (this.managementTableSub) {
       this.managementTableSub.unsubscribe();
+    }
+    if (this.projectTeamUploadSubscription) {
+      this.projectTeamUploadSubscription.unsubscribe();
     }
   }
 
@@ -139,6 +155,11 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
     this.cardInEditMode = !this.cardInEditMode;
     console.log(`ON SAVE this is the value: ${this.cardInEditMode}`);
     this.clearEditedTableData();
+    this.container.clear() // remove the added compenents for editing
+    this.projectTeamUploadSubscription = this.dataService.uploadEditedProjectRoles(this.detailedScorecard.id, this.detailedScorecard.team).subscribe(data => {
+      this.createRoleService.projectTeam = []; // reset to default
+      console.log(data.taskCompletion);
+    }); // Upload edited project roles
   }
 
   clearEditedTableData() {
@@ -146,6 +167,23 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
       this.overallStatusTable.clearEditedCells(this.overallStatusTable.tableId);
     }
     this.inlineEditTableService.clearSavedDataInitiated$.next(); // send an event to clear colored edited data
+  }
+
+
+
+  // BELOW METHODS ARE FOR CREATING/MODIFYING AND DELETING PROJECT ROLES
+  onDeleteProjectRoleInDetails(roleTitle: string){
+    const newTeam = this.detailedScorecard.team.filter(role => { return role.title !== roleTitle});
+    this.detailedScorecard.team = newTeam;
+  }
+  onAddProjectRoles(){
+    console.log("Going to add roles!");
+    this.openDialog();
+  }
+
+  openDialog(): void {
+    this.createRoleService.projectTeam = this.detailedScorecard.team;
+    this.createRoleService.createRolesDialog({ componentRef: this.componentRef, container: this.container});
   }
 
 
