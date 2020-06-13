@@ -5,7 +5,7 @@ import { ColumnSetting, TableInlineEditService, TableEntryType } from 'projects/
 import { TableDataService } from './details-data.service';
 import { Scorecard } from '../../../models/scorecard-item';
 import { CreateRoleService } from 'projects/scorecard/src/app/layouts/network/scorecard-create-new/create-forms/create-step-two/create-role-item/create-role.service';
-import { DataService } from 'projects/scorecard/src/app/layouts/network/data.service';
+import { DataService } from 'projects/scorecard/src/app/shared/services/data.service';
 
 
 @Component({

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { Scorecard } from '../../../models/scorecard-item';
-import { DataService } from 'projects/scorecard/src/app/layouts/network/data.service';
+import { DataService } from 'projects/scorecard/src/app/shared/services/data.service';
 import { ScorecardCollectionService } from '../scorecard-collection.service';
 
 @Injectable({ providedIn: 'root' })

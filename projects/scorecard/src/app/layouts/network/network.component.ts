@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { DataService } from './data.service';
+import { DataService } from '../../shared/services/data.service';
 import { IScorecardItem, Scorecard } from '../../shared/models/scorecard-item';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';

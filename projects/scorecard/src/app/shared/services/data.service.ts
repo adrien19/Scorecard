@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import { IScorecardItem, Scorecard } from '../../shared/models/scorecard-item';
+import { IScorecardItem, Scorecard } from '../models/scorecard-item';
 import { environment } from 'projects/scorecard/src/environments/environment';
 import { tap, shareReplay } from 'rxjs/operators';
-import { ProjectRole } from '../../shared/models/role.model';
+import { ProjectRole } from '../models/role.model';
 
 
 @Injectable({

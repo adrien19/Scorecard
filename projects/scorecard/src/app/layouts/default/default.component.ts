@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DataService } from '../network/data.service';
+import { DataService } from '../../shared/services/data.service';
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { Scorecard, IScorecardItem } from '../../shared/models/scorecard-item';
 import { switchMap } from 'rxjs/operators';

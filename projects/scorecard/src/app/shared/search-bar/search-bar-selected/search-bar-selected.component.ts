@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { DataService } from '../../../layouts/network/data.service';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: "app-search-selected",
