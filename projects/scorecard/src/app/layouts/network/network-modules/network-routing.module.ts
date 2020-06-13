@@ -6,6 +6,7 @@ import { ScorecardCreateNewComponent } from '../scorecard-create-new/scorecard-c
 import { AuthGuard } from '../../auth/auth-helpers/auth.guard';
 import { Role } from '../../auth/auth-models/role';
 import { ScorecardDetailsComponent } from '../../../shared/components/scorecard-collection/scorecard-details/scorecard-details.component';
+import { ScorecardToViewInDetailsResolver } from '../../../shared/components/scorecard-collection/scorecard-details/scorecard-details.resolver';
 
 const routes: Routes = [
     {
@@ -16,7 +17,7 @@ const routes: Routes = [
       children:[
           {path: '', component: NetworkComponent},
           {path: 'new', component: ScorecardCreateNewComponent},
-          {path: ':id/scorecard-details', component: ScorecardDetailsComponent},
+          {path: ':id/scorecard-details', component: ScorecardDetailsComponent, resolve: {detailedScorecard: ScorecardToViewInDetailsResolver} },
       ]
     },
 ]

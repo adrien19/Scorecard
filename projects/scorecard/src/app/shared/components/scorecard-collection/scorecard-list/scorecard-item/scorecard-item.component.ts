@@ -5,6 +5,7 @@ import { ScorecardItemService } from './scorecard-item.service';
 import { Subscription } from 'rxjs';
 import { ConfirmationDialogService } from '../../../confirmation-dialog/confirmation-dialog.service';
 import { SnackbarNotifService } from '../../../snackbar-notification/snackbar-notif.service';
+import { TableDataService } from '../../scorecard-details/details-data.service';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class ScorecardItemComponent implements OnInit, OnDestroy ,OnChanges{
     private scorecardItemService: ScorecardItemService,
     private confirmationDialogService: ConfirmationDialogService,
     private snackbarNotifService: SnackbarNotifService,
+    // private detailedComponentService: TableDataService,
     private router: Router,
   ) { }
 
@@ -46,6 +48,7 @@ export class ScorecardItemComponent implements OnInit, OnDestroy ,OnChanges{
 
 
   viewScoreCard(){
+    // this.detailedComponentService.scorecardToViewInDetails = this.scorecard;
     this.router.navigate(['network', this.scorecard.id, 'scorecard-details']);
   }
 

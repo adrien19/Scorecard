@@ -16,6 +16,7 @@ import { SearchBarSelectedUserComponent } from '../../layouts/auth/user-searchba
 import { ConfirmationDialogComponent } from '../components/confirmation-dialog/confirmation-dialog.component';
 import { SnackbarNotifComponent } from '../components/snackbar-notification/snackbar-notif.component';
 import { CreateRoleDialogComponent } from '../../layouts/network/scorecard-create-new/create-forms/create-step-two/create-role-item/create-role-dialog.component';
+import { ErrorPageComponent } from '../components/error-page/error-page.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { CreateRoleDialogComponent } from '../../layouts/network/scorecard-creat
     SearchBarSelectedUserComponent,
     ConfirmationDialogComponent,
     SnackbarNotifComponent,
-    CreateRoleDialogComponent
+    CreateRoleDialogComponent,
+    ErrorPageComponent
   ],
 
   imports: [
@@ -55,7 +57,8 @@ import { CreateRoleDialogComponent } from '../../layouts/network/scorecard-creat
     TableLayoutModule,
     ConfirmationDialogComponent,
     SnackbarNotifComponent,
-    CreateRoleDialogComponent
+    CreateRoleDialogComponent,
+    ErrorPageComponent
   ],
   entryComponents: [ConfirmationDialogComponent]
 

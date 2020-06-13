@@ -1,8 +1,8 @@
 
 <div class="container pt-3 pb-5">
   <app-scorecard-collection
-  [scorecards]="scorecards"
-  [unFilteredscorecardsData]="unFilteredscorecardsData"
+  [scorecards]="(myScorecardsData$ | async)"
+  [unFilteredscorecardsData]="(myScorecardsData$ | async)"
     >
   </app-scorecard-collection>
 </div>

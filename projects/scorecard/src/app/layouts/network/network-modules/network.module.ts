@@ -13,6 +13,7 @@ import { CreateStepTwoComponent } from '../scorecard-create-new/create-forms/cre
 import { CreateStepFinalComponent } from '../scorecard-create-new/create-forms/create-step-final/create-step-final.component';
 import { CreateRoleItemComponent } from '../scorecard-create-new/create-forms/create-step-two/create-role-item/create-role-item.component';
 import { CreateRoleDialogComponent } from '../scorecard-create-new/create-forms/create-step-two/create-role-item/create-role-dialog.component';
+import { ScorecardToViewInDetailsResolver } from '../../../shared/components/scorecard-collection/scorecard-details/scorecard-details.resolver';
 
 
 
@@ -50,6 +51,7 @@ import { CreateRoleDialogComponent } from '../scorecard-create-new/create-forms/
     // CreateRoleDialogComponent
   ],
 
-  entryComponents: [CreateRoleItemComponent]
+  entryComponents: [CreateRoleItemComponent],
+  providers: [ScorecardToViewInDetailsResolver]
 })
 export class NetworkModule { }

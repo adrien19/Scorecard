@@ -170,11 +170,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           if (!isLoggedIn()) return unauthorized();
 
           const scorecardId = params.get('scorecardId');
-          console.log( "GOING TO GET SCORECARD 22", scorecardId);
-
           const wantedScorecard = scorecards.find((card) => { return card.id === scorecardId });
 
-          console.log( "GOING TO GET SCORECARD 33", wantedScorecard , scorecards);
           if (!wantedScorecard) return error('No such scorecard with id provided');
 
           return ok(wantedScorecard);

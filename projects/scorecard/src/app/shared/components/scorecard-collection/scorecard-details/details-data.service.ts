@@ -5,6 +5,8 @@ import { Scorecard } from '../../../models/scorecard-item';
 @Injectable({ providedIn: 'root' })
 export class TableDataService {
 
+  scorecardToViewInDetails: any;
+
   getNetworksColConfigs(): ColumnSetting[] {
     const networksTableConfigSettings: ColumnSetting[] = [
       {
@@ -66,36 +68,6 @@ export class TableDataService {
     return overallStatusColConfigs;
   }
 
-  getManagementPrimesData(scorecard: Scorecard): ImanagementTableData[] {
-    console.log(`${scorecard.primes.principal}`);
-    let primesNames: string[];
-    let otherPrimesNames: string[];
-    if (scorecard.primes.principal) {
-      primesNames = scorecard.primes.principal.map((user) => { return user.userfullName});
-    }else{
-      primesNames = [];
-    }
-    if (scorecard.primes.secondary) {
-      otherPrimesNames = scorecard.primes.secondary.map((user) => { return user.userfullName})
-    } else {
-      otherPrimesNames = [];
-    }
-
-    const MANAGEMEMT_TABLE_DATA: ImanagementTableData[] = [
-      {
-        prime: primesNames,
-        others: otherPrimesNames,
-      },
-    ];
-
-    // const PRIMES: PrimeRole[] = [{
-    //   title: 'prime',
-    //   primary: scorecard.primes.principal.map((user) =>{ return user}),
-    //   secondary: scorecard.primes.secondary.map((user) =>{ return user})
-    // }]
-    return MANAGEMEMT_TABLE_DATA;
-    // return PRIMES
-  }
   getManagementPrimesColConfigs(): ColumnSetting[]{
     const managementPrimesColConfigs: ColumnSetting[] = [
       {
@@ -111,10 +83,4 @@ export class TableDataService {
     ];
     return managementPrimesColConfigs;
   }
-}
-
-
-export interface ImanagementTableData {
-  prime: string[];
-  others: string[];
 }

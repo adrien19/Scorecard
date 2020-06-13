@@ -9,7 +9,6 @@ const routes: Routes = [
       component: DefaultComponent,
       canActivate: [AuthGuard]
     }
-    // {path: 'network', loadChildren: () => import('../../network/network-modules/network.module').then( module => module.NetworkModule)}
 ]
 
 @NgModule({

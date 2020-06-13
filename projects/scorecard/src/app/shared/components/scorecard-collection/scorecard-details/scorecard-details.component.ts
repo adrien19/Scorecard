@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentRef, AfterViewInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentRef } from '@angular/core';
+import { ActivatedRoute, Data } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ColumnSetting, TableInlineEditService, TableEntryType } from 'projects/ng-ndiku/src/public_api';
-import { TableDataService, ImanagementTableData } from './details-data.service';
-import { CardRating, Scorecard } from '../../../models/scorecard-item';
-import { Network } from '../../../models/network.model';
+import { TableDataService } from './details-data.service';
+import { Scorecard } from '../../../models/scorecard-item';
 import { CreateRoleService } from 'projects/scorecard/src/app/layouts/network/scorecard-create-new/create-forms/create-step-two/create-role-item/create-role.service';
 import { DataService } from 'projects/scorecard/src/app/layouts/network/data.service';
 
@@ -20,23 +19,21 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   componentRef: ComponentRef<any>;
 
   managementTable: TableEntryType;
-  managementData: ImanagementTableData[];
   managementColsConfig: ColumnSetting[];
   managementTableSub: Subscription;
 
   overallStatusTable: TableEntryType;
-  overallStatusData: CardRating[];
   overallStatusColsConfig: ColumnSetting[];
   overallStatusTableSub: Subscription;
 
   networksTable: TableEntryType;
-  networksData: Network[];
   networkColsConfig: ColumnSetting[];
   networksTableSub: Subscription;
   showMilestoneTable = false;
 
   id: string;
   detailedScorecard: Scorecard;
+  // detailedScorecard$: Observable<Scorecard>;
   dataServiceSubscription: Subscription;
   cardInEditMode = false;
   routeSub: Subscription;
@@ -56,6 +53,7 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
     private detailsDataService: TableDataService,
     private inlineEditTableService: TableInlineEditService,
   ) { }
+
 
   ngOnDestroy(): void {
     if (this.routeSub) {
@@ -80,19 +78,12 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-
-    this.routeSub = this.route.params.subscribe( (params: Params) => {
-      this.id = params['id'];
-      console.log(this.id);
-    });
-
-    this.dataServiceSubscription = this.dataService.getScorecardById(this.id).subscribe(data => {
-      this.detailedScorecard = data;
-      console.log(data);
+    this.routeSub = this.route.data.subscribe((data: Data) => {
+      this.detailedScorecard = data['detailedScorecard'];
 
       this.setupOverallStatusTable(this.detailedScorecard);
       this.setupManagementPrimesTable(this.detailedScorecard);
-      if (this.detailedScorecard.milestones) {
+      if (data.milestones) {
         this.showMilestoneTable = true;
       } else {
         this.showMilestoneTable = false;
@@ -104,12 +95,11 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   }
 
   setupOverallStatusTable(scorecard: Scorecard) {
-    this.overallStatusData = [scorecard.status] // this.detailsDataService.getCardOverallStatus();
     this.overallStatusColsConfig = this.detailsDataService.getOverallStatusColConfigs();
     this.overallStatusTable = new TableEntryType(
       'mat-table',
       'overallCardStatus',
-      this.overallStatusData,
+      [scorecard.status],
       true,
       4
     );
@@ -129,27 +119,33 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
   }
 
   setupManagementPrimesTable(scorecard: Scorecard){
-    this.managementData = this.detailsDataService.getManagementPrimesData(scorecard);
-    // console.log(`${Object.entries(this.managementData[0].primary[0].userLoginId)}`);
-    console.log(scorecard.primes.principal);
+    const principalNames = scorecard.primes.principal.map( prime => {
+      return prime.userfullName;
+    });
+    const secondaryNames = scorecard.primes.secondary.map( prime => {
+      return prime.userfullName;
+    });
+    const managementTableData = [{
+      prime: principalNames,
+      others: secondaryNames,
+    }]
 
     this.managementColsConfig = this.detailsDataService.getManagementPrimesColConfigs();
     this.managementTable = new TableEntryType(
       'mat-table',
       'managementPrimesTable',
-      this.managementData,
+      managementTableData,
       true,
       2
     );
   }
 
   setupNetworksTable(scorecard: Scorecard){
-    this.networksData = scorecard.milestones // this.detailsDataService.getNetworks();
     this.networkColsConfig = this.detailsDataService.getNetworksColConfigs();
     this.networksTable = new TableEntryType(
       'default',
       'networksTable',
-      this.networksData,
+      scorecard.milestones,
       false,
     );
   }
@@ -209,7 +205,5 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
     this.dataService.uploadModifiedProjectGoal(this.detailedScorecard.id, this.detailedScorecard.goal); // uploading modified goal
     this.editProjectGoalEnabled = false; // disable project goal editing mode
   }
-
-
 
 }

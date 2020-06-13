@@ -35,15 +35,13 @@ export class DataService {
     const params = new HttpParams().set("scorecardId", scorecardId);
     return this.http.get<Scorecard>(`${environment.apiUrl}/scorecards/byId`, {params: params}).pipe(
       // shareReplay()
-      tap(returned => console.log(returned))
-
     );
   }
 
-  getScorecardsCreatedByCurrentUser(userId: string): Observable<IScorecardItem[]>{
+  getScorecardsCreatedByCurrentUser(userId: string): Observable<Scorecard[]>{
 
     const params = new HttpParams().set("userId", userId);
-    return this.http.get<IScorecardItem[]>(`${environment.apiUrl}/users/myScorecards`, {params: params}).pipe(
+    return this.http.get<Scorecard[]>(`${environment.apiUrl}/users/myScorecards`, {params: params}).pipe(
       // shareReplay()
     );
   }
