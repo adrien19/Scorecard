@@ -1,0 +1,40 @@
+
+<div class="task-container-wrapper h-80">
+  <div class="row task-header text-center">
+    <h2 class="uppercase"> {{ boardColumn.name }}/ {{ task.description }} </h2>
+  </div>
+
+  <div class="row task-content-container h-100">
+    <div class="col-10 task-content-col">
+      <div class="row task-description-field mt-3">
+        <div class="col-12">
+          <h1>More Details</h1>
+          <div class="mt-1">
+            {{ task.createdTime }}
+          </div>
+        </div>
+      </div>
+      <div class="row task-activity-field mt-3">
+        <div class="col-12">
+          <mat-label>Activity</mat-label>
+          <div class="mt-1">
+            <p>Task assigned to Natalie</p>
+          </div>
+          <!-- commenting system -->
+          <app-commenting></app-commenting>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-2 task-actions-col ">
+      <button mat-flat-button class="w-100">Assign To</button>
+      <button mat-flat-button class="w-100">Mark Task</button>
+      <button mat-flat-button class="w-100">Move To</button>
+    </div>
+  </div>
+
+  <div class="row task-actions-footer justify-content-between mt-3">
+      <button mat-flat-button (click)="dialogRef.close(false)">Cancel</button>
+      <button mat-flat-button color="warn" (click)="dialogRef.close(task)">Save</button>
+  </div>
+</div>

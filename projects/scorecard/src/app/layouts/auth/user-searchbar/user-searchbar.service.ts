@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { tap, shareReplay } from 'rxjs/operators';
 import { User } from 'projects/scorecard/src/app/shared/models/user.model';
 import { environment } from 'projects/scorecard/src/environments/environment';
+import { IUserHolder } from '../../../shared/models/scorecard-item';
 
 
 @Injectable({
@@ -19,9 +20,19 @@ export class UserSearchBarService {
 
     return this.http.get<User[]>(`${environment.apiUrl}/users/byUsername`, {params: params}).pipe(
       shareReplay(),
-      tap(cards => console.log(cards)
+      tap(users => console.log(users)
       )
     );
   }
 
+  fetchUserByName(name: string): Observable<IUserHolder[]> {
+
+    const params = new HttpParams().set("name", name);
+
+    return this.http.get<IUserHolder[]>(`${environment.apiUrl}/users/searcByName`, {params: params}).pipe(
+      shareReplay(),
+      tap(users => console.log(users)
+      )
+    );
+  }
 }

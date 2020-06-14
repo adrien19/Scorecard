@@ -187,10 +187,10 @@
 
           <div class="row next-jobs-card-content">
             <div class="col-12">
+              <!-- <app-kanban></app-kanban> -->
                 <div class="row next-card-jobs text-capitalize">
                   <mat-selection-list #nextCardTasks class="col-12">
                     <mat-list-option *ngFor="let task of detailedScorecard.nextTask" checkboxPosition="before" >
-                      <!-- {{task}} -->
                       <h3 matLine> {{task.description}}</h3>
                         <p matLine class="avatars">
                           <span> {{task.createdTime | date }} </span>

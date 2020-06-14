@@ -34,6 +34,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getUserById();
                 case url.match('/users/byUsername') && method === 'GET':
                     return getUserByUsername();
+                case url.match('/users/searcByName') && method === 'GET':
+                  return getUserByName();
                 case url.endsWith('/scorecards/published') && method === 'GET':
                     return getPublishedScorecards();
                 case url.endsWith('/all/scorecards') && method === 'GET':
@@ -87,7 +89,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             if (!isLoggedIn()) return unauthorized();
 
             // only admins can access other user records
-            if (!isAdmin()) return unauthorized();
+            // if (!isAdmin()) return unauthorized();
 
             const username = params.get('username');
             const selectedUser = users.filter(x => x.username.indexOf(username) !== -1).map(user => {
@@ -99,6 +101,23 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             });
             return ok(selectedUser);
         }
+
+        function getUserByName() {
+          if (!isLoggedIn()) return unauthorized();
+
+          // only admins can access other user records
+          // if (!isAdmin()) return unauthorized();
+
+          const username = params.get('name');
+          const selectedUser = users.filter(x => x.userfullName.indexOf(username) !== -1).map(user => {
+            return {
+              userId: user.userId,
+              userfullName: user.userfullName,
+              userEmail: user.userEmail
+            }
+          });
+          return ok(selectedUser);
+      }
 
         function getUserById() {
           if (!isLoggedIn()) return unauthorized();

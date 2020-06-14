@@ -1,0 +1,68 @@
+
+
+.backlog-tasks {
+  border-radius: 4px;
+  background: rgb(81, 128, 125);
+  overflow-x: auto;
+  flex-grow: 1; // de
+  flex-basis: 0; // de
+  min-width: 300px; // de
+
+
+  .tasks-header {
+    font-size: 20px;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    justify-content: center;
+  }
+
+  .tasks-container {
+    padding: 15px 12px;
+    box-shadow: 0 5px -3px rgba(0, 0, 0, 0.05), 0 3px 2px rgba(0, 0, 0, 0.05);
+
+  }
+}
+.task {
+  display: flex;
+  padding: 15px 12px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  background: white;
+  border-bottom: solid 1px #dddd;
+
+  .assigned-text-label {
+    margin: 0 !important;
+  }
+  .assigned-user-avatar{
+    font-size: initial !important;
+  }
+}
+
+.user-assigned-row {
+  align-items: center;
+}
+
+
+// BELOW FOR DRAG AND DROP ANIMATIONS
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.tasks-list .cdk-drop-list-dragging .task:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

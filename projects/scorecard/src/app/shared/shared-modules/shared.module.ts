@@ -17,6 +17,12 @@ import { ConfirmationDialogComponent } from '../components/confirmation-dialog/c
 import { SnackbarNotifComponent } from '../components/snackbar-notification/snackbar-notif.component';
 import { CreateRoleDialogComponent } from '../../layouts/network/scorecard-create-new/create-forms/create-step-two/create-role-item/create-role-dialog.component';
 import { ErrorPageComponent } from '../components/error-page/error-page.component';
+import { ScorecardKanbanComponent } from '../components/scorecard-kanban/scorecard-kanban.component';
+import { KanbanTaskDetailsComponent } from '../components/scorecard-kanban/kanban-task-details/kanban-task-details.component';
+import { CommentingComponent } from '../components/commeting/commenting.component';
+import { CommentInputComponent } from '../components/commeting/comment-input/comment-input.component';
+import { MessageItemComponent } from '../components/commeting/message-item/message-item.component';
+import { CommmentItemComponent } from '../components/commeting/comment-item/comment-item.component';
 
 
 @NgModule({
@@ -29,7 +35,14 @@ import { ErrorPageComponent } from '../components/error-page/error-page.componen
     ConfirmationDialogComponent,
     SnackbarNotifComponent,
     CreateRoleDialogComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    ScorecardKanbanComponent, // FOR TESTING KANBAN
+    KanbanTaskDetailsComponent, // FOR TESTING KANBAN
+    CommentingComponent, // FOR TESTING KANBAN
+    CommentInputComponent, // FOR TESTING KANBAN
+    MessageItemComponent, // FOR TESTING KANBAN
+    CommmentItemComponent, // FOR TESTING KANBAN
+
   ],
 
   imports: [
@@ -58,9 +71,15 @@ import { ErrorPageComponent } from '../components/error-page/error-page.componen
     ConfirmationDialogComponent,
     SnackbarNotifComponent,
     CreateRoleDialogComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    ScorecardKanbanComponent, // FOR TESTING KANBAN
+    KanbanTaskDetailsComponent, // FOR TESTING KANBAN
+    CommentingComponent, // FOR TESTING KANBAN
+    CommentInputComponent, // FOR TESTING KANBAN
+    MessageItemComponent, // FOR TESTING KANBAN
+    CommmentItemComponent, // FOR TESTING KANBAN
   ],
-  entryComponents: [ConfirmationDialogComponent]
+  entryComponents: [ConfirmationDialogComponent, KanbanTaskDetailsComponent]
 
 })
 export class SharedModule { }

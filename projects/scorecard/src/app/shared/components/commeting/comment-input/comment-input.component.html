@@ -1,0 +1,34 @@
+<div class="input-area">
+  <div #suggestionsBox class="suggestions-box" *ngIf="suggestionsBoxVisible">
+    <div
+      class="result-item-container"
+      [ngClass]="{ 'selected': username === selected }"
+      (mouseover)="onResultItemHover(username)"
+      (click)="onResultItemClick(username)"
+      *ngFor="let username of filteredUsernames;">
+      <div class="result-item">
+        {{ username.userfullName }}
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="inputText-field">
+    <input
+    #messageInput
+    class="input"
+    type="text"
+
+    (keyup)="onKeyUp($event)"
+    (keydown)="onKeyDown($event)"
+    (focus)="onFocus()"
+
+    placeholder="Type your comment">
+    <button mat-flat-button color="accent" (click)="sendTypedComment()">
+      SEND
+    </button>
+  </div>
+
+
+</div>
