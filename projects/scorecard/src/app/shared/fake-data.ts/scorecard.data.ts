@@ -2,6 +2,8 @@ import { Scorecard, ProjectStatus } from '../models/scorecard-item';
 import { USERS } from './users.data';
 import { NETWORKS } from './network.data';
 import { Role } from '../../layouts/auth/auth-models/role';
+import { BoardColumn } from '../components/scorecard-kanban/kanban-models/board-column.model';
+import { Task } from '../models/task.model';
 
 export let SCORECARDS: Scorecard[] = [
   {
@@ -64,41 +66,6 @@ export let SCORECARDS: Scorecard[] = [
       },
     ],
     goal: 'The goal of the project is to establish requirements fot the installment. ',
-    doneTask: [
-      {
-        description: 'Goose Mount - installed new equipement',
-        taskStatus: 'complete',
-        createdTime: new Date(),
-        assigned: false,
-      },
-      {
-        description: 'Kibuye - remove new equipement',
-        taskStatus: 'complete',
-        createdTime: new Date(),
-        assigned: false,
-      },
-      {
-        description: 'Cyangugu - installed new device',
-        taskStatus: 'complete',
-        createdTime: new Date(),
-        assigned: true,
-        assignedTo: USERS,
-      }
-    ],
-    nextTask: [
-      {
-        description: 'Mount P. - installed new XTSD equipement',
-        taskStatus: 'complete',
-        createdTime: new Date(),
-        assigned: false,
-      },
-      {
-        description: 'Corner C. - remove new KSYSH equipement',
-        taskStatus: 'complete',
-        createdTime: new Date(),
-        assigned: false,
-      }
-    ],
     challenges: [
       'lack of man power',
       'poor infrastructure'
@@ -109,7 +76,71 @@ export let SCORECARDS: Scorecard[] = [
       userId: 'asdafggd',
       userEmail: 'user3@test.com',
       userfullName: 'Joe J.'
-     }
+    },
+
+    scorecardKanbanBoard: {
+      name: 'Communicate to Innovate',
+      columns: [
+        new BoardColumn('Road Block', [
+          {
+            description: 'Goose Mount - installed new equipement',
+            taskStatus: 'complete',
+            createdTime: new Date(),
+            assigned: false,
+          },
+          {
+            description: 'Kibuye - remove new equipement',
+            taskStatus: 'complete',
+            createdTime: new Date(),
+            assigned: false,
+          },
+          {
+            description: 'Cyangugu - installed new device',
+            taskStatus: 'complete',
+            createdTime: new Date(),
+            assigned: true,
+            assignedTo: USERS,
+          }
+        ]),
+        new BoardColumn('In Progress', [
+          {
+            description: 'Mount P. - installed new XTSD equipement',
+            taskStatus: 'complete',
+            createdTime: new Date(),
+            assigned: false,
+          },
+          {
+            description: 'Corner C. - remove new KSYSH equipement',
+            taskStatus: 'complete',
+            createdTime: new Date(),
+            assigned: true,
+            assignedTo: USERS.filter( user => {
+              if (user.userId === 'hyusnelfas') {
+                return {
+                  userId: user.userId,
+                  userfullName: user.userfullName,
+                  userEmail: user.userEmail
+                }
+              }
+            }),
+          }
+        ])
+      ],
+      boardMembers: [
+        {
+          title: 'product owners',
+          users: USERS.slice(0,2),
+        },
+        {
+          title: 'scrum master',
+          users: USERS.slice(2,4),
+        },
+        {
+          title: 'SME',
+          users: USERS.slice(4,5),
+        },
+      ]
+    }
   },
 
   {
@@ -178,52 +209,86 @@ export let SCORECARDS: Scorecard[] = [
 
     ],
     goal: 'The goal of the project is to establish requirements fot the installment. ',
-    doneTask: [
-      {
-        description: 'Goose Mount - installed new equipement',
-        taskStatus: 'complete',
-        createdTime: new Date(),
-        assigned: false,
-      },
-      {
-        description: 'Kibuye - remove new equipement',
-        taskStatus: 'complete',
-        createdTime: new Date(),
-        assigned: false,
-      },
-      {
-        description: 'Cyangugu - installed new device',
-        taskStatus: 'complete',
-        createdTime: new Date(),
-        assigned: true,
-        assignedTo: USERS,
-      }
-    ],
-    nextTask: [
-      {
-        description: 'Mount P. - installed new XTSD equipement',
-        taskStatus: 'complete',
-        createdTime: new Date(),
-        assigned: false,
-      },
-      {
-        description: 'Corner C. - remove new KSYSH equipement',
-        taskStatus: 'complete',
-        createdTime: new Date(),
-        assigned: false,
-      }
-    ],
     challenges: [
       'lack of man power',
       'poor infrastructure'
     ],
     milestones: NETWORKS,
     lastUpdated: new Date(),
-    lastUpdatedBy:
-      {
-        userId: 'jeffsorndf',
-        userEmail: 'user1@test.com',
-        userfullName: 'Jeff M.'
-       }
+    lastUpdatedBy: {
+      userId: 'jeffsorndf',
+      userEmail: 'user1@test.com',
+      userfullName: 'Jeff M.'
+    },
+
+    scorecardKanbanBoard: {
+      name: 'New Server Installs',
+      columns: [
+        new BoardColumn('MY BACKLOGS', [
+          {
+            description: 'Goose Mount - installed new equipement',
+            taskStatus: 'complete',
+            createdTime: new Date(),
+            assigned: false,
+          },
+          {
+            description: 'Kibuye - remove new equipement',
+            taskStatus: 'complete',
+            createdTime: new Date(),
+            assigned: false,
+          },
+          {
+            description: 'Cyangugu - installed new device',
+            taskStatus: 'complete',
+            createdTime: new Date(),
+            assigned: true,
+            assignedTo: USERS,
+          }
+        ]),
+        new BoardColumn('MY RESEARCH', [
+          {
+            description: 'Mount P. - installed new XTSD equipement',
+            taskStatus: 'complete',
+            createdTime: new Date(),
+            assigned: false,
+          },
+          {
+            description: 'Corner C. - remove new KSYSH equipement',
+            taskStatus: 'complete',
+            createdTime: new Date(),
+            assigned: true,
+            assignedTo: USERS.filter( user => {
+              if (user.userId === 'hyusnelfas') {
+                return {
+                  userId: user.userId,
+                  userfullName: user.userfullName,
+                  userEmail: user.userEmail
+                }
+              }
+            }),
+          }
+        ])
+      ],
+      boardMembers: [
+        {
+          title: 'product owners',
+          users: USERS.slice(1,2),
+        },
+        {
+          title: 'scrum master',
+          users: USERS.slice(2,3),
+        },
+        {
+          title: 'SME',
+          users: USERS.slice(0,1),
+        },
+        {
+          title: 'CODERS',
+          users: USERS.slice(4,6),
+        },
+      ]
+    }
+
+
   }
 ]

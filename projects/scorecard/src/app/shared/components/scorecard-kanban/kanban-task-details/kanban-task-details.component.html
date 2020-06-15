@@ -1,20 +1,24 @@
 
 <div class="task-container-wrapper h-80 mx-3 my-3" >
 
-  <div class="row task-header text-center justify-content-between pr-3">
-    <h2 class="uppercase"> {{ boardColumn.name }}/ {{ task.description }} </h2>
+  <div class="row task-header text-center justify-content-between pr-3 pl-3">
+    <div>
+      <h2 class="uppercase mb-0 text-left"> {{ boardColumn.name }}/ {{ task.description }} </h2>
+      <small class="d-flex text-muted text-left">created on {{ task.createdTime | date: 'fullDate' }}</small>
+    </div>
+    <!-- <h2 class="uppercase"> {{ boardColumn.name }}/ {{ task.description }} </h2> -->
     <button mat-icon-button (click)="dialogRef.close(false)">
       <mat-icon>cancel</mat-icon>
     </button>
   </div>
 
-  <div class="row task-content-container h-100">
+  <div class="row task-content-container h-100 mt-2">
     <div class="col-10 task-content-col">
       <div class="row task-description-field mt-3">
         <div class="col-12">
           <div class="row">
-            <h4>Detailed Description:</h4>
-            <mat-form-field class="w-100">
+            <h4 class="pl-3">Detailed Description:</h4>
+            <mat-form-field class="w-100 pl-3">
               <input matInput placeholder="Enter more details.." [ngModel]="task.detailedDescription? task.detailedDescription : '' ">
             </mat-form-field>
           </div>
@@ -24,9 +28,9 @@
       <div class="row task-assigned-field mt-3">
         <div class="col-12">
           <h4>Assigned members:</h4>
-          <mat-list>
+          <mat-list *ngIf="this.task.assigned">
             <p matLine class="avatars">
-              <span class="avatar" *ngFor="let user of task.assignedTo">
+              <span class="avatar" *ngFor="let user of changedAssignedUsersTo">
                 <app-avatar-photo
                   [name]="user.userfullName"
                   matTooltip="{{ user.userfullName }} {{ '(' + user.userEmail + ')' }}"
@@ -37,6 +41,7 @@
               </span>
             </p>
           </mat-list>
+          <h5 *ngIf="!this.task.assigned">No members have been assigned for this task.</h5>
         </div>
       </div>
 
@@ -50,9 +55,44 @@
     </div>
 
     <div class="col-2 task-actions-col ">
-      <button mat-flat-button class="w-100">Assign To</button>
-      <button mat-flat-button class="w-100">Mark Task</button>
-      <button mat-flat-button class="w-100">Move To</button>
+      <div class="row task-assignment-row justify-content-center">
+        <button mat-flat-button [matMenuTriggerFor]="assignmentMenu" class="p-0 scorecard-assignment-button">
+          <span class="">Assign To</span>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #assignmentMenu="matMenu">
+          <mat-selection-list #taskMembersSelection [(ngModel)]="alreadyAssignedMembers"  (ngModelChange)="onNgModelChange($event)">
+            <mat-list-option *ngFor="let user of boardUsers" [value]="user.userId">
+              {{user.userfullName}}
+            </mat-list-option>
+          </mat-selection-list>
+        </mat-menu>
+      </div>
+
+      <div class="row task-location-row justify-content-center">
+        <button mat-flat-button [matMenuTriggerFor]="taskLocationMenu" class="p-0 scorecard-location-button">
+          <span class="">Move To</span>
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #taskLocationMenu="matMenu">
+          <mat-selection-list #taskLocationSelection [multiple]="false">
+            <!-- *ngFor="let status of task.location" -->
+            <mat-list-option *ngFor="let column of boardColumns">
+              {{ column }}
+            </mat-list-option>
+          </mat-selection-list>
+        </mat-menu>
+      </div>
+
+      <mat-divider class="w-100"></mat-divider>
+
+      <div class="row task-archive-row justify-content-center">
+        <button mat-flat-button color="accent" class="scorecard-archive-button">
+          <span class="">Archive card</span>
+          <mat-icon>archive</mat-icon>
+        </button>
+      </div>
+
     </div>
   </div>
 

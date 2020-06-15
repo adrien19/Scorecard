@@ -123,39 +123,6 @@
     </div>
 
     <div class="row project-details-row pb-3">
-      <div class="col-12 col-md-6 completed-jobs-col pb-3">
-        <mat-card>
-          <div class="row completed-jobs-card-header">
-            <div class="col-12 text-left ">
-              <h2 class="text-capitalize">
-                  What Has Been Done
-              </h2>
-            </div>
-          </div>
-
-          <div class="row completed-jobs-card-content">
-            <div class="col-12">
-                <div class="row completed-card-jobs text-capitalize">
-                  <mat-selection-list #completedCardTasks class="col-12">
-                    <mat-list-option *ngFor="let task of detailedScorecard.doneTask" checkboxPosition="before" >
-                      <!-- {{task}} -->
-                      <h3 matLine> {{task.description}}</h3>
-
-                        <p matLine class="avatars">
-                          <span> {{task.createdTime | date }} </span>
-                          <span class="task-status"> -- {{task.taskStatus}} </span>
-                          <span class="avatar" *ngFor="let user of task.assignedTo">
-                            <img matListAvatar src="https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?ixlib=rb-1.2.1&auto=format&fit=crop&w=975&q=80" alt="...">
-                          </span>
-                        </p>
-                    </mat-list-option>
-                  </mat-selection-list>
-                </div>
-            </div>
-          </div>
-        </mat-card>
-      </div>
-
       <div class="col-12 col-md-6 network-milestone-col pb-3">
         <mat-card>
           <div class="row network-milestone-header-row">
@@ -170,47 +137,6 @@
                 [settings]="networkColsConfig"
               >
               </ndiku-table-layout>
-            </div>
-          </div>
-        </mat-card>
-      </div>
-
-      <div class="col-12 col-md-6 next-jobs-col pb-3">
-        <mat-card>
-          <div class="row next-jobs-card-header">
-            <div class="col-12 text-left ">
-              <h2 class="text-capitalize">
-                  What Is Next
-              </h2>
-            </div>
-          </div>
-
-          <div class="row next-jobs-card-content">
-            <div class="col-12">
-              <button
-                mat-flat-button
-                color="accent"
-                class="float-right"
-                (click)="onViewKanbanBoardInFull()"
-                >
-                  Full Screen
-              </button>
-              <!-- kanban board -->
-              <app-kanban ></app-kanban>
-                <!-- <div class="row next-card-jobs text-capitalize">
-                  <mat-selection-list #nextCardTasks class="col-12">
-                    <mat-list-option *ngFor="let task of detailedScorecard.nextTask" checkboxPosition="before" >
-                      <h3 matLine> {{task.description}}</h3>
-                        <p matLine class="avatars">
-                          <span> {{task.createdTime | date }} </span>
-                          <span class="task-status"> -- {{task.taskStatus}} </span>
-                          <span class="avatar" *ngFor="let user of task.assignedTo">
-                            <img matListAvatar src="https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?ixlib=rb-1.2.1&auto=format&fit=crop&w=975&q=80" alt="...">
-                          </span>
-                        </p>
-                    </mat-list-option>
-                  </mat-selection-list>
-                </div> -->
             </div>
           </div>
         </mat-card>
@@ -247,5 +173,40 @@
         </mat-card>
       </div>
 
+    </div>
+
+    <div class="row kanban-board-row">
+      <div class="col-12 kanbanBoard-col pb-3">
+        <mat-card>
+          <div class="row kanbanBoard-card-header">
+            <div class="col-12 text-left ">
+              <h2 class="text-capitalize">
+                  Project's Kanban Board
+              </h2>
+            </div>
+          </div>
+
+          <div class="row kanbanBoard-card-content">
+            <div class="col-12">
+              <div class="row mb-2">
+                <button
+                mat-flat-button
+                color="accent"
+                class="float-right"
+                (click)="onViewKanbanBoardInFull()"
+                >
+                  Full Screen
+              </button>
+              </div>
+
+              <div class="row">
+                <!-- kanban board -->
+                <app-kanban ></app-kanban>
+              </div>
+
+            </div>
+          </div>
+        </mat-card>
+      </div>
     </div>
 </div>

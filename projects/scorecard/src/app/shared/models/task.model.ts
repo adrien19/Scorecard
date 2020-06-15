@@ -1,5 +1,6 @@
 import { User } from './user.model';
 import { CommentObject } from '../components/commeting/comment-item/comment-item.component';
+import { IUserHolder } from './scorecard-item';
 // import { Timestamp } from 'rxjs';
 
 export class Task {
@@ -7,7 +8,7 @@ export class Task {
     taskStatus: string;
     createdTime: Date;
     assigned: boolean;
-    assignedTo?: User[];
+    assignedTo?: IUserHolder[];
     assignedBy?: User;
     statusChangedTime?: Date;
     comments?: CommentObject[];

@@ -38,8 +38,6 @@ export interface IScorecardItem {
   primes?: {principal?: IUserHolder[], secondary?: IUserHolder[]};
   published?: boolean;
   archived?: boolean;
-  doneTask?: Task[];
-  nextTask?: Task[]
   challenges?: string[];
   milestones?: Network[];
   measures?: Measure[];
@@ -60,8 +58,6 @@ export class Scorecard implements IScorecardItem {
     projectStatus: ProjectStatus;
     published?: boolean = false;
     archived?: boolean = false;
-    doneTask?: Task[];
-    nextTask?: Task[]
     challenges?: string[];
     milestones?: Network[];
     measures?: Measure[];

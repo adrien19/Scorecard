@@ -16,19 +16,7 @@ import { ActivatedRoute, Data } from '@angular/router';
 
 export class ScorecardKanbanComponent implements OnInit {
 
-  @Input() viewingBoard: Board =
-
-  new Board('Test Board', [
-    new BoardColumn('MY BACKLOGS', [
-      new Task('description', 'in progress', new Date, true)
-    ]),
-    new BoardColumn('MY RESEARCH', [
-      new Task('Research', 'completed', new Date, true)
-    ]),
-    new BoardColumn('MY DONE', [
-      new Task('read texts here', 'archived', new Date, false)
-    ]),
-  ]);
+  @Input() viewingBoard: Board;
 
   constructor(
     private kanbanTaskDetailsService: KanbanTaskDetailsService,
@@ -75,34 +63,14 @@ export class ScorecardKanbanComponent implements OnInit {
 
   onViewTaskDetails(column: BoardColumn, item: Task){
     console.log("GOING TO VIEW THIS TASK: ", column.name, item.description);
-    item.assignedTo = [
-      {
-        userId: 'jaisdasruo',
-        username: 'adrien.K',
-        password: 'user123',
-        role: Role.Admin,
-        userEmail: 'user1@test.com',
-        userFirstName: 'Adrien',
-        userLastName: 'K.',
-        userfullName: 'adrien K.'
-        // canEditCard?: Scorecard[];
-        // canViewCard?: Scorecard[];
-      },
-      {
-        userId: 'jashlasjhsd',
-        username: 'Mike.D',
-        password: 'user123',
-        role: Role.User,
-        userEmail:'user2@test.com',
-        userFirstName: 'Mike',
-        userLastName: 'D.',
-        userfullName: 'Mike D.'
-        // canEditCard?: Scorecard[];
-        // canViewCard?: Scorecard[];
-      },
-    ]
 
-    this.kanbanTaskDetailsService.openConfirmationDialog(column, item).subscribe((toSaveTask) => {
+    const allBoardColumns = this.viewingBoard.columns.map((col => { return col.name })).filter(name => { return name !== column.name});
+    const boardUsers = this.viewingBoard.boardMembers[0].users.map((user) => {
+      const userBasicInfo = { userId: user.userId, userfullName: user.userfullName, userEmail: user.userEmail };
+      return userBasicInfo;
+    })
+
+    this.kanbanTaskDetailsService.openConfirmationDialog(column, item, allBoardColumns, boardUsers).subscribe((toSaveTask) => {
       console.log("GOING TO SAVE: ", toSaveTask);
 
       this.kanbanTaskDetailsService.endUserConfirmedSub$.next();
