@@ -12,6 +12,7 @@ import { ErrorInterceptor } from './layouts/auth/auth-helpers/error.interceptor'
 import { fakeBackendProvider } from './layouts/auth/auth-helpers/fake-backend';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { Appearance } from './shared/tokens/token';
+import { ScorecardKanbanBoardResolver } from './shared/components/scorecard-kanban/scorecard-kanban.resolver';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,8 @@ import { Appearance } from './shared/tokens/token';
 
     // provider used to create fake backend
     fakeBackendProvider,
+
+    ScorecardKanbanBoardResolver, // for resolving the kanban of a scorecard.
 
 
   ],

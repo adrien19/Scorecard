@@ -1,25 +1,48 @@
 
-<div class="task-container-wrapper h-80">
-  <div class="row task-header text-center">
+<div class="task-container-wrapper h-80 mx-3 my-3" >
+
+  <div class="row task-header text-center justify-content-between pr-3">
     <h2 class="uppercase"> {{ boardColumn.name }}/ {{ task.description }} </h2>
+    <button mat-icon-button (click)="dialogRef.close(false)">
+      <mat-icon>cancel</mat-icon>
+    </button>
   </div>
 
   <div class="row task-content-container h-100">
     <div class="col-10 task-content-col">
       <div class="row task-description-field mt-3">
         <div class="col-12">
-          <h1>More Details</h1>
-          <div class="mt-1">
-            {{ task.createdTime }}
+          <div class="row">
+            <h4>Detailed Description:</h4>
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Enter more details.." [ngModel]="task.detailedDescription? task.detailedDescription : '' ">
+            </mat-form-field>
           </div>
         </div>
       </div>
-      <div class="row task-activity-field mt-3">
+
+      <div class="row task-assigned-field mt-3">
         <div class="col-12">
-          <mat-label>Activity</mat-label>
-          <div class="mt-1">
-            <p>Task assigned to Natalie</p>
-          </div>
+          <h4>Assigned members:</h4>
+          <mat-list>
+            <p matLine class="avatars">
+              <span class="avatar" *ngFor="let user of task.assignedTo">
+                <app-avatar-photo
+                  [name]="user.userfullName"
+                  matTooltip="{{ user.userfullName }} {{ '(' + user.userEmail + ')' }}"
+                  [matTooltipShowDelay]="1000"
+                  [matTooltipHideDelay]="500"
+                >
+                </app-avatar-photo>
+              </span>
+            </p>
+          </mat-list>
+        </div>
+      </div>
+
+      <hr class="mt-5">
+      <div class="row task-comments-field mt-2">
+        <div class="col-12">
           <!-- commenting system -->
           <app-commenting></app-commenting>
         </div>
@@ -33,8 +56,7 @@
     </div>
   </div>
 
-  <div class="row task-actions-footer justify-content-between mt-3">
-      <button mat-flat-button (click)="dialogRef.close(false)">Cancel</button>
+  <div class="row task-actions-footer justify-content-end mt-3 p-3">
       <button mat-flat-button color="warn" (click)="dialogRef.close(task)">Save</button>
   </div>
 </div>

@@ -2,15 +2,11 @@
   <div class="col-12">
     <div class="panel">
       <div class="panel-heading">
-        <h3 class="panel-title">Activity</h3>
+        <h3 class="panel-title">Comments:</h3>
       </div>
       <div class="panel-body">
         <app-comment-input (sendMessage)="sendComment($event)"></app-comment-input>
-        <!-- <div class="form-group">
-          <textarea class="form-control w-100 " placeholder="Enter comment..." rows="3"></textarea>
-        </div> -->
-        <div class="clearfix w-100"></div>
-        <hr class="margin-bottom-10">
+        <div class="clearfix w-100 mt-2"></div>
         <ul class="list-group list-group-dividered list-group-full pl-0">
           <li class="list-group-item">
             <app-comment-item
@@ -20,7 +16,7 @@
             </app-comment-item>
           </li>
         </ul>
-        <span class="text-info">56 More Comments</span>
+        <span class="text-info" *ngIf="showMoreComments">No comments has been made yet.</span>
       </div>
     </div>
   </div>

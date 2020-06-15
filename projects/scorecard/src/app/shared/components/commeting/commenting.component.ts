@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommentObject } from './comment-item/comment-item.component';
 import { AuthenticationService } from '../../../layouts/auth/auth-services/authentication.service';
 import { User } from '../../models/user.model';
@@ -11,17 +11,24 @@ import { User } from '../../models/user.model';
 
 export class CommentingComponent implements OnInit {
 
+  currUser: User;
+  commentObjects: CommentObject[];
+  showMoreComments = false;
+  // numberOfComments = 0;
+
   constructor(
     private authenticationService: AuthenticationService,
   ) { }
 
-  currUser: User;
-  commentObjects: CommentObject[];
-
   ngOnInit() {
     this.currUser = this.authenticationService.userValue;
     this.commentObjects = new Array<CommentObject>();
-   }
+    if (this.commentObjects.length === 0) {
+      this.showMoreComments = true;
+    }else{
+      this.showMoreComments = false;
+    }
+  }
 
   sendComment(comment: any){
     comment.message = comment.message.trim();
@@ -32,6 +39,7 @@ export class CommentingComponent implements OnInit {
         comment,
       );
       this.commentObjects.push(newCommentObject);
+      this.showMoreComments = false;
     }
   }
 }

@@ -4,7 +4,7 @@
 
       <div class="row board-header-row">
         <div class="col-12 board-header-col">
-          <h2> {{ testBoard.name }} </h2>
+          <h2> {{ viewingBoard.name }} </h2>
         </div>
       </div>
 
@@ -12,7 +12,7 @@
         <div class="col-12 board-content-col">
           <div class="row tasks-wrapper" cdkDropListGroup>
 
-            <div class="col-12 m-0 col-md-3 ml-1 backlog-tasks" *ngFor="let column of testBoard.columns">
+            <div class="col-12 m-0 col-md-3 ml-1 backlog-tasks" *ngFor="let column of viewingBoard.columns">
               <div class="row tasks-header">
                 {{ column.name }}
               </div>

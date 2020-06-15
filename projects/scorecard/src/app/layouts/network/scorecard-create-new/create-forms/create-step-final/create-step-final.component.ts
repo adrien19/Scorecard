@@ -7,6 +7,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { scorecardCreateService } from '../scorecard-create.service';
 import { AuthenticationService } from '../../../../auth/auth-services/authentication.service';
 import { ProjectRole } from 'projects/scorecard/src/app/shared/models/role.model';
+import { Board } from 'projects/scorecard/src/app/shared/components/scorecard-kanban/kanban-models/board.model';
+import { BoardColumn } from 'projects/scorecard/src/app/shared/components/scorecard-kanban/kanban-models/board-column.model';
+import { Task } from 'projects/scorecard/src/app/shared/models/task.model';
 
 @Component({
   selector: 'app-create-step-final',
@@ -108,6 +111,22 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
       userfullName: currentUser.userfullName
     }
 
+    const projectKanbanBoard = new Board('Test Board', [
+      new BoardColumn('BACKLOGS', [
+        new Task('description', 'in progress', new Date, true)
+      ]),
+      new BoardColumn('IN PROGRESS', [
+        new Task('Research', 'completed', new Date, true)
+      ]),
+      new BoardColumn('COMPLETED', [
+        new Task('read texts here', 'archived', new Date, false)
+      ]),
+      new BoardColumn('ARCHIVED', [
+        new Task('read texts here', 'archived', new Date, false)
+      ]),
+    ]);
+
+
     let newCreatedScorecard = new Scorecard(this.scorecardTitle, cardRating, projectStatus, createdBy);
     newCreatedScorecard.goal = this.projectGoal;
     newCreatedScorecard.owner = this.ownerUsers[0];
@@ -115,6 +134,7 @@ export class CreateStepFinalComponent implements OnInit, OnDestroy {
     newCreatedScorecard.primes.principal = this.primeUsers;
     newCreatedScorecard.primes.secondary = this.otherPrimeUsers;
     newCreatedScorecard.team = this.teamDetails;
+    newCreatedScorecard.scorecardKanbanBoard = projectKanbanBoard;
 
     SCORECARDS.push(newCreatedScorecard);
     this.navigateToHomePage();

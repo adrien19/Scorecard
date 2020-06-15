@@ -23,6 +23,7 @@ import { CommentingComponent } from '../components/commeting/commenting.componen
 import { CommentInputComponent } from '../components/commeting/comment-input/comment-input.component';
 import { MessageItemComponent } from '../components/commeting/message-item/message-item.component';
 import { CommmentItemComponent } from '../components/commeting/comment-item/comment-item.component';
+import { AvatarPhotoComponent } from '../components/avatar-photo/avatar-photo.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { CommmentItemComponent } from '../components/commeting/comment-item/comm
     CommentInputComponent, // FOR TESTING KANBAN
     MessageItemComponent, // FOR TESTING KANBAN
     CommmentItemComponent, // FOR TESTING KANBAN
+    AvatarPhotoComponent,
 
   ],
 
@@ -78,6 +80,7 @@ import { CommmentItemComponent } from '../components/commeting/comment-item/comm
     CommentInputComponent, // FOR TESTING KANBAN
     MessageItemComponent, // FOR TESTING KANBAN
     CommmentItemComponent, // FOR TESTING KANBAN
+    AvatarPhotoComponent,
   ],
   entryComponents: [ConfirmationDialogComponent, KanbanTaskDetailsComponent]
 

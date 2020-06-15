@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ComponentRef } from '@angular/core';
-import { ActivatedRoute, Data } from '@angular/router';
+import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ColumnSetting, TableInlineEditService, TableEntryType } from 'projects/ng-ndiku/src/public_api';
 import { TableDataService } from './details-data.service';
@@ -50,6 +50,7 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
     private createRoleService: CreateRoleService, // creating new role
     private dataService: DataService, // For sending edited data to backend
     private route: ActivatedRoute,
+    private router: Router,
     private detailsDataService: TableDataService,
     private inlineEditTableService: TableInlineEditService,
   ) { }
@@ -167,6 +168,10 @@ export class ScorecardDetailsComponent implements OnInit, OnDestroy {
       this.overallStatusTable.clearEditedCells(this.overallStatusTable.tableId);
     }
     this.inlineEditTableService.clearSavedDataInitiated$.next(); // send an event to clear colored edited data
+  }
+
+  onViewKanbanBoardInFull(){
+    this.router.navigate(['/kanban', this.detailedScorecard.id, 'fullscreen']);
   }
 
 

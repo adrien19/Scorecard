@@ -3,6 +3,7 @@ import { ProjectRole } from './role.model';
 import { Task } from './task.model';
 import { Network } from './network.model';
 import { Measure } from './measure.model';
+import { Board } from '../components/scorecard-kanban/kanban-models/board.model';
 
 export enum ProjectStatus {
   IN_PLANNING = "IN PLANNING",
@@ -44,6 +45,7 @@ export interface IScorecardItem {
   measures?: Measure[];
   lastUpdated?: Date;
   lastUpdatedBy?: IUserHolder;
+  scorecardKanbanBoard?: Board;
 }
 
 
@@ -63,6 +65,8 @@ export class Scorecard implements IScorecardItem {
     challenges?: string[];
     milestones?: Network[];
     measures?: Measure[];
+    scorecardKanbanBoard?: Board;
+
 
     private _PRIMES?: {principal?: IUserHolder[], secondary?: IUserHolder[]} = {};
     private _TIME_OF_LAST_UPDATED?: Date;

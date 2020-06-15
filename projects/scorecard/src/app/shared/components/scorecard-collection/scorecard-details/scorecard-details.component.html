@@ -187,8 +187,17 @@
 
           <div class="row next-jobs-card-content">
             <div class="col-12">
-              <!-- <app-kanban></app-kanban> -->
-                <div class="row next-card-jobs text-capitalize">
+              <button
+                mat-flat-button
+                color="accent"
+                class="float-right"
+                (click)="onViewKanbanBoardInFull()"
+                >
+                  Full Screen
+              </button>
+              <!-- kanban board -->
+              <app-kanban ></app-kanban>
+                <!-- <div class="row next-card-jobs text-capitalize">
                   <mat-selection-list #nextCardTasks class="col-12">
                     <mat-list-option *ngFor="let task of detailedScorecard.nextTask" checkboxPosition="before" >
                       <h3 matLine> {{task.description}}</h3>
@@ -201,7 +210,7 @@
                         </p>
                     </mat-list-option>
                   </mat-selection-list>
-                </div>
+                </div> -->
             </div>
           </div>
         </mat-card>
