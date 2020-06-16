@@ -10,6 +10,7 @@ import { ActivatedRoute, Data } from '@angular/router';
 import { CreateNameDialogComponent } from '../create-name-dialog/create-name-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { SnackbarNotifService } from '../snackbar-notification/snackbar-notif.service';
 
 @Component({
   selector: 'app-kanban',
@@ -28,6 +29,7 @@ export class ScorecardKanbanComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private confirmationDialogService: ConfirmationDialogService,
+    private snackbarNotifService: SnackbarNotifService,
   ) { }
 
   ngOnInit() {
@@ -64,7 +66,7 @@ export class ScorecardKanbanComponent implements OnInit {
         return;
       }
       const newTask = new Task(result, 'created', new Date, false);
-      const indexOfColumn  = this.viewingBoard.columns.findIndex(el => {return el.name === column.name});
+      const indexOfColumn  = this.viewingBoard.columns.findIndex(el => {return el.name.toLowerCase() === column.name.toLowerCase()});
       this.viewingBoard.columns[indexOfColumn].tasks.push(newTask);
     });
   }
@@ -72,11 +74,11 @@ export class ScorecardKanbanComponent implements OnInit {
   onDeleteTask(column: BoardColumn, item: Task){
     this.confirmationDialogService.openConfirmationDialog('Delete this card? Please conform.').subscribe((confirmed) => {
       if (confirmed) {
-        const indexOfColumn  = this.viewingBoard.columns.findIndex(el => {return el.name === column.name});
-        const newTasks = this.viewingBoard.columns[indexOfColumn].tasks.filter(el => {
-        return el.description === item.description;
+        const indexOfColumn  = this.viewingBoard.columns.findIndex(el => {return el.name.toLowerCase() === column.name.toLowerCase()});
+        const remainingTasks = this.viewingBoard.columns[indexOfColumn].tasks.filter(el => {
+        return el.description.toLowerCase() !== item.description.toLowerCase();
       })
-      this.viewingBoard.columns[indexOfColumn].tasks = newTasks;
+      this.viewingBoard.columns[indexOfColumn].tasks = remainingTasks;
       }
     });
   }
@@ -91,16 +93,34 @@ export class ScorecardKanbanComponent implements OnInit {
       if (!result) {
         return;
       }
-      const newBoardColumn = new BoardColumn(result);
-      this.viewingBoard.columns.push(newBoardColumn);
+      const columnExists = this.viewingBoard.columns.some(col => col.name.toLowerCase() === result.toLowerCase());
+      if (!columnExists) {
+        const newBoardColumn = new BoardColumn(result);
+        this.viewingBoard.columns.push(newBoardColumn);
+      }else{
+        this.snackbarNotifService.openSnackBar({
+          message: `Sorry, ${result} already exists!`,
+          className: ['bg-danger'],
+          verPosition: 'top',
+          horPosition: 'center',
+      });
+      }
     });
 
+  }
+
+  onDeleteColumn(column: BoardColumn){
+    this.confirmationDialogService.openConfirmationDialog(`${column.name} will be deleted! Still want to continue?`).subscribe((confirmed) => {
+      if (confirmed) {
+        this.viewingBoard.columns = this.viewingBoard.columns.filter(el => {return el.name.toLowerCase() !== column.name.toLowerCase()});
+      }
+    });
   }
 
   onViewTaskDetails(column: BoardColumn, item: Task){
     console.log("GOING TO VIEW THIS TASK: ", column.name, item.description);
 
-    const allBoardColumns = this.viewingBoard.columns.map((col => { return col.name })).filter(name => { return name !== column.name});
+    const allBoardColumns = this.viewingBoard.columns.map((col => { return col.name })).filter(name => { return name.toLowerCase() !== column.name.toLowerCase()});
     const boardUsers = this.viewingBoard.boardMembers[0].users.map((user) => {
       const userBasicInfo = { userId: user.userId, userfullName: user.userfullName, userEmail: user.userEmail };
       return userBasicInfo;

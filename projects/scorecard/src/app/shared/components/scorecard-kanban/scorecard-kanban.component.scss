@@ -15,7 +15,12 @@
     text-transform: uppercase;
     margin-top: 10px;
     margin-bottom: 10px;
-    justify-content: center;
+
+    .mat-icon-button {
+      line-height: 24px;
+      width: 24px;
+      height: 24px;
+    }
   }
 
   .tasks-container {
@@ -37,6 +42,20 @@
   }
   .assigned-user-avatar{
     font-size: initial !important;
+  }
+}
+.task-onDeleteTaskButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-bottom: 3px;
+  .mat-icon-button {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    .mat-icon {
+      font-size: 18px;
+    }
   }
 }
 

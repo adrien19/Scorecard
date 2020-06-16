@@ -14,7 +14,14 @@
 
             <div class="col-12 m-0 col-md-3 ml-1 board-list-col" *ngFor="let column of viewingBoard.columns">
               <div class="row tasks-header">
-                {{ column.name }}
+                <h2 class="w-100 ml-2 mr-2">
+                  {{ column.name }}
+                  <!-- <span class="float-right"> -->
+                    <button mat-icon-button  (click)="onDeleteColumn(column)" class="float-right">
+                      <mat-icon>more_horiz</mat-icon>
+                    </button>
+                  <!-- </span> -->
+                </h2>
               </div>
               <div class="row tasks-container">
                 <div class="col-12 tasks-list"
@@ -25,14 +32,20 @@
                 >
                   <div class="row task"  *ngFor="let item of column.tasks" cdkDrag (dblclick)="onViewTaskDetails(column, item)">
                     <div class="col-12">
-                      <div class="row justify-content-between">
-                        {{ item.description }}
-                        <button mat-icon-button  (click)="onDeleteTask(column, item)">
-                          <mat-icon color="warn">delete</mat-icon>
-                        </button>
+                      <div class="row justify-content-between mw-100 mb-3">
+                        <div class="task-card-title">
+                          {{ item.description }}
+                        </div>
+
+                        <div class="task-onDeleteTaskButton">
+                          <button mat-icon-button  (click)="onDeleteTask(column, item)">
+                            <mat-icon color="warn">delete</mat-icon>
+                          </button>
+                        </div>
+
                       </div>
                       <div class="row justify-content-between user-assigned-row">
-                        <p class="assigned-text-label">created: 2h ago</p>
+                        <p class="assigned-text-label text-muted">created: 2h ago</p>
                         <mat-icon class="assigned-user-avatar">account_circle</mat-icon>
                       </div>
                     </div>
