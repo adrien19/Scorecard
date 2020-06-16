@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { scorecardCreateService } from '../scorecard-create.service';
 import { CreateRoleItemComponent } from './create-role-item/create-role-item.component';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateRoleDialogComponent } from './create-role-item/create-role-dialog.component';
+import { CreateNameDialogComponent } from '../../../../../shared/components/create-name-dialog/create-name-dialog.component';
 import { ProjectRole } from 'projects/scorecard/src/app/shared/models/role.model';
 import { CreateRoleService } from './create-role-item/create-role.service';
 

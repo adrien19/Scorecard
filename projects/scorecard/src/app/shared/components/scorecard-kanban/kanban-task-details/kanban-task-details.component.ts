@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Task } from '../../../models/task.model';
 import { BoardColumn } from '../kanban-models/board-column.model';
@@ -12,11 +12,12 @@ import { MatSelectionList } from '@angular/material/list';
   styleUrls: ['./kanban-task-details.component.scss']
 })
 
-export class KanbanTaskDetailsComponent implements OnInit {
+export class KanbanTaskDetailsComponent implements OnInit, OnChanges {
 
   @ViewChild('taskMembersSelection') taskMembersSelection: MatSelectionList;
 
   public task: Task;
+  public newUsersToNotify: IUserHolder[];
   public boardColumn: BoardColumn;
   public boardColumns: string[];
   public boardUsers: IUserHolder[];
@@ -26,7 +27,11 @@ export class KanbanTaskDetailsComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<KanbanTaskDetailsComponent>) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+  }
+
   ngOnInit() {
+    this.alreadyAssignedMembers = this.task.assigned && this.task.assignedTo.length !== 0 ? this.task.assignedTo.map(user => { return user.userId }) : [];
     this.changedAssignedUsersTo = this.task.assignedTo;
   }
 
@@ -40,7 +45,6 @@ export class KanbanTaskDetailsComponent implements OnInit {
       return cummulator;
     }, [])
 
-    // console.log(" NOW WE HAVE: ", newSelection);
     this.changedAssignedUsersTo = newSelection;
     this.task.assignedTo = this.changedAssignedUsersTo;
     this.checkChangedUsers(); // for updating or notifying user of being added
@@ -49,19 +53,12 @@ export class KanbanTaskDetailsComponent implements OnInit {
     }else{
       this.task.assigned = false;
     }
+
   }
 
   checkChangedUsers(){
-    const newUsers = this.task.assignedTo.reduce((addedUsers, user) => {
-      this.oldAssignedUsers.find(el => {
-        if (!user.userId.indexOf(el.userId)) {
-          addedUsers.push(user);
-        }
-      });
-      return addedUsers;
-    }, []);
-
-    console.log("THESE ARE THE ADDED USERS: ", newUsers);
-
+    this.newUsersToNotify = this.task.assignedTo.filter(member => {
+      return this.oldAssignedUsers.indexOf(member) === -1;
+    });
   }
 }

@@ -20,7 +20,7 @@ export class KanbanTaskDetailsService {
 
   constructor(public dialog: MatDialog) {}
 
-  openConfirmationDialog(boardColumn: BoardColumn, task: Task, allBoardColumns: string[], boardUsers: IUserHolder[]): Observable<Task> {
+  openConfirmationDialog(boardColumn: BoardColumn, task: Task, allBoardColumns: string[], boardUsers: IUserHolder[]): Observable<{task: Task, newMembersToNotify: IUserHolder[]}> {
     this.dialogRef = this.dialog.open(KanbanTaskDetailsComponent, {
       width: '85%',
       height: '80%',
@@ -31,7 +31,7 @@ export class KanbanTaskDetailsService {
     this.dialogRef.componentInstance.boardColumns = allBoardColumns;
     this.dialogRef.componentInstance.boardUsers = boardUsers;
     this.dialogRef.componentInstance.oldAssignedUsers = task.assigned? task.assignedTo : [];
-    this.dialogRef.componentInstance.alreadyAssignedMembers = task.assigned && task.assignedTo.length !== 0 ? task.assignedTo.map(user => { return user.userId }) : [];
+    // this.dialogRef.componentInstance.alreadyAssignedMembers = task.assigned && task.assignedTo.length !== 0 ? task.assignedTo.map(user => { return user.userId }) : [];
 
 
 
@@ -39,6 +39,7 @@ export class KanbanTaskDetailsService {
       takeUntil(this.endUserConfirmedSub$),
       tap(result => {
         if (result) {
+
         }else{
           this.dialogRef = null;
         }

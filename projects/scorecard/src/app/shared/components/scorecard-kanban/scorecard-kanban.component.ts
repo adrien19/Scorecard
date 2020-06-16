@@ -7,6 +7,9 @@ import { Task } from '../../models/task.model';
 import { KanbanTaskDetailsService } from './kanban-task-details/kanban-task-details.service';
 import { Role } from '../../../layouts/auth/auth-models/role';
 import { ActivatedRoute, Data } from '@angular/router';
+import { CreateNameDialogComponent } from '../create-name-dialog/create-name-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'app-kanban',
@@ -17,10 +20,14 @@ import { ActivatedRoute, Data } from '@angular/router';
 export class ScorecardKanbanComponent implements OnInit {
 
   @Input() viewingBoard: Board;
+  @Input() hideBoardTitle = false;
+  newColumnName: string;
 
   constructor(
     private kanbanTaskDetailsService: KanbanTaskDetailsService,
     private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private confirmationDialogService: ConfirmationDialogService,
   ) { }
 
   ngOnInit() {
@@ -47,18 +54,47 @@ export class ScorecardKanbanComponent implements OnInit {
 
   onAddNewTasks(column: BoardColumn){
     console.log('GOING TO ADD NEW TASK');
+    const dialogRef = this.dialog.open(CreateNameDialogComponent, {
+      width: '350px',
+      data: {name: this.newColumnName, inputFieldLabel: 'card title', dialogTitle: "Provide a brief title" }
+    });
 
-    const newTask = new Task('Building an application', 'completed', new Date, true);
-    const indexOfColumn  = this.viewingBoard.columns.findIndex(el => {return el.name === column.name});
-    this.viewingBoard.columns[indexOfColumn].tasks.push(newTask);
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+      const newTask = new Task(result, 'created', new Date, false);
+      const indexOfColumn  = this.viewingBoard.columns.findIndex(el => {return el.name === column.name});
+      this.viewingBoard.columns[indexOfColumn].tasks.push(newTask);
+    });
   }
 
   onDeleteTask(column: BoardColumn, item: Task){
-    const indexOfColumn  = this.viewingBoard.columns.findIndex(el => {return el.name === column.name});
-    const newTasks = this.viewingBoard.columns[indexOfColumn].tasks.filter(el => {
-      return el.description === item.description;
-    })
-    this.viewingBoard.columns[indexOfColumn].tasks = newTasks;
+    this.confirmationDialogService.openConfirmationDialog('Delete this card? Please conform.').subscribe((confirmed) => {
+      if (confirmed) {
+        const indexOfColumn  = this.viewingBoard.columns.findIndex(el => {return el.name === column.name});
+        const newTasks = this.viewingBoard.columns[indexOfColumn].tasks.filter(el => {
+        return el.description === item.description;
+      })
+      this.viewingBoard.columns[indexOfColumn].tasks = newTasks;
+      }
+    });
+  }
+
+  onAddNewColumn(){
+    const dialogRef = this.dialog.open(CreateNameDialogComponent, {
+      width: '350px',
+      data: {name: this.newColumnName, inputFieldLabel: 'list name', dialogTitle: "What is the new list name?"}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+      const newBoardColumn = new BoardColumn(result);
+      this.viewingBoard.columns.push(newBoardColumn);
+    });
+
   }
 
   onViewTaskDetails(column: BoardColumn, item: Task){
@@ -70,8 +106,9 @@ export class ScorecardKanbanComponent implements OnInit {
       return userBasicInfo;
     })
 
-    this.kanbanTaskDetailsService.openConfirmationDialog(column, item, allBoardColumns, boardUsers).subscribe((toSaveTask) => {
-      console.log("GOING TO SAVE: ", toSaveTask);
+    this.kanbanTaskDetailsService.openConfirmationDialog(column, item, allBoardColumns, boardUsers).subscribe((resultsFromDialog) => {
+      console.log("GOING TO SAVE: ", resultsFromDialog.task);
+      console.log("USERS TO NOTIFY: ", resultsFromDialog.newMembersToNotify);
 
       this.kanbanTaskDetailsService.endUserConfirmedSub$.next();
     });

@@ -15,7 +15,7 @@ import { UserSearchBarComponent } from '../../layouts/auth/user-searchbar/user-s
 import { SearchBarSelectedUserComponent } from '../../layouts/auth/user-searchbar/search-bar-selected/search-bar-selected.component';
 import { ConfirmationDialogComponent } from '../components/confirmation-dialog/confirmation-dialog.component';
 import { SnackbarNotifComponent } from '../components/snackbar-notification/snackbar-notif.component';
-import { CreateRoleDialogComponent } from '../../layouts/network/scorecard-create-new/create-forms/create-step-two/create-role-item/create-role-dialog.component';
+import { CreateNameDialogComponent } from '../components/create-name-dialog/create-name-dialog.component';
 import { ErrorPageComponent } from '../components/error-page/error-page.component';
 import { ScorecardKanbanComponent } from '../components/scorecard-kanban/scorecard-kanban.component';
 import { KanbanTaskDetailsComponent } from '../components/scorecard-kanban/kanban-task-details/kanban-task-details.component';
@@ -35,7 +35,7 @@ import { AvatarPhotoComponent } from '../components/avatar-photo/avatar-photo.co
     SearchBarSelectedUserComponent,
     ConfirmationDialogComponent,
     SnackbarNotifComponent,
-    CreateRoleDialogComponent,
+    CreateNameDialogComponent,
     ErrorPageComponent,
     ScorecardKanbanComponent, // FOR TESTING KANBAN
     KanbanTaskDetailsComponent, // FOR TESTING KANBAN
@@ -72,7 +72,7 @@ import { AvatarPhotoComponent } from '../components/avatar-photo/avatar-photo.co
     TableLayoutModule,
     ConfirmationDialogComponent,
     SnackbarNotifComponent,
-    CreateRoleDialogComponent,
+    CreateNameDialogComponent,
     ErrorPageComponent,
     ScorecardKanbanComponent, // FOR TESTING KANBAN
     KanbanTaskDetailsComponent, // FOR TESTING KANBAN

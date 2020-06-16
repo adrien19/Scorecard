@@ -269,7 +269,8 @@ export let SCORECARDS: Scorecard[] = [
           }
         ])
       ],
-      boardMembers: [
+      boardMembers:
+      [
         {
           title: 'product owners',
           users: USERS.slice(1,2),

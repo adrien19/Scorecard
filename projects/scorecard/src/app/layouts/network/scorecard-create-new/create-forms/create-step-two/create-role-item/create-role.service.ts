@@ -1,6 +1,6 @@
 import { Injectable, ComponentFactory, ComponentFactoryResolver, ComponentRef, ViewContainerRef } from '@angular/core';
 import { ProjectRole } from 'projects/scorecard/src/app/shared/models/role.model';
-import { CreateRoleDialogComponent } from './create-role-dialog.component';
+import { CreateNameDialogComponent } from '../../../../../../shared/components/create-name-dialog/create-name-dialog.component';
 import { CreateRoleItemComponent } from './create-role-item.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
@@ -23,9 +23,9 @@ export class CreateRoleService {
 
 
   createRolesDialog(config: {componentRef: ComponentRef<any>, container: ViewContainerRef}): void {
-    const dialogRef = this.dialog.open(CreateRoleDialogComponent, {
+    const dialogRef = this.dialog.open(CreateNameDialogComponent, {
       width: '350px',
-      data: {name: this.projectRoleName}
+      data: {name: this.projectRoleName, inputFieldLabel: 'Role name', dialogTitle: "What is the role name?"}
     });
 
     dialogRef.afterClosed().subscribe(result => {

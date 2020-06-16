@@ -75,7 +75,6 @@ export class Scorecard implements IScorecardItem {
       this.createdBy = createdBy;
     }
 
-
     public get primes() : {
       principal?: IUserHolder[],
       secondary?: IUserHolder[]

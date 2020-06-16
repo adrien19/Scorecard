@@ -30,7 +30,7 @@
           <h4>Assigned members:</h4>
           <mat-list *ngIf="this.task.assigned">
             <p matLine class="avatars">
-              <span class="avatar" *ngFor="let user of changedAssignedUsersTo">
+              <span class="avatar" *ngFor="let user of task.assignedTo">
                 <app-avatar-photo
                   [name]="user.userfullName"
                   matTooltip="{{ user.userfullName }} {{ '(' + user.userEmail + ')' }}"
@@ -97,6 +97,6 @@
   </div>
 
   <div class="row task-actions-footer justify-content-end mt-3 p-3">
-      <button mat-flat-button color="warn" (click)="dialogRef.close(task)">Save</button>
+      <button mat-flat-button color="warn" (click)="dialogRef.close({task: task, newMembersToNotify: newUsersToNotify})">Save</button>
   </div>
 </div>

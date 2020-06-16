@@ -12,7 +12,7 @@ import { CreateStepOneComponent } from '../scorecard-create-new/create-forms/cre
 import { CreateStepTwoComponent } from '../scorecard-create-new/create-forms/create-step-two/create-step-two.component';
 import { CreateStepFinalComponent } from '../scorecard-create-new/create-forms/create-step-final/create-step-final.component';
 import { CreateRoleItemComponent } from '../scorecard-create-new/create-forms/create-step-two/create-role-item/create-role-item.component';
-import { CreateRoleDialogComponent } from '../scorecard-create-new/create-forms/create-step-two/create-role-item/create-role-dialog.component';
+import { CreateNameDialogComponent } from '../../../shared/components/create-name-dialog/create-name-dialog.component';
 import { ScorecardToViewInDetailsResolver } from '../../../shared/components/scorecard-collection/scorecard-details/scorecard-details.resolver';
 
 

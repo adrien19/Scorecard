@@ -4,16 +4,18 @@ import { FormControl, NgModel } from '@angular/forms';
 
 export interface RoleDialogData{
   name: string;
+  dialogTitle: string;
+  inputFieldLabel: string;
 }
 
 @Component({
   selector: 'app-create-role-dialog',
   template: `
     <div class="text-center">
-      <h1 mat-dialog-title>What's name of the role?</h1>
+      <h1 mat-dialog-title> {{ data.dialogTitle }} </h1>
       <div mat-dialog-content>
         <mat-form-field>
-          <mat-label>Role name</mat-label>
+          <mat-label>{{ data.inputFieldLabel }}</mat-label>
           <input matInput [(ngModel)]="data.name" required #roleNameInput="ngModel">
         </mat-form-field>
       </div>
@@ -29,10 +31,10 @@ export interface RoleDialogData{
   `,
   styles: [``]
 })
-export class CreateRoleDialogComponent {
+export class CreateNameDialogComponent {
 
   constructor(
-    public dialogRef: MatDialogRef<CreateRoleDialogComponent>,
+    public dialogRef: MatDialogRef<CreateNameDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: RoleDialogData) {}
 
   onNoClick(): void {
