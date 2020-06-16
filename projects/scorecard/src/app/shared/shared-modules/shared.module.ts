@@ -24,6 +24,7 @@ import { CommentInputComponent } from '../components/commeting/comment-input/com
 import { MessageItemComponent } from '../components/commeting/message-item/message-item.component';
 import { CommmentItemComponent } from '../components/commeting/comment-item/comment-item.component';
 import { AvatarPhotoComponent } from '../components/avatar-photo/avatar-photo.component';
+import { DateAgoPipe } from '../pipes/date-ago.pipe';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { AvatarPhotoComponent } from '../components/avatar-photo/avatar-photo.co
     MessageItemComponent, // FOR TESTING KANBAN
     CommmentItemComponent, // FOR TESTING KANBAN
     AvatarPhotoComponent,
+    DateAgoPipe,
 
   ],
 
@@ -81,6 +83,7 @@ import { AvatarPhotoComponent } from '../components/avatar-photo/avatar-photo.co
     MessageItemComponent, // FOR TESTING KANBAN
     CommmentItemComponent, // FOR TESTING KANBAN
     AvatarPhotoComponent,
+    DateAgoPipe,
   ],
   entryComponents: [ConfirmationDialogComponent, KanbanTaskDetailsComponent]
 

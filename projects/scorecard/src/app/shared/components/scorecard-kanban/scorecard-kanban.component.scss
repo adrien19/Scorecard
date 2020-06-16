@@ -17,9 +17,7 @@
     margin-bottom: 10px;
 
     .mat-icon-button {
-      line-height: 24px;
-      width: 24px;
-      height: 24px;
+      transform: scale(1);
     }
   }
 
@@ -40,23 +38,16 @@
   .assigned-text-label {
     margin: 0 !important;
   }
-  .assigned-user-avatar{
+  .assigned-user-avatar {
     font-size: initial !important;
   }
 }
 .task-onDeleteTaskButton {
   position: absolute;
-  top: 0;
+  top: -15px;
   right: 0;
   margin-bottom: 3px;
-  .mat-icon-button {
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    .mat-icon {
-      font-size: 18px;
-    }
-  }
+  transform: scale(0.8);
 }
 
 .user-assigned-row {

@@ -31,8 +31,6 @@ export class KanbanTaskDetailsService {
     this.dialogRef.componentInstance.boardColumns = allBoardColumns;
     this.dialogRef.componentInstance.boardUsers = boardUsers;
     this.dialogRef.componentInstance.oldAssignedUsers = task.assigned? task.assignedTo : [];
-    // this.dialogRef.componentInstance.alreadyAssignedMembers = task.assigned && task.assignedTo.length !== 0 ? task.assignedTo.map(user => { return user.userId }) : [];
-
 
 
     return this.dialogRef.afterClosed().pipe(

@@ -41,6 +41,10 @@ export class ScorecardKanbanComponent implements OnInit {
     });
   }
 
+  notCurrentColumnList(column: BoardColumn): BoardColumn[]{
+    return this.viewingBoard.columns.filter(col => col.name.toLowerCase() !== column.name.toLowerCase());
+  }
+
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);

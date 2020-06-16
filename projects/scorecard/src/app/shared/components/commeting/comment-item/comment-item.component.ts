@@ -16,7 +16,7 @@ import { IUserHolder } from '../../../models/scorecard-item';
       <div class="media-body">
         <h4 class="media-heading m-0 mb-1 "> {{ commentObject.createdBy.userfullName }}
           <span>
-            <small class="text-muted text-right mr-10"> {{ commentObject.timeOfCreation}} </small>
+            <small class="text-muted text-right mr-10"> {{ commentObject.timeOfCreation | dateAgo }} </small>
           </span>
         </h4>
 

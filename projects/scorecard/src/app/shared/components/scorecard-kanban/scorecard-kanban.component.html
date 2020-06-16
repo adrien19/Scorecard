@@ -12,15 +12,35 @@
         <div class="col-12 board-content-col">
           <div class="row tasks-wrapper" cdkDropListGroup>
 
-            <div class="col-12 m-0 col-md-3 ml-1 board-list-col" *ngFor="let column of viewingBoard.columns">
+            <div class="col-12 mb-3 m-md-0 col-md-3 ml-md-2 board-list-col" *ngFor="let column of viewingBoard.columns">
               <div class="row tasks-header">
-                <h2 class="w-100 ml-2 mr-2">
+                <h2 class="w-100 ml-3 mr-3 mb-0">
                   {{ column.name }}
-                  <!-- <span class="float-right"> -->
-                    <button mat-icon-button  (click)="onDeleteColumn(column)" class="float-right">
+                    <button mat-icon-button [matMenuTriggerFor]="colListMenu" class="float-right">
                       <mat-icon>more_horiz</mat-icon>
                     </button>
-                  <!-- </span> -->
+                    <mat-menu #colListMenu="matMenu">
+                      <button mat-menu-item [matMenuTriggerFor]="otherColsMenu">
+                        <!-- TODO: implement moving all cards to another list  -->
+                          Move All Cards
+                      </button>
+                      <button mat-menu-item>
+                        <!-- TODO: implement notification  -->
+                        Get Notified of Changes
+                      </button>
+                      <mat-divider class="mt-2 pt-2"></mat-divider>
+                      <button mat-menu-item class="text-danger" (click)="onDeleteColumn(column)" >
+                        <!-- TODO: add an object to hold archived lists of a board and implement logic here  -->
+                          Archive {{ '(' + column.name + ')' }}
+                      </button>
+                    </mat-menu>
+                    <mat-menu #otherColsMenu="matMenu">
+                      <mat-selection-list #taskLocationSelection [multiple]="false">
+                        <mat-list-option *ngFor="let columnOption of notCurrentColumnList(column)">
+                          {{ columnOption.name }}
+                        </mat-list-option>
+                      </mat-selection-list>
+                    </mat-menu>
                 </h2>
               </div>
               <div class="row tasks-container">
@@ -38,14 +58,26 @@
                         </div>
 
                         <div class="task-onDeleteTaskButton">
-                          <button mat-icon-button  (click)="onDeleteTask(column, item)">
-                            <mat-icon color="warn">delete</mat-icon>
+                          <button mat-icon-button [matMenuTriggerFor]="taskCardMenu" >
+                            <mat-icon>more_horiz</mat-icon>
                           </button>
+                          <mat-menu #taskCardMenu="matMenu">
+                            <button mat-menu-item [matMenuTriggerFor]="otherColsMenu">
+                              <!-- TODO: implement moving a card to another list  -->
+                                Move This Card to
+                            </button>
+                            <mat-divider class="mt-2 pt-2"></mat-divider>
+                            <button mat-menu-item class="text-danger" (click)="onDeleteTask(column, item)" >
+                              <!-- TODO: add an object to hold archived task of a column in board and implement logic here  -->
+                                Archive This Card
+                            </button>
+                          </mat-menu>
                         </div>
 
                       </div>
                       <div class="row justify-content-between user-assigned-row">
-                        <p class="assigned-text-label text-muted">created: 2h ago</p>
+
+                        <p class="assigned-text-label text-muted">created: {{ item.createdTime | dateAgo }}</p>
                         <mat-icon class="assigned-user-avatar">account_circle</mat-icon>
                       </div>
                     </div>
